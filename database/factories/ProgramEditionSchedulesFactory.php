@@ -11,7 +11,7 @@ $factory->define(ProgramEditionSchedules::class, function (Faker $faker) {
         'program_edition_id' => function () {
             return factory(ProgramEdition::class)->create()->id;
         },
-        'start' => now(),
-        'end' => now()->addMinutes(120),
+        'starts_at' => now(),
+        'ends_at' => now()->addMinutes(120),
     ];
 });

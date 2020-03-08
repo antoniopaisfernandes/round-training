@@ -3,14 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProgramEdition extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [];
+    protected $with = [
+        'program',
+    ];
 
     public function program()
     {
-        return $this->belongsToMany(Program::class);
+        return $this->belongsTo(Program::class);
     }
 
     public function company()
@@ -26,5 +32,11 @@ class ProgramEdition extends Model
     public function manager()
     {
         return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'enrollments')
+                    ->withTimestamps();
     }
 }

@@ -26,6 +26,7 @@ class CreateStudentsTable extends Migration
             $table->string('birth_place')->nullable();
             $table->string('nationality')->nullable();
             $table->string('current_job_title')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

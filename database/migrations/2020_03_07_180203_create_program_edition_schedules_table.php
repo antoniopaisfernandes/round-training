@@ -16,8 +16,8 @@ class CreateProgramEditionSchedulesTable extends Migration
         Schema::create('program_edition_schedules', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('program_edition_id');
-            $table->dateTime('start');
-            $table->dateTime('end');
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
             $table->dateTime('interval_start')->nullable();
             $table->unsignedSmallInteger('interval_minutes')->nullable();
 

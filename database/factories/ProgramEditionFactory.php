@@ -18,8 +18,8 @@ $factory->define(ProgramEdition::class, function (Faker $faker) {
         },
         'supplier' => $faker->company,
         'teacher_name' => $faker->name,
-        'date_start' => today(),
-        'date_end' => today(),
+        'starts_at' => today(),
+        'ends_at' => today(),
         'created_by' => function () {
             return optional(auth()->user())->id ?: factory(User::class)->create()->id;
         },

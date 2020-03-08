@@ -19,9 +19,10 @@ class CreateProgramEditionsTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('supplier');
             $table->string('teacher_name');
-            $table->date('date_start')->nullable()->index();
-            $table->date('date_end')->nullable()->index();
+            $table->date('starts_at')->nullable()->index();
+            $table->date('ends_at')->nullable()->index();
             $table->unsignedBigInteger('created_by');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade')->onUpdate('cascade');

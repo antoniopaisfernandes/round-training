@@ -13,7 +13,7 @@ $factory->define(Student::class, function (Faker $faker) {
         'city' => $faker->city,
         'citizen_id' => $faker->randomNumber(8),
         'email' => $faker->safeEmail,
-        'phone' => $faker->phoneNumber,
+        'phone' => $faker->randomNumber(9),
         'birth_place' => $faker->city,
         'nationality' => 'PORTUGAL',
         'current_job_title' => $faker->jobTitle,

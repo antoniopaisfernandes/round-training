@@ -19,8 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/program/{program}', [ProgramController::class, 'show']);
-Route::post('/program', [ProgramController::class, 'store']);
+Route::resource('/program', ProgramController::class);
 
 Auth::routes();
 

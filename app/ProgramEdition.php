@@ -22,4 +22,9 @@ class ProgramEdition extends Model
     {
         return $this->hasMany(ProgramEditionSchedules::class);
     }
+
+    public function manager()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
 }

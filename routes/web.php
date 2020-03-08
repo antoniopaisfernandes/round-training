@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProgramController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/program/{program}', [ProgramController::class, 'show']);
+Route::post('/program', [ProgramController::class, 'store']);
 
 Auth::routes();
 

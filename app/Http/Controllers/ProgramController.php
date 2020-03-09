@@ -14,7 +14,9 @@ class ProgramController extends Controller
      */
     public function index()
     {
-        //
+        return view('program.index', [
+            'programs' => Program::paginate(20),
+        ]);
     }
 
     /**
@@ -54,7 +56,9 @@ class ProgramController extends Controller
      */
     public function show(Program $program)
     {
-        //
+        return view('program.show', [
+            'program' => $program,
+        ]);
     }
 
     /**

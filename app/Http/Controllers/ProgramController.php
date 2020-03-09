@@ -35,6 +35,10 @@ class ProgramController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $program = Program::create([
             'name' => $request->get('name'),
         ]);

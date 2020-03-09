@@ -37,6 +37,8 @@ class ProgramController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('store');
+
         $request->validate([
             'name' => 'required',
         ]);

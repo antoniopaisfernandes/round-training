@@ -92,7 +92,7 @@ class ProgramController extends Controller
      */
     public function destroy(Program $program)
     {
-        // $this->authorize('destroy');
+        $this->authorize('destroy');
 
         $program->delete();
 

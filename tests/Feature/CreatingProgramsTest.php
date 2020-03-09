@@ -14,13 +14,30 @@ class CreatingProgramsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $program = [
-            'name' => 'A test program',
-        ];
+        $program = $this->validProgram();
 
         $response = $this->post('/program', $program);
 
         $response->assertRedirect();
         $this->assertDatabaseHas('programs', $program);
+    }
+
+    /** @test */
+    public function a_name_is_required_for_a_program()
+    {
+        $program = $this->validProgram([
+            'name' => null,
+        ]);
+
+        $response = $this->post('/program', $program);
+
+        $response->assertSessionHasErrors(['name']);
+        $response->assertRedirect('/program');
+    }
+    private function validProgram($overrides = [])
+    {
+        return array_merge([
+            'name' => 'A test program',
+        ], $overrides);
     }
 }

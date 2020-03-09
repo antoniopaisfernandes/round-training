@@ -71,7 +71,9 @@ class ProgramController extends Controller
      */
     public function edit(Program $program)
     {
-        //
+        return view('program.edit', [
+            'program' => $program,
+        ]);
     }
 
     /**
@@ -83,7 +85,17 @@ class ProgramController extends Controller
      */
     public function update(Request $request, Program $program)
     {
-        //
+        $this->authorize('update');
+
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $program->update(
+            $request->all()
+        );
+
+        return redirect()->action(self::class . '@show', ['program' => $program]);
     }
 
     /**

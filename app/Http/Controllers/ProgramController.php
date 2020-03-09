@@ -92,6 +92,10 @@ class ProgramController extends Controller
      */
     public function destroy(Program $program)
     {
-        //
+        // $this->authorize('destroy');
+
+        $program->delete();
+
+        return redirect()->action(self::class . '@index');
     }
 }

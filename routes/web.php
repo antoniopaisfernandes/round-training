@@ -19,7 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/program', ProgramController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/program', ProgramController::class);
+});
 
 Auth::routes();
 

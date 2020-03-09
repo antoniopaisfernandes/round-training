@@ -2,12 +2,20 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CreatingProgramsTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+    }
 
     /** @test */
     public function it_can_create_a_program()
@@ -16,7 +24,7 @@ class CreatingProgramsTest extends TestCase
 
         $program = $this->validProgram();
 
-        $response = $this->post('/program', $program);
+        $response = $this->actingAs($this->user)->post('/program', $program);
 
         $response->assertRedirect();
         $this->assertDatabaseHas('programs', $program);
@@ -29,11 +37,21 @@ class CreatingProgramsTest extends TestCase
             'name' => null,
         ]);
 
-        $response = $this->post('/program', $program);
+        $response = $this->actingAs($this->user)->post('/program', $program);
 
         $response->assertSessionHasErrors(['name']);
-        $response->assertRedirect('/program');
     }
+
+    /** @test */
+    public function a_guest_cannot_create_a_program()
+    {
+        $program = $this->validProgram();
+
+        $this->post('/program', $program);
+
+        $this->assertDatabaseMissing('programs', $program);
+    }
+
     private function validProgram($overrides = [])
     {
         return array_merge([

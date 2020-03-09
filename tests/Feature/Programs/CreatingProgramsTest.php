@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Programs;
 
+use App\Program;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -50,6 +51,7 @@ class CreatingProgramsTest extends TestCase
         $this->post('/program', $program);
 
         $this->assertDatabaseMissing('programs', $program);
+        $this->assertCount(0, Program::all());
     }
 
     private function validProgram($overrides = [])

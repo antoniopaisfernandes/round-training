@@ -3,7 +3,6 @@
 namespace Tests\Feature\Programs;
 
 use App\Program;
-use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,7 +22,7 @@ class CreatingProgramsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $program = $this->validProgram();
+        $program = factory(Program::class)->make()->toArray();
 
         $response = $this->actingAs($this->user)->post('/program', $program);
 
@@ -34,9 +33,9 @@ class CreatingProgramsTest extends TestCase
     /** @test */
     public function a_name_is_required_for_a_program()
     {
-        $program = $this->validProgram([
+        $program = factory(Program::class)->make([
             'name' => null,
-        ]);
+        ])->toArray();
 
         $response = $this->actingAs($this->user)->post('/program', $program);
 
@@ -46,18 +45,11 @@ class CreatingProgramsTest extends TestCase
     /** @test */
     public function a_guest_cannot_create_a_program()
     {
-        $program = $this->validProgram();
+        $program = factory(Program::class)->make()->toArray();
 
         $this->post('/program', $program);
 
         $this->assertDatabaseMissing('programs', $program);
         $this->assertCount(0, Program::all());
-    }
-
-    private function validProgram($overrides = [])
-    {
-        return array_merge([
-            'name' => 'A test program',
-        ], $overrides);
     }
 }

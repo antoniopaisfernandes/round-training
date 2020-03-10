@@ -12,4 +12,23 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+   .extract([
+      'axios',
+      'bootstrap',
+      'jquery',
+      'lodash-es',
+      'popper.js',
+      'vuetify',
+      'vue',
+   ])
+   .options({
+      terser: {
+         terserOptions: {
+            output: {
+               comments: false,
+            },
+         },
+         extractComments: false,
+      }
+   })
    .sass('resources/sass/app.scss', 'public/css');

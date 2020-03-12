@@ -19,4 +19,9 @@ import vuetify from './plugins/vuetify';
 const app = new Vue({
     vuetify,
     el: '#app',
+    data() {
+        return {
+            token: document.head.querySelector('meta[name="csrf-token"]')?.content
+        }
+    }
 });

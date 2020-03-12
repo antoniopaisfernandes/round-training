@@ -19,14 +19,6 @@
             :auth="{{ json_encode(auth()->user()) }}"
         >
             @yield('content')
-
-            <navbar-component>
-                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </navbar-component>
         </main-component>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>

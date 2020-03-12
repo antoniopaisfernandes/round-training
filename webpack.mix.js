@@ -1,15 +1,40 @@
 const mix = require('laravel-mix');
-
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+const tailwindcss = require('tailwindcss');
+const rootPath = Mix.paths.root.bind(Mix.paths);
+require('laravel-mix-purgecss');
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+   .extract()
+   .options({
+      // Remove LICENCE files from builds
+      terser: {
+         terserOptions: {
+            output: {
+               comments: false,
+            },
+         },
+         extractComments: false,
+      },
+      // TailwindCSS
+      processCssUrls: false,
+      postCss: [tailwindcss('./tailwind.config.js')],
+   })
+   .sass('resources/sass/app.scss', 'public/css')
+   .purgeCss({
+      content: [
+         rootPath('app/**/*.php'),
+         rootPath('resources/**/*.html'),
+         rootPath('resources/**/*.js'),
+         rootPath('resources/**/*.php'),
+         rootPath('resources/**/*.vue'),
+         rootPath('node_modules/vuetify/**/*.vue'),
+         rootPath('node_modules/vuetify/**/*.js'),
+      ],
+      whitelistPatterns: [/^theme/, /^mdi/, /^v-/, /-active$/, /-enter$/, /-leave-to$/]
+   });
+
+if (mix.inProduction()) {
+   mix.version();
+} else {
+   mix.browserSync('localhost:8000');
+}

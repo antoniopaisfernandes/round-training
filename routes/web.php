@@ -18,23 +18,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth'])->group(function () {
     Route::resource('/program', ProgramController::class);
 });
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
 
 
 // Authentication routes
 Route::get('login', [LoginController::class, 'showloginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 // Reset password routes
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');

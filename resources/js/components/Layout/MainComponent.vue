@@ -99,8 +99,26 @@
         },
         {
           type: 'v-list-item',
+          icon: 'mdi-teach',
+          text: 'Professores',
+          link: '',
+        },
+        {
+          type: 'v-list-item',
           icon: 'mdi-account-edit-outline',
           text: 'Alunos',
+          link: '',
+        },
+        {
+          type: 'v-list-item',
+          icon: 'mdi-brain',
+          text: 'Cursos',
+          link: '',
+        },
+        {
+          type: 'v-list-item',
+          icon: 'mdi-book-account-outline',
+          text: 'Inscrições',
           link: '',
         },
       ]

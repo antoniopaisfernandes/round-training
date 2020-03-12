@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -17,9 +18,17 @@ class RolesAndPermissionsSeeder extends Seeder
             Permission::create(['name' => '*'])
         );
 
-        $readAll = Permission::create(['name' => 'read_all']);
-        Role::create(['name' => 'GOS'])->givePermissionTo($readAll);
-        Role::create(['name' => 'CMED'])->givePermissionTo($readAll);
-        Role::create(['name' => 'RH'])->givePermissionTo($readAll);
+        $readAllButRGPD = Permission::create(['name' => 'read_all_but_rgpd']);
+        Role::create(['name' => 'GOS'])->givePermissionTo($readAllButRGPD);
+        Role::create(['name' => 'CMED'])->givePermissionTo($readAllButRGPD);
+        Role::create(['name' => 'RH'])->givePermissionTo($readAllButRGPD);
+
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            'name' => 'admin',
+            'email' => 'admin@esferasaude.pt',
+            // 'password' is the password
+        ]);
+        $user->assignRole('admin');
     }
 }

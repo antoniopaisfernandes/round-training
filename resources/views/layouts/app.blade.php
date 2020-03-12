@@ -15,7 +15,9 @@
 </head>
 <body>
     <div id="app">
-        <main-component>
+        <main-component
+            :auth="{{ json_encode(auth()->user()) }}"
+        >
             @yield('content')
 
             <navbar-component>

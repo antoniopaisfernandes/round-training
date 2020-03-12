@@ -4,6 +4,7 @@
     <v-navigation-drawer
       v-model="drawer"
       app
+      color="#68c6be"
     >
       <v-list dense>
         <v-list-item link>
@@ -16,7 +17,7 @@
         </v-list-item>
         <v-list-item link>
           <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
+            <v-icon>mdi-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Contact</v-list-item-title>
@@ -27,14 +28,13 @@
 
     <v-app-bar
         app
-        color="indigo"
-        dark
+        flat=""
         height="78"
     >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-        <v-toolbar-title>
-            <div class="tw-flex tw-items-center tw-space-between">
-                <img src="/images/logo.png" alt="Logo">
+        <v-toolbar-title class="tw-w-full">
+            <div class="tw-flex tw-items-center tw-justify-between">
+                <div><img src="/images/logo.png" alt="Logo"></div>
                 <div class="text-xl">Gestão da Formação</div>
             </div>
         </v-toolbar-title>
@@ -55,12 +55,6 @@
         </v-row>
       </v-container>
     </v-content>
-    <v-footer
-      color="indigo"
-      app
-    >
-      <span class="white--text">&copy; 2020</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -68,6 +62,10 @@
   export default {
     props: {
       source: String,
+      auth: {
+        type: Object,
+        default: {}
+      }
     },
     data: () => ({
       drawer: null,

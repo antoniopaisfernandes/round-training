@@ -18,17 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth'])->group(function () {
     Route::resource('/program', ProgramController::class);
 });
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
 
 
 // Authentication routes

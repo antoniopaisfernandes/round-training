@@ -16,11 +16,11 @@
 </head>
 <body>
     <div id="app">
-        <main-component
+        <app-layout
             :auth="{{ json_encode(auth()->user()) }}"
         >
             @yield('content')
-        </main-component>
+        </app-layout>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

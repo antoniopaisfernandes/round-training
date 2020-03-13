@@ -72,7 +72,6 @@
 <script>
   export default {
     props: {
-      source: String,
       auth: {
         type: Object,
         default: {}

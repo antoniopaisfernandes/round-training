@@ -5,7 +5,7 @@
       v-model="drawer"
       fixed
       app
-      color="#68c6be"
+      color="primary"
     >
       <v-list dense>
         <div v-for="(menuOption, index) in menuOptions" :key="index" :class="index ? '' : 'tw-mt-16'">

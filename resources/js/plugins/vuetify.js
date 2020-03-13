@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-// import Vuetify from 'vuetify/lib';
+import colors from '../colors'
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/dist/vuetify.min.css';
 
@@ -10,11 +10,11 @@ const theme = {
     icons: {
         iconfont: 'mdi'
     },
-    // themes: {
-    //     light: {
-    //         ...appColors
-    //     }
-    // }
+    themes: {
+        light: {
+            ...colors
+        }
+    }
 };
 
 const breakpoint = {

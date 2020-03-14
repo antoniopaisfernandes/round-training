@@ -1,65 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<div class="tw-mx-auto tw-w-full md:tw-w-1/2 tw-max-w-md">
+    <v-form
+        method="POST"
+        action="{{ route('password.update') }}"
+        @keyup.enter.native="submit"
+    >
+        @csrf
+        <input type="hidden" name="token" value="{{ $token }}">
+        <v-card class="elevation-12">
+            <v-toolbar
+                color="primary"
+                dark
+                flat
+            >
+                <v-toolbar-title>{{ __('Reset Password') }}</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+                <v-text-field
+                    id="email"
+                    label="{{ __('E-Mail Address') }}"
+                    name="email"
+                    prepend-icon="mdi-account-outline"
+                    type="email"
+                    :dense="true"
+                    hide-details="false"
+                    required
+                    filled
+                    value="{{ $email ?? old('email') }}"
+                ></v-text-field>
+                @error('email')
+                    <span class="tw-text-red-600" role="alert">
+                        {{ $message }}
+                    </span>
+                @enderror
+                <v-text-field
+                    id="password"
+                    label="{{ __('Password') }}"
+                    name="password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                    :dense="true"
+                    hide-details="auto"
+                    required
+                    filled
+                ></v-text-field>
+                @error('password')
+                    <span class="tw-text-red-600" role="alert">
+                        {{ $message }}
+                    </span>
+                @enderror
+                <v-text-field
+                    id="password-confirm"
+                    label="{{ __('Confirm Password') }}"
+                    name="password_confirmation"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                    :dense="true"
+                    hide-details="auto"
+                    required
+                    filled
+                ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+                <div class="tw-flex tw-flex-col tw-w-full">
+                    <v-btn
+                        class="tw-mt-6"
+                        color="primary"
+                        type="submit"
+                    >{{ __('Reset Password') }}</v-btn>
                 </div>
-            </div>
-        </div>
-    </div>
+            </v-card-actions>
+        </v-card>
+    </v-form>
 </div>
 @endsection

@@ -39,13 +39,11 @@ class ProgramController extends Controller
     {
         $this->authorize('store');
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
         ]);
 
-        $program = Program::create([
-            'name' => $request->get('name'),
-        ]);
+        $program = Program::create($validated);
 
         return redirect()->action(self::class . '@show', ['program' => $program]);
     }
@@ -87,12 +85,12 @@ class ProgramController extends Controller
     {
         $this->authorize('update');
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
         ]);
 
         $program->update(
-            $request->all()
+            $validated
         );
 
         return redirect()->action(self::class . '@show', ['program' => $program]);

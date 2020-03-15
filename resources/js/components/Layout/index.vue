@@ -52,19 +52,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col class="text-center">
-              <slot></slot>
-          </v-col>
-        </v-row>
-      </v-container>
+      <slot></slot>
     </v-content>
   </v-app>
 </template>

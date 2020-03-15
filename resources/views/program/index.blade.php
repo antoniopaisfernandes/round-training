@@ -1,7 +1,11 @@
-<div class="container">
-    @foreach ($programs as $program)
-        {{ $program->name }}
-    @endforeach
-</div>
+@extends('layouts.app')
 
-{{ $programs->links() }}
+@section('content')
+<v-container fluid>
+    <v-row align="center" justify="center">
+        <v-col>
+            <program-list :items='@json($programs->items())'></program-list>
+        </v-col>
+    </v-row>
+</v-container>
+@endsection

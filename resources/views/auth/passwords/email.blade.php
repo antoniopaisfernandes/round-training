@@ -5,7 +5,6 @@
     <v-form
         method="POST"
         action="{{ route('password.email') }}"
-        @keyup.enter.native="submit"
     >
         @csrf
         <v-card class="elevation-12">

@@ -5,7 +5,6 @@
     <v-form
         method="POST"
         action="{{ route('password.update') }}"
-        @keyup.enter.native="submit"
     >
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">

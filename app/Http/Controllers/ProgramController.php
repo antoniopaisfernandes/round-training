@@ -47,7 +47,8 @@ class ProgramController extends Controller
             'name' => $request->get('name'),
         ]);
 
-        return redirect()->action(self::class . '@show', ['program' => $program]);
+        // return redirect()->action(self::class . '@show', ['program' => $program]);
+        return response()->json(['program'=>$program]);
     }
 
     /**

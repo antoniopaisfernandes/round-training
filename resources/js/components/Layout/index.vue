@@ -45,8 +45,8 @@
         <v-app-bar-nav-icon v-if="auth" @click.stop="drawer = !drawer" />
         <v-toolbar-title class="tw-w-full">
             <div class="tw-flex tw-items-center tw-justify-between">
-                <div><a href="/"><img src="/images/logo.png" alt="Logo" /></a></div>
                 <div class="text-xl tw-ml-6 tw-font-bold tw-font-sans tw-uppercase tw-tracking-widest">Gestão de Formação</div>
+                <div><a href="/"><img src="/images/logo.svg" alt="Logo" /></a></div>
             </div>
         </v-toolbar-title>
     </v-app-bar>

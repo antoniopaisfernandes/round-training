@@ -68,6 +68,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     auth: {
@@ -192,12 +193,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['items'],
   data: function data() {
@@ -209,7 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         sortable: true,
         value: 'name'
       }, {
-        text: '',
+        text: 'Acções',
         value: 'actions',
         sortable: false
       }],
@@ -257,7 +252,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 index = _this.programs.indexOf(item);
 
-                if (confirm('Are you sure you want to delete this program?')) {
+                if (confirm('Tem a certeza que pretende remover este Programa?')) {
                   _context.next = 3;
                   break;
                 }
@@ -390,7 +385,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".program-list table tr td:last-child {\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 30px;\n}", ""]);
+exports.push([module.i, ".program-list table th {\n  text-transform: uppercase;\n  letter-spacing: 1px;\n}\n.program-list table th .v-icon {\n  margin-left: 5px;\n}\n.program-list table tr th:last-child,\n.program-list table tr td:last-child {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: flex-end;\n  padding-right: 50px;\n}", ""]);
 
 // exports
 
@@ -550,7 +545,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-app-bar",
-        { attrs: { app: "", flat: "", height: "78" } },
+        { attrs: { app: "", flat: "", height: "78", color: "white" } },
         [
           _vm.auth
             ? _c("v-app-bar-nav-icon", {
@@ -571,7 +566,7 @@ var render = function() {
                 _c("div", [
                   _c("a", { attrs: { href: "/" } }, [
                     _c("img", {
-                      attrs: { src: "/images/logo.png", alt: "Logo" }
+                      attrs: { src: "/images/logo.svg", alt: "Logo" }
                     })
                   ])
                 ]),
@@ -579,8 +574,7 @@ var render = function() {
                 _c(
                   "div",
                   {
-                    staticClass:
-                      "text-xl tw-ml-6 tw-font-bold tw-font-sans tw-uppercase tw-tracking-widest"
+                    staticClass: "text-xl tw-mr-6 tw-font-medium tw-uppercase"
                   },
                   [_vm._v("Gestão de Formação")]
                 )
@@ -591,7 +585,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("v-content", [_vm._t("default")], 2)
+      _c("v-content", { staticClass: "grey lighten-5" }, [_vm._t("default")], 2)
     ],
     1
   )
@@ -620,12 +614,23 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "program-list tw-flex tw-flex-col tw-mx-5" },
+    { staticClass: "program-list tw-flex tw-flex-col tw-mt-10 tw-mx-20" },
     [
       _c(
         "v-dialog",
         {
           attrs: { "max-width": "500px" },
+          on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "esc", 27, $event.key, ["Esc", "Escape"])
+              ) {
+                return null
+              }
+              _vm.dialog = false
+            }
+          },
           scopedSlots: _vm._u([
             {
               key: "activator",
@@ -636,6 +641,14 @@ var render = function() {
                     "v-btn",
                     _vm._g(
                       {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.programs.length > 0,
+                            expression: "programs.length > 0"
+                          }
+                        ],
                         staticClass: "mb-10 tw-self-end",
                         attrs: { color: "primary", dark: "" }
                       },
@@ -659,7 +672,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card",
-            { attrs: { loading: _vm.isSaving } },
+            { staticClass: "px-5 py-5", attrs: { loading: _vm.isSaving } },
             [
               _c("v-card-title", [
                 _c("span", { staticClass: "headline" }, [_vm._v("Programa")])
@@ -667,36 +680,18 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-card-text",
+                { staticClass: "mt-5" },
                 [
-                  _c(
-                    "v-container",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Nome" },
-                                model: {
-                                  value: _vm.editedItem.name,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.editedItem, "name", $$v)
-                                  },
-                                  expression: "editedItem.name"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  _c("v-text-field", {
+                    attrs: { autofocus: "", label: "Nome" },
+                    model: {
+                      value: _vm.editedItem.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "name", $$v)
+                      },
+                      expression: "editedItem.name"
+                    }
+                  })
                 ],
                 1
               ),
@@ -737,67 +732,84 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("v-data-table", {
-        staticClass: "elevation-1",
-        attrs: {
-          headers: _vm.headers,
-          "fixed-header": true,
-          items: _vm.programs,
-          "sort-by": "name"
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "item.actions",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _c(
-                  "v-icon",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.editItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        mdi-pencil\n      ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-icon",
-                  {
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        mdi-delete\n      ")]
-                )
-              ]
-            }
-          },
-          {
-            key: "no-data",
-            fn: function() {
-              return [
-                _c(
-                  "v-btn",
-                  {
-                    attrs: { color: "primary" },
-                    on: { click: _vm.initialize }
-                  },
-                  [_vm._v("Reset")]
-                )
-              ]
+      _vm.programs.length
+        ? _c("v-data-table", {
+            staticClass: "elevation-1",
+            attrs: {
+              headers: _vm.headers,
+              "fixed-header": true,
+              items: _vm.programs,
+              "sort-by": "name"
             },
-            proxy: true
-          }
-        ])
-      })
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "item.actions",
+                  fn: function(ref) {
+                    var item = ref.item
+                    return [
+                      _c(
+                        "v-icon",
+                        {
+                          staticClass: "mr-2",
+                          attrs: { small: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.editItem(item)
+                            }
+                          }
+                        },
+                        [_vm._v("\n        mdi-pencil\n      ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-icon",
+                        {
+                          attrs: { small: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteItem(item)
+                            }
+                          }
+                        },
+                        [_vm._v("\n        mdi-delete\n      ")]
+                      )
+                    ]
+                  }
+                }
+              ],
+              null,
+              false,
+              3916416405
+            )
+          })
+        : _c(
+            "div",
+            {
+              staticClass:
+                "tw-flex tw-flex-col tw-content-center tw-items-center mt-50"
+            },
+            [
+              _c("h1", { staticClass: "tw-font-bold tw-text-lg" }, [
+                _vm._v("Ainda não existem programas.")
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mt-10 tw-block",
+                  attrs: { color: "primary", dark: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [_vm._v("Novo Programa")]
+              )
+            ],
+            1
+          )
     ],
     1
   )
@@ -898,14 +910,14 @@ __webpack_require__.r(__webpack_exports__);
 var theme = __webpack_require__(/*! tailwindcss/defaultTheme */ "./node_modules/tailwindcss/defaultTheme.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  'primary': '#68c6be',
+  'primary': '#74cbc8',
   'secondary': theme.colors.black[800],
   'accent': theme.colors.gray[600],
   'error': theme.colors.red[600],
   'info': theme.colors.blue[600],
   'success': theme.colors.green[500],
   'warning': theme.colors.orange[500],
-  'background': '#f5f5f5'
+  'background': '#f2f3f3'
 });
 
 /***/ }),

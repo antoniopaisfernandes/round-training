@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="tw-mx-auto tw-w-full md:tw-w-1/2 tw-max-w-md">
+<div class="tw-mx-auto tw-w-full md:tw-w-1/2 tw-max-w-md tw-h-full tw-flex tw-flex-col tw-justify-center">
     <v-form
         method="POST"
         action="{{ route('login') }}"

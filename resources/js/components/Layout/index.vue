@@ -7,18 +7,18 @@
     ></navigation-drawer>
 
     <v-app-bar
-        app
-        flat
-        height="78"
-        color="white"
+      app
+      flat
+      height="78"
+      color="white"
     >
-        <v-app-bar-nav-icon v-if="auth" @click.stop="drawer = !drawer" />
-        <v-toolbar-title class="tw-w-full">
-            <div class="tw-flex tw-items-center tw-justify-between">
-                <div><a href="/"><img src="/images/logo.svg" alt="Logo" /></a></div>
-                <div class="text-xl tw-mr-6 tw-font-medium tw-uppercase">Gestão de Formação</div>
-            </div>
-        </v-toolbar-title>
+      <v-app-bar-nav-icon v-if="auth" @click.stop="toggle" />
+      <v-toolbar-title class="tw-w-full">
+        <div class="tw-flex tw-items-center tw-justify-between">
+          <div><a href="/"><img src="/images/logo.svg" alt="Logo" /></a></div>
+          <div class="text-xl tw-mr-6 tw-font-medium tw-uppercase">Gestão de Formação</div>
+        </div>
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-content class="grey lighten-5">

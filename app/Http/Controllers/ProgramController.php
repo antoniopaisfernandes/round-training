@@ -45,7 +45,8 @@ class ProgramController extends Controller
 
         $program = Program::create($validated);
 
-        return redirect()->action(self::class . '@show', ['program' => $program]);
+        // return redirect()->action(self::class . '@show', ['program' => $program]);
+        return response()->json(['program'=>$program]);
     }
 
     /**

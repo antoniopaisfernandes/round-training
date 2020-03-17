@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        @foreach ($programs as $program)
-            {{ $program->name }} <br />
-        @endforeach
-    </div>
-
-    {{ $programs->links() }}
+<v-container fluid>
+    <v-row align="center" justify="center">
+        <v-col>
+            <program-list :items='@json($programs->items())'></program-list>
+        </v-col>
+    </v-row>
+</v-container>
 @endsection

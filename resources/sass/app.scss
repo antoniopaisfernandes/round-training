@@ -1,7 +1,21 @@
 /* purgecss start ignore */
 @tailwind base;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
 @tailwind components;
 /* purgecss end ignore */
+
+$body-font-family: 'Rubik', sans-serif !important;
+$heading-font-family: $body-font-family !important;
+
+.v-application {
+    font-family: $body-font-family;
+
+    .headline,
+    .title {
+        font-family: $body-font-family;
+        font-weight: 500;
+    }
+}
 
 .v-input--selection-controls {
     margin-top: 0px !important;

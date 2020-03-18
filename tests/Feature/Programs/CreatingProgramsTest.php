@@ -26,7 +26,7 @@ class CreatingProgramsTest extends TestCase
 
         $response = $this->actingAs($this->user)->post('/program', $program);
 
-        $response->assertRedirect();
+        $response->assertOk();
         $this->assertDatabaseHas('programs', $program);
     }
 

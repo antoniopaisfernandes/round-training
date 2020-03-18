@@ -13,7 +13,7 @@ const menuRoutes = [
         type: 'v-list-item',
         icon: 'mdi-domain',
         text: 'Empresas',
-        link: '',
+        link: '/company',
     },
     {
         type: 'v-list-item',

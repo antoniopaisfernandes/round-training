@@ -1,8 +1,10 @@
 import appLayout from './Layout'
 import programList from './ProgramList'
+import companyList from './CompanyList'
 
 Vue.component('app-layout', appLayout)
 Vue.component('program-list', programList)
+Vue.component('company-list', companyList)
 
 /**
  * The following block of code may be used to automatically register your

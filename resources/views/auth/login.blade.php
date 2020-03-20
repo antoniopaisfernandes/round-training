@@ -24,7 +24,6 @@
                     name="email"
                     prepend-icon="mdi-account-outline"
                     type="text"
-                    {{-- hide-details="auto" --}}
                     required
                     :rules="[
                         value => !!value || '{{ __('validation.required') }}',
@@ -41,7 +40,6 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
-                    {{-- hide-details="auto" --}}
                     required
                     :rules="[
                         value => !!value || '{{ __('validation.required') }}',

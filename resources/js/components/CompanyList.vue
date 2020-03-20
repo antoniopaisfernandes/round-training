@@ -9,8 +9,19 @@
           <span class="headline">Empresa</span>
         </v-card-title>
         <v-card-text class="mt-5">
-          <v-text-field autofocus v-model="editedItem.name" label="Nome"></v-text-field>
-          <v-text-field v-model="editedItem.vat_number" label="Contribuinte"></v-text-field>
+          <v-text-field
+            autofocus
+            v-model="editedItem.name"
+            label="Nome"
+            required
+            :rules="rules.name"
+          ></v-text-field>
+          <v-text-field
+            v-model="editedItem.vat_number"
+            label="Contribuinte"
+            required
+            :rules="rules.vat_number"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -19,6 +30,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-data-table
       :headers="headers"
       :fixed-header="true"
@@ -53,6 +65,7 @@
 <script>
   export default {
     props: ['items'],
+
     data: () => ({
       dialog: false,
       headers: [
@@ -61,6 +74,12 @@
           align: 'start',
           sortable: true,
           value: 'name',
+        },
+        {
+          text: 'Contribuinte',
+          align: 'start',
+          sortable: true,
+          value: 'vat_number',
         },
         { text: 'Acções', value: 'actions', sortable: false },
       ],
@@ -74,19 +93,33 @@
       },
       isSaving: false
     }),
+
     computed: {
       isSaveDisabled() {
         return this.editedItem.name === '' || this.isSaving;
+      },
+      rules() {
+        return {
+          name: [
+            v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          ],
+          vat_number: [
+            v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          ]
+        }
       }
     },
+
     watch: {
       dialog (val) {
         val || this.close()
       },
     },
+
     created () {
       this.initialize()
     },
+
     methods: {
       initialize () {
         this.companies = this.items
@@ -102,10 +135,11 @@
         if(!confirm('Tem a certeza que pretende remover esta empresa?')) return
 
         try {
-          const response = await axios.post(`/company/${item.id}`, { _method: 'DELETE' })
+          const response = await axios.delete(`/company/${item.id}`)
           this.companies.splice(index, 1)
         } catch (error) {
-          console.warn(error)
+          alert(error) // TODO
+          return
         }
       },
       close () {
@@ -120,9 +154,8 @@
 
         if (this.editedIndex > -1) {
           try {
-            const response = await axios.post(`/company/${this.editedItem.id}`,
+            const response = await axios.put(`/company/${this.editedItem.id}`,
             {
-              _method: 'PUT',
               name: this.editedItem.name
             })
             Object.assign(this.companies[this.editedIndex], this.editedItem)
@@ -134,7 +167,7 @@
           try {
             const response = await axios.post('/company', {
               name: this.editedItem.name
-              })
+            })
             this.companies.push(response.data.company)
           } catch (error) {
             alert(error) // TODO

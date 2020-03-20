@@ -5,7 +5,8 @@
  */
 
 require('./bootstrap');
-require('./event-bus.js');
+require('./plugins/event-bus');
+require('./plugins/portal');
 require('./components/');
 
 import vuetify from './plugins/vuetify';

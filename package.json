@@ -16,6 +16,7 @@
         "jquery": "^3.2",
         "lodash-es": "^4.17.13",
         "popper.js": "^1.12",
+        "portal-vue": "^2.1.7",
         "tailwindcss": "^1.2.0",
         "vue": "^2.5.17",
         "vuetify": "^2.2.18"

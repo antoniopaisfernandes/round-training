@@ -5,6 +5,7 @@
     <v-form
         method="POST"
         action="{{ route('login') }}"
+        @keyup.enter.native="submit"
     >
         @csrf
         <v-card class="elevation-12">
@@ -15,6 +16,7 @@
             >
                 <v-toolbar-title>Login</v-toolbar-title>
             </v-toolbar>
+
             <v-card-text>
                 <v-text-field
                     id="email"
@@ -22,15 +24,16 @@
                     name="email"
                     prepend-icon="mdi-account-outline"
                     type="text"
-                    :dense="true"
-                    hide-details="auto"
+                    {{-- hide-details="auto" --}}
                     required
-                    filled
+                    :rules="[
+                        value => !!value || '{{ __('validation.required') }}',
+                    ]"
                 ></v-text-field>
                 @error('email')
-                    <span class="tw-text-red-600" role="alert">
+                    <div class="tw-w-full tw-text-center tw-text-red-600 tw-mb-2">
                         {{ $message }}
-                    </span>
+                    </div>
                 @enderror
                 <v-text-field
                     id="password"
@@ -38,17 +41,19 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
-                    :dense="true"
-                    hide-details="auto"
+                    {{-- hide-details="auto" --}}
                     required
-                    filled
-                ></v-text-field>
+                    :rules="[
+                        value => !!value || '{{ __('validation.required') }}',
+                    ]"
+                    ></v-text-field>
                 @error('password')
-                    <span class="tw-text-red-600" role="alert">
+                    <div class="tw-w-full tw-text-center tw-text-red-600 tw-mb-2">
                         {{ $message }}
-                    </span>
+                    </div>
                 @enderror
             </v-card-text>
+
             <v-card-actions>
                 <div class="tw-flex tw-flex-col tw-w-full">
                     <div class="tw-ml-auto">
@@ -61,18 +66,18 @@
                             hide-details="true"
                         ></v-checkbox>
                     </div>
+
                     <v-btn
                         class="tw-mt-6"
                         color="primary"
                         type="submit"
                     >{{ __('Login') }}</v-btn>
-                    @if (Route::has('password.request'))
-                        <div class="tw-mt-6">
-                            <a href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                        </div>
-                    @endif
+
+                    <div class="tw-mt-6 tw-w-full tw-text-center">
+                        <a href="{{ route('password.request') }}">
+                            {{ __('Forgot Your Password?') }}
+                        </a>
+                    </div>
                 </div>
             </v-card-actions>
         </v-card>

@@ -139,7 +139,6 @@
           this.companies.splice(index, 1)
         } catch (error) {
           Event.$emit('toast', { message: error, type: 'error' })
-          return
         }
       },
       close () {

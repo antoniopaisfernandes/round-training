@@ -22,7 +22,6 @@
         >
             @yield('content')
         </app-layout>
-        <portal-target name="alert"></portal-target>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

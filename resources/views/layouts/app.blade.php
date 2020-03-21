@@ -16,6 +16,7 @@
 </head>
 <body>
     <div id="app">
+        <toast></toast>
         <app-layout
             :auth="{{ json_encode(auth()->user()) }}"
         >

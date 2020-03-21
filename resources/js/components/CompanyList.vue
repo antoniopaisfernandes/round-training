@@ -138,7 +138,7 @@
           const response = await axios.delete(`/company/${item.id}`)
           this.companies.splice(index, 1)
         } catch (error) {
-          alert(error) // TODO
+          Event.$emit('toast', { message: error, type: 'error' })
           return
         }
       },
@@ -152,31 +152,25 @@
       async save () {
         this.isSaving = true;
 
-        if (this.editedIndex > -1) {
-          try {
+        try {
+          if (this.editedIndex > -1) {
             const response = await axios.put(`/company/${this.editedItem.id}`,
             {
               name: this.editedItem.name
             })
             Object.assign(this.companies[this.editedIndex], this.editedItem)
-          } catch (error) {
-            alert(error) // TODO
-            return
-          }
-        } else {
-          try {
+          } else {
             const response = await axios.post('/company', {
               name: this.editedItem.name
             })
             this.companies.push(response.data.company)
-          } catch (error) {
-            alert(error) // TODO
-            return
           }
+          this.isSaving = false;
+          this.close()
+        } catch (error) {
+          this.isSaving = false;
+          Event.$emit('toast', { message: error, type: 'error' })
         }
-
-        this.isSaving = false;
-        this.close()
       },
     },
   }

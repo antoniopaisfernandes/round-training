@@ -5,7 +5,7 @@
     <v-form
         method="POST"
         action="{{ route('login') }}"
-        @keyup.enter.native="submit"
+        {{-- @keyup.enter.native="submit" --}}
     >
         @csrf
         <v-card class="elevation-12">

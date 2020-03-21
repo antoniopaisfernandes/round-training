@@ -52,4 +52,3 @@ const authRoutes = [
 
 export default menuRoutes
 export { authRoutes }
-

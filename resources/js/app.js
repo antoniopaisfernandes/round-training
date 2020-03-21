@@ -4,12 +4,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-require('./plugins/event-bus');
-require('./plugins/portal');
-require('./components/');
+require('./bootstrap')
+require('./plugins/event-bus')
+require('./plugins/portal')
+require('./components/')
 
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -25,4 +25,4 @@ const app = new Vue({
             token: document.head.querySelector('meta[name="csrf-token"]')?.content
         }
     }
-});
+})

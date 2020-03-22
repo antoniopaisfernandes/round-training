@@ -12,6 +12,7 @@ class Student extends Model
     protected $guarded = [];
     protected $casts = [
         'phone' => 'string',
+        'current_company_id' => 'int',
     ];
     public $rgpdFields = [
         'citizen_id',

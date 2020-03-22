@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Company;
 use App\Student;
 use Faker\Generator as Faker;
 
@@ -18,5 +19,6 @@ $factory->define(Student::class, function (Faker $faker) {
         'birth_place' => $faker->city,
         'nationality' => 'PORTUGAL',
         'current_job_title' => $faker->jobTitle,
+        'current_company_id' => factory(Company::class),
     ];
 });

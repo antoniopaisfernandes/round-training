@@ -54,6 +54,7 @@ class StudentController extends Controller
             'birth_place' => 'nullable',
             'nationality' => 'nullable',
             'current_job_title' => 'nullable',
+            'current_company_id' => 'nullable',
         ]);
 
         $student = Student::create($validated);

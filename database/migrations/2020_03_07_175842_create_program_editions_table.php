@@ -15,13 +15,13 @@ class CreateProgramEditionsTable extends Migration
     {
         Schema::create('program_editions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('program_id');
-            $table->unsignedBigInteger('company_id');
+            $table->foreignId('program_id');
+            $table->foreignId('company_id');
             $table->string('supplier');
             $table->string('teacher_name');
             $table->date('starts_at')->nullable()->index();
             $table->date('ends_at')->nullable()->index();
-            $table->unsignedBigInteger('created_by');
+            $table->foreignId('created_by');
             $table->softDeletes();
             $table->timestamps();
 

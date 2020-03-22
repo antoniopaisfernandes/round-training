@@ -18,6 +18,8 @@ class RolesAndPermissionsSeeder extends Seeder
             Permission::create(['name' => '*'])
         );
 
+        Permission::create(['name' => 'rgpd']);
+
         $readAllButRGPD = Permission::create(['name' => 'read_all_but_rgpd']);
         Role::create(['name' => 'GOS'])->givePermissionTo($readAllButRGPD);
         Role::create(['name' => 'CMED'])->givePermissionTo($readAllButRGPD);

@@ -63,6 +63,8 @@
 </template>
 
 <script>
+  import alert from '../plugins/toast'
+
   export default {
     props: ['items'],
 
@@ -138,7 +140,7 @@
           const response = await axios.delete(`/company/${item.id}`)
           this.companies.splice(index, 1)
         } catch (error) {
-          Event.$emit('toast', { message: error, type: 'error' })
+          alert.error(error)
         }
       },
       close () {
@@ -168,7 +170,7 @@
           this.close()
         } catch (error) {
           this.isSaving = false;
-          Event.$emit('toast', { message: error, type: 'error' })
+          alert.error(error)
         }
       },
     },

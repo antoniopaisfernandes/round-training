@@ -28,7 +28,7 @@
       right: true
     }),
     mounted() {
-      Event.$on('toast', ({
+      Event.listen('toast', ({
         type = 'info',
         message = ''
       } = {}) => {

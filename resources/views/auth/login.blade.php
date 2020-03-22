@@ -28,12 +28,10 @@
                     :rules="[
                         value => !!value || '{{ __('validation.required') }}',
                     ]"
+                    @error('email')
+                        error-messages="{{ $message }}"
+                    @enderror
                 ></v-text-field>
-                @error('email')
-                    <div class="tw-w-full tw-text-center tw-text-red-600 tw-mb-2">
-                        {{ $message }}
-                    </div>
-                @enderror
                 <v-text-field
                     id="password"
                     label="{{ __('Password') }}"
@@ -44,12 +42,10 @@
                     :rules="[
                         value => !!value || '{{ __('validation.required') }}',
                     ]"
+                    @error('password')
+                        error-messages="{{ $message }}"
+                    @enderror
                     ></v-text-field>
-                @error('password')
-                    <div class="tw-w-full tw-text-center tw-text-red-600 tw-mb-2">
-                        {{ $message }}
-                    </div>
-                @enderror
             </v-card-text>
 
             <v-card-actions>

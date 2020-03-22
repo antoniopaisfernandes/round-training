@@ -93,7 +93,7 @@ class CompanyController extends Controller
             $validated
         );
 
-        return redirect()->action(self::class . '@show', ['company' => $company]);
+        return $this->show($company);
     }
 
     /**
@@ -108,6 +108,6 @@ class CompanyController extends Controller
 
         $company->delete();
 
-        return redirect()->action(self::class . '@index');
+        return response()->json();
     }
 }

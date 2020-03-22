@@ -89,16 +89,20 @@
       editedIndex: -1,
       editedItem: {
         name: '',
+        vat_number: '',
       },
       defaultItem: {
         name: '',
+        vat_number: '',
       },
       isSaving: false
     }),
 
     computed: {
       isSaveDisabled() {
-        return this.editedItem.name === '' || this.isSaving;
+        return this.editedItem.name === ''
+          || this.editedItem.vat_number === ''
+          || this.isSaving;
       },
       rules() {
         return {
@@ -140,6 +144,7 @@
           const response = await axios.delete(`/company/${item.id}`)
           this.companies.splice(index, 1)
         } catch (error) {
+          console.warn(error?.response?.data?.errors) // TODO
           alert.error(error)
         }
       },
@@ -157,12 +162,14 @@
           if (this.editedIndex > -1) {
             const response = await axios.put(`/company/${this.editedItem.id}`,
             {
-              name: this.editedItem.name
+              name: this.editedItem.name,
+              vat_number: this.editedItem.vat_number
             })
             Object.assign(this.companies[this.editedIndex], this.editedItem)
           } else {
             const response = await axios.post('/company', {
-              name: this.editedItem.name
+              name: this.editedItem.name,
+              vat_number: this.editedItem.vat_number
             })
             this.companies.push(response.data.company)
           }
@@ -170,6 +177,7 @@
           this.close()
         } catch (error) {
           this.isSaving = false;
+          console.warn(error?.response?.data?.errors) // TODO
           alert.error(error)
         }
       },

@@ -1,0 +1,95 @@
+<?php
+
+namespace Tests\Feature\Students;
+
+use App\Student;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class EditingStudentsTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->be(
+            $this->user = $this->createAdminUser()
+        );
+    }
+
+    /** @test */
+    public function it_can_edit_a_student()
+    {
+        $this->withoutExceptionHandling();
+
+        $student = factory(Student::class)->create([
+            'name' => 'Old name',
+        ]);
+        $updatedStudent = with(
+            $student->fresh()->toArray(),
+            function ($student) {
+                $student['name'] = 'New name';
+                return $student;
+            }
+        );
+
+        $this->patch("/student/{$student->id}", $updatedStudent);
+
+        $this->assertDatabaseHas('students', [
+            'name' => 'New name',
+        ]);
+    }
+
+    /** @test */
+    public function a_name_is_required_updating_a_student()
+    {
+        $student = factory(Student::class)->create([
+            'name' => 'Old name',
+        ]);
+
+        $response = $this->patch("/student/{$student->id}", [
+            'name' => null,
+        ]);
+
+        $response->assertSessionHasErrors(['name']);
+        $this->assertDatabaseHas('students', [
+            'name' => 'Old name',
+        ]);
+    }
+
+    /** @test */
+    public function an_email_is_required_updating_a_student()
+    {
+        $student = factory(Student::class)->create([
+            'email' => 'old_email@example.com',
+        ]);
+
+        $response = $this->patch("/student/{$student->id}", [
+            'email' => null,
+        ]);
+
+        $response->assertSessionHasErrors(['email']);
+        $this->assertDatabaseHas('students', [
+            'email' => 'old_email@example.com',
+        ]);
+    }
+
+    /** @test */
+    public function a_guest_cannot_updating_a_student()
+    {
+        $student = factory(Student::class)->create([
+            'name' => 'Old name',
+        ]);
+
+        $this->be(new User())->patch("/student/{$student->id}", [
+            'name' => null,
+        ]);
+
+        $this->assertDatabaseHas('students', [
+            'name' => 'Old name',
+        ]);
+    }
+}

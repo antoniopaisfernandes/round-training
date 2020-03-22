@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/program', ProgramController::class);
     Route::resource('/company', CompanyController::class);
+    Route::resource('/student', StudentController::class);
 });
 
 

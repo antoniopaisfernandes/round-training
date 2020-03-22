@@ -12,6 +12,7 @@ $factory->define(Student::class, function (Faker $faker) {
         'postal_code' => $faker->postcode,
         'city' => $faker->city,
         'citizen_id' => $faker->randomNumber(8),
+        'citizen_id_validity' => today()->addYears(10),
         'email' => $faker->safeEmail,
         'phone' => $faker->randomNumber(9),
         'birth_place' => $faker->city,

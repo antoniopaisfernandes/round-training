@@ -56,9 +56,7 @@ class ProgramController extends Controller
      */
     public function show(Program $program)
     {
-        return response()->json([
-            'program' => $program,
-        ]);
+        return response()->json($program);
     }
 
     /**

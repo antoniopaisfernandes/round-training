@@ -27,9 +27,7 @@ class ViewingCompaniesTest extends TestCase
 
         $response = $this->get("/company/{$company->id}");
 
-        $response->assertJson([
-            'company' => $company->fresh()->toArray(),
-        ]);
+        $response->assertJson($company->fresh()->toArray());
     }
 
     /** @test */

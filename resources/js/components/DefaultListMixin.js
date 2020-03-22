@@ -43,7 +43,7 @@ export default {
                     Object.assign(this.list[this.editedIndex], this.editedItem)
                 } else {
                     const response = await axios.post(this.endpoint, this.editedItem)
-                    this.list.push(response.data.company)
+                    this.list.push(response.data)
                 }
                 this.isSaving = false
                 this.close()

@@ -46,7 +46,7 @@ class CompanyController extends Controller
 
         $company = Company::create($validated);
 
-        return response()->json(['company' => $company]);
+        return response()->json($company);
     }
 
     /**

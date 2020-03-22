@@ -2,7 +2,7 @@
   <div class="program-list tw-flex tw-flex-col tw-mt-10 tw-mx-20">
     <v-dialog v-model="dialog" @keydown.esc="dialog = false" max-width="500px">
       <template v-slot:activator="{ on }">
-        <v-btn v-show="programs.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Novo Programa</v-btn>
+        <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Novo Programa</v-btn>
       </template>
       <v-card :loading="isSaving" class="px-5 py-5">
         <v-card-title>
@@ -21,10 +21,10 @@
     <v-data-table
       :headers="headers"
       :fixed-header="true"
-      :items="programs"
+      :items="list"
       sort-by="name"
       class="elevation-1"
-      v-if="programs.length"
+      v-if="list.length"
     >
       <template v-slot:item.actions="{ item }">
         <v-icon
@@ -50,12 +50,13 @@
 </template>
 
 <script>
-  import alert from '../plugins/toast'
+  import DefaultListMixin from './DefaultListMixin'
 
   export default {
-    props: ['items'],
+    mixins: [DefaultListMixin],
+
     data: () => ({
-      dialog: false,
+      endpoint: '/program',
       headers: [
         {
           text: 'Nome',
@@ -63,83 +64,23 @@
           sortable: true,
           value: 'name',
         },
-        { text: 'Acções', value: 'actions', sortable: false },
+        {
+          text: 'Acções',
+          value: 'actions',
+          sortable: false,
+        },
       ],
-      programs: [],
-      editedIndex: -1,
       editedItem: {
         name: '',
       },
       defaultItem: {
         name: '',
       },
-      isSaving: false
     }),
     computed: {
       isSaveDisabled() {
         return this.editedItem.name === '' || this.isSaving;
       }
-    },
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
-    },
-    created () {
-      this.initialize()
-    },
-    methods: {
-      initialize () {
-        this.programs = this.items
-      },
-      editItem (item) {
-        this.editedIndex = this.programs.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-      async deleteItem (item) {
-        const index = this.programs.indexOf(item)
-
-        if(!confirm('Tem a certeza que pretende remover este Programa?')) return
-
-        try {
-          const response = await axios.post(`/program/${item.id}`, { _method: 'DELETE' })
-          this.programs.splice(index, 1)
-        } catch (error) {
-          alert.error(error)
-        }
-      },
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-      async save () {
-        this.isSaving = true;
-
-        try {
-          if (this.editedIndex > -1) {
-            const response = await axios.post(`/program/${this.editedItem.id}`,
-            {
-              _method: 'PUT',
-              name: this.editedItem.name
-            })
-            Object.assign(this.programs[this.editedIndex], this.editedItem)
-          } else {
-            const response = await axios.post('/program', {
-              name: this.editedItem.name
-              })
-            this.programs.push(response.data.program)
-          }
-          this.isSaving = false;
-          this.close()
-        } catch (error) {
-          this.isSaving = false;
-          alert.error(error)
-        }
-      },
     },
   }
 </script>

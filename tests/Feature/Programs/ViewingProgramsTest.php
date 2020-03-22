@@ -18,14 +18,15 @@ class ViewingProgramsTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
-    /** @test */
-    public function the_view_has_program_data_passed_in_to_it()
+    public function it_can_view_a_program()
     {
         $program = factory(Program::class)->create();
 
-        $response = $this->actingAs($this->user)->get("/program/{$program->id}");
+        $response = $this->get("/program/{$program->id}");
 
-        $response->assertViewHas('program', $program->fresh());
+        $response->assertJson([
+            'program' => $program->fresh()->toArray(),
+        ]);
     }
 
     /** @test */

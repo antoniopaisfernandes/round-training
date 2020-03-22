@@ -45,8 +45,7 @@ class ProgramController extends Controller
 
         $program = Program::create($validated);
 
-        // return redirect()->action(self::class . '@show', ['program' => $program]);
-        return response()->json(['program'=>$program]);
+        return $this->show($program);
     }
 
     /**
@@ -57,7 +56,7 @@ class ProgramController extends Controller
      */
     public function show(Program $program)
     {
-        return view('program.show', [
+        return response()->json([
             'program' => $program,
         ]);
     }
@@ -70,9 +69,7 @@ class ProgramController extends Controller
      */
     public function edit(Program $program)
     {
-        return view('program.edit', [
-            'program' => $program,
-        ]);
+        //
     }
 
     /**
@@ -94,7 +91,7 @@ class ProgramController extends Controller
             $validated
         );
 
-        return redirect()->action(self::class . '@show', ['program' => $program]);
+        return $this->show($program);
     }
 
     /**
@@ -109,6 +106,6 @@ class ProgramController extends Controller
 
         $program->delete();
 
-        return redirect()->action(self::class . '@index');
+        return response()->json();
     }
 }

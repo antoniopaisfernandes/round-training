@@ -50,6 +50,8 @@
 </template>
 
 <script>
+  import alert from '../plugins/toast'
+
   export default {
     props: ['items'],
     data: () => ({
@@ -104,7 +106,7 @@
           const response = await axios.post(`/program/${item.id}`, { _method: 'DELETE' })
           this.programs.splice(index, 1)
         } catch (error) {
-          console.warn(error)
+          alert.error(error)
         }
       },
       close () {
@@ -117,30 +119,26 @@
       async save () {
         this.isSaving = true;
 
-        if (this.editedIndex > -1) {
-          try {
+        try {
+          if (this.editedIndex > -1) {
             const response = await axios.post(`/program/${this.editedItem.id}`,
             {
               _method: 'PUT',
               name: this.editedItem.name
             })
             Object.assign(this.programs[this.editedIndex], this.editedItem)
-          } catch (error) {
-            console.warn(error)
-          }
-        } else {
-          try {
+          } else {
             const response = await axios.post('/program', {
               name: this.editedItem.name
               })
             this.programs.push(response.data.program)
-          } catch (error) {
-            console.warn(error)
           }
+          this.isSaving = false;
+          this.close()
+        } catch (error) {
+          this.isSaving = false;
+          alert.error(error)
         }
-
-        this.isSaving = false;
-        this.close()
       },
     },
   }

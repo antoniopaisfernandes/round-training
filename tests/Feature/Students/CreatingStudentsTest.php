@@ -29,7 +29,7 @@ class CreatingStudentsTest extends TestCase
 
         $response = $this->post('/student', $student);
 
-        $response->assertOk();
+        $response->assertCreated();
         $this->assertDatabaseHas('students', $student);
     }
 
@@ -72,7 +72,7 @@ class CreatingStudentsTest extends TestCase
             'citizen_id_validity' => null,
         ])->toArray();
         $response = $this->post('/student', $student);
-        $response->assertOk();
+        $response->assertCreated();
         $response->assertSessionHasNoErrors();
     }
 

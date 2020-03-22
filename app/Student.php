@@ -10,6 +10,13 @@ class Student extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+    protected $casts = [
+        'phone' => 'string',
+    ];
+    public $rgpdFields = [
+        'citizen_id',
+        'citizen_id_validity',
+    ];
 
     public function enrolments()
     {

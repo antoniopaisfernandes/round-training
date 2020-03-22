@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StudentResource;
 use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class StudentController extends Controller
 {
@@ -16,7 +18,7 @@ class StudentController extends Controller
     public function index()
     {
         return view('student.index', [
-            'students' => Student::paginate(20),
+            'students' => new StudentResource(Student::paginate(20)),
         ]);
     }
 
@@ -33,8 +35,8 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return JsonResource
      */
     public function store(Request $request)
     {
@@ -56,7 +58,7 @@ class StudentController extends Controller
 
         $student = Student::create($validated);
 
-        return response()->json(['student' => $student]);
+        return new StudentResource($student);
     }
 
     /**
@@ -67,9 +69,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        return response()->json([
-            'student' => $student,
-        ]);
+        return new StudentResource($student);
     }
 
     /**
@@ -86,7 +86,7 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */

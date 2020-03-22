@@ -19,7 +19,7 @@ const menuRoutes = [
         type: 'v-list-item',
         icon: 'mdi-account-edit-outline',
         text: 'Alunos',
-        link: '',
+        link: '/student',
     },
     {
         type: 'v-list-item',

@@ -17,12 +17,6 @@ const menuRoutes = [
     },
     {
         type: 'v-list-item',
-        icon: 'mdi-teach',
-        text: 'Professores',
-        link: '',
-    },
-    {
-        type: 'v-list-item',
         icon: 'mdi-account-edit-outline',
         text: 'Alunos',
         link: '',

@@ -15,13 +15,9 @@ class StudentResource extends JsonResource
      */
     public function toArray($request)
     {
-        if ($this->rgpdFields && auth()->user()->cannot('rgpd')) {
-            return Arr::except(
-                parent::toArray($request),
-                $this->rgpdFields
-            );
-        }
-
-        return parent::toArray($request);
+        return Arr::except(
+            parent::toArray($request),
+            auth()->user()->can('rgpd') ? [] : $this->rgpdFields
+        );
     }
 }

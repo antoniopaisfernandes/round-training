@@ -10,12 +10,8 @@ use Faker\Generator as Faker;
 
 $factory->define(ProgramEdition::class, function (Faker $faker) {
     return [
-        'program_id' => function () {
-            return factory(Program::class)->create()->id;
-        },
-        'company_id' => function () {
-            return factory(Company::class)->create()->id;
-        },
+        'program_id' => factory(Program::class),
+        'company_id' => factory(Company::class),
         'supplier' => $faker->company,
         'teacher_name' => $faker->name,
         'starts_at' => today(),

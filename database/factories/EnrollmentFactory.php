@@ -17,9 +17,7 @@ $factory->define(Enrollment::class, function (Faker $faker) {
                 'company_id' => $company->id,
             ])->id;
         },
-        'student_id' => function () {
-            return factory(Student::class)->create()->id;
-        },
+        'student_id' => factory(Student::class),
         'company_id' => function () use ($company) {
             return $company->id;
         },

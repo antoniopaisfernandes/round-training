@@ -58,7 +58,7 @@ class StudentController extends Controller
 
         $student = Student::create($validated);
 
-        return new StudentResource($student);
+        return $this->show($student);
     }
 
     /**

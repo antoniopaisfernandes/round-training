@@ -8,9 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(ProgramEditionSchedules::class, function (Faker $faker) {
     return [
-        'program_edition_id' => function () {
-            return factory(ProgramEdition::class)->create()->id;
-        },
+        'program_edition_id' => factory(ProgramEdition::class),
         'starts_at' => now(),
         'ends_at' => now()->addMinutes(120),
     ];

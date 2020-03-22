@@ -18,10 +18,18 @@ class Student extends Model
         'citizen_id',
         'citizen_id_validity',
     ];
+    protected $with = [
+        'company',
+    ];
 
     public function enrolments()
     {
         return $this->belongsToMany(ProgramEdition::class, 'enrollments')
             ->withTimestamps();
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'current_company_id');
     }
 }

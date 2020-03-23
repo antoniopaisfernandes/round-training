@@ -23,8 +23,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('/programs', ProgramController::class)->names('programs');
-    Route::resource('/companies', CompanyController::class)->names('companies');
+    Route::apiResource('/programs', ProgramController::class)->names('programs');
+
+    Route::apiResource('/companies', CompanyController::class)->names('companies');
+
     Route::resource('/students', StudentController::class)->names('students');
 });
 

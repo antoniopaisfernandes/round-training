@@ -24,9 +24,7 @@ class ViewingProgramsTest extends TestCase
 
         $response = $this->get("/programs/{$program->id}");
 
-        $response->assertJson([
-            'program' => $program->fresh()->toArray(),
-        ]);
+        $response->assertJson($program->fresh()->toArray());
     }
 
     /** @test */

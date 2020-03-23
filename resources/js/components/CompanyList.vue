@@ -69,7 +69,7 @@
     mixins: [DefaultListMixin],
 
     data: () => ({
-      endpoint: '/company',
+      endpoint: '/companies',
       headers: [
         {
           text: 'Nome',

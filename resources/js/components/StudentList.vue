@@ -69,7 +69,7 @@
     mixins: [DefaultListMixin],
 
     data: () => ({
-      endpoint: '/student',
+      endpoint: '/students',
       headers: [
         {
           text: 'Nome',

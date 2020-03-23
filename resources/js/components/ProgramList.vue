@@ -56,7 +56,7 @@
     mixins: [DefaultListMixin],
 
     data: () => ({
-      endpoint: '/program',
+      endpoint: '/programs',
       headers: [
         {
           text: 'Nome',

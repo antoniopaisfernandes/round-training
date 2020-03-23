@@ -64,8 +64,6 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function the_list_is_ordered_using_start_date()
     {
-        $this->withoutExceptionHandling();
-
         $first = factory(ProgramEdition::class)->create([
             'starts_at' => today(),
         ]);
@@ -87,13 +85,9 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function it_can_show_students_enrolled_in_program()
     {
-        $this->withoutExceptionHandling();
-
         $programEditionEdition = factory(ProgramEdition::class)->create();
-
         $students = factory(Student::class, 9)->create();
         $programEditionEdition->enroll($students);
-
         $otherStudents = factory(Student::class, 11)->create();
 
         $response = $this->get("/program-editions/{$programEditionEdition->id}/students");

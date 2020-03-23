@@ -23,9 +23,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('/program', ProgramController::class);
-    Route::resource('/company', CompanyController::class);
-    Route::resource('/student', StudentController::class);
+    Route::resource('/programs', ProgramController::class)->names('programs');
+    Route::resource('/companies', CompanyController::class)->names('companies');
+    Route::resource('/students', StudentController::class)->names('students');
 });
 
 

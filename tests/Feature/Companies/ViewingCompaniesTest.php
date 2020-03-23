@@ -25,7 +25,7 @@ class ViewingCompaniesTest extends TestCase
     {
         $company = factory(Company::class)->create();
 
-        $response = $this->get("/company/{$company->id}");
+        $response = $this->get("/companies/{$company->id}");
 
         $response->assertJson($company->fresh()->toArray());
     }
@@ -35,7 +35,7 @@ class ViewingCompaniesTest extends TestCase
     {
         $companies = factory(Company::class, 4)->create();
 
-        $response = $this->get("/company");
+        $response = $this->get("/companies");
 
         $response->assertViewHas('companies');
         $this->assertEquals(
@@ -49,7 +49,7 @@ class ViewingCompaniesTest extends TestCase
     {
         factory(Company::class, 50)->create();
 
-        $response = $this->get("/company");
+        $response = $this->get("/companies");
 
         $response->assertViewHas('companies');
         $this->assertCount(

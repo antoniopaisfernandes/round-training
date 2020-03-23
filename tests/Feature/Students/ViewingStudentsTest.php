@@ -29,7 +29,7 @@ class ViewingStudentsTest extends TestCase
     {
         $student = factory(Student::class)->create();
 
-        $response = $this->actingAs($this->createAdminUser())->get("/student/{$student->id}");
+        $response = $this->actingAs($this->createAdminUser())->get("/students/{$student->id}");
 
         $response->assertJsonFragment($student->fresh()->toArray());
     }
@@ -42,7 +42,7 @@ class ViewingStudentsTest extends TestCase
             'citizen_id_validity' => today()->addYear()->format('Y-m-d'),
         ]);
 
-        $response = $this->get("/student/{$student->id}");
+        $response = $this->get("/students/{$student->id}");
 
         $response->assertJsonFragment(Arr::except($student->toArray(), ['citizen_id', 'citizen_id_validity']));
         $response->assertJsonMissing([
@@ -56,7 +56,7 @@ class ViewingStudentsTest extends TestCase
     {
         $students = factory(Student::class, 4)->create();
 
-        $response = $this->get("/student");
+        $response = $this->get("/students");
 
         $response->assertViewHas('students');
         $this->assertEquals(
@@ -70,7 +70,7 @@ class ViewingStudentsTest extends TestCase
     {
         factory(Student::class, 50)->create();
 
-        $response = $this->get("/student");
+        $response = $this->get("/students");
 
         $response->assertViewHas('students');
         $this->assertCount(

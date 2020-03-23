@@ -13,19 +13,19 @@ const menuRoutes = [
         type: 'v-list-item',
         icon: 'mdi-domain',
         text: 'Empresas',
-        link: '/company',
+        link: '/companies',
     },
     {
         type: 'v-list-item',
         icon: 'mdi-account-edit-outline',
         text: 'Alunos',
-        link: '/student',
+        link: '/students',
     },
     {
         type: 'v-list-item',
         icon: 'mdi-brain',
         text: 'Cursos',
-        link: '/program',
+        link: '/programs',
     },
     {
         type: 'v-list-item',

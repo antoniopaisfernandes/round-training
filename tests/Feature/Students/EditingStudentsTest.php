@@ -36,7 +36,7 @@ class EditingStudentsTest extends TestCase
             }
         );
 
-        $this->patch("/student/{$student->id}", $updatedStudent);
+        $this->patch("/students/{$student->id}", $updatedStudent);
 
         $this->assertDatabaseHas('students', [
             'name' => 'New name',
@@ -50,7 +50,7 @@ class EditingStudentsTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $response = $this->patch("/student/{$student->id}", [
+        $response = $this->patch("/students/{$student->id}", [
             'name' => null,
         ]);
 
@@ -67,7 +67,7 @@ class EditingStudentsTest extends TestCase
             'email' => 'old_email@example.com',
         ]);
 
-        $response = $this->patch("/student/{$student->id}", [
+        $response = $this->patch("/students/{$student->id}", [
             'email' => null,
         ]);
 
@@ -84,7 +84,7 @@ class EditingStudentsTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $this->be(new User())->patch("/student/{$student->id}", [
+        $this->be(new User())->patch("/students/{$student->id}", [
             'name' => null,
         ]);
 

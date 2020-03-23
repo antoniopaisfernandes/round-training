@@ -27,7 +27,7 @@ class CreatingStudentsTest extends TestCase
 
         $student = factory(Student::class)->make()->toArray();
 
-        $response = $this->post('/student', $student);
+        $response = $this->post('/students', $student);
 
         $response->assertCreated();
         $this->assertDatabaseHas('students', $student);
@@ -40,7 +40,7 @@ class CreatingStudentsTest extends TestCase
             'name' => null,
         ])->toArray();
 
-        $response = $this->post('/student', $student);
+        $response = $this->post('/students', $student);
 
         $response->assertSessionHasErrors(['name']);
     }
@@ -52,7 +52,7 @@ class CreatingStudentsTest extends TestCase
             'email' => null,
         ])->toArray();
 
-        $response = $this->post('/student', $student);
+        $response = $this->post('/students', $student);
 
         $response->assertSessionHasErrors(['email']);
     }
@@ -64,14 +64,14 @@ class CreatingStudentsTest extends TestCase
             'citizen_id' => 1234567890,
             'citizen_id_validity' => null,
         ])->toArray();
-        $response = $this->post('/student', $student);
+        $response = $this->post('/students', $student);
         $response->assertSessionHasErrors(['citizen_id_validity']);
 
         $student = factory(Student::class)->make([
             'citizen_id' => null,
             'citizen_id_validity' => null,
         ])->toArray();
-        $response = $this->post('/student', $student);
+        $response = $this->post('/students', $student);
         $response->assertCreated();
         $response->assertSessionHasNoErrors();
     }
@@ -81,7 +81,7 @@ class CreatingStudentsTest extends TestCase
     {
         $student = factory(Student::class)->make()->toArray();
 
-        $this->be(new User())->post('/student', $student);
+        $this->be(new User())->post('/students', $student);
 
         $this->assertDatabaseMissing('students', $student);
         $this->assertCount(0, student::all());

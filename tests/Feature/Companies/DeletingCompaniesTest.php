@@ -18,7 +18,7 @@ class DeletingCompaniesTest extends TestCase
 
         $this->assertCount(1, Company::all());
 
-        $this->actingAs($this->createAdminUser())->delete("/company/{$company->id}");
+        $this->actingAs($this->createAdminUser())->delete("/companies/{$company->id}");
 
         $this->assertCount(0, Company::all());
     }
@@ -31,7 +31,7 @@ class DeletingCompaniesTest extends TestCase
 
         $this->assertCount(1, Company::all());
 
-        $this->actingAs($userWithoutPermission)->delete("/company/{$company->id}")->assertStatus(403);
+        $this->actingAs($userWithoutPermission)->delete("/companies/{$company->id}")->assertStatus(403);
 
         $this->assertCount(1, Company::all());
     }

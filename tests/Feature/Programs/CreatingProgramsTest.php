@@ -24,7 +24,7 @@ class CreatingProgramsTest extends TestCase
 
         $program = factory(Program::class)->make()->toArray();
 
-        $response = $this->actingAs($this->user)->post('/program', $program);
+        $response = $this->actingAs($this->user)->post('/programs', $program);
 
         $response->assertOk();
         $this->assertDatabaseHas('programs', $program);
@@ -37,7 +37,7 @@ class CreatingProgramsTest extends TestCase
             'name' => null,
         ])->toArray();
 
-        $response = $this->actingAs($this->user)->post('/program', $program);
+        $response = $this->actingAs($this->user)->post('/programs', $program);
 
         $response->assertSessionHasErrors(['name']);
     }
@@ -47,7 +47,7 @@ class CreatingProgramsTest extends TestCase
     {
         $program = factory(Program::class)->make()->toArray();
 
-        $this->post('/program', $program);
+        $this->post('/programs', $program);
 
         $this->assertDatabaseMissing('programs', $program);
         $this->assertCount(0, Program::all());

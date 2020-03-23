@@ -18,7 +18,7 @@ class DeletingProgramsTest extends TestCase
 
         $this->assertCount(1, Program::all());
 
-        $this->actingAs($this->createAdminUser())->delete("/program/{$program->id}");
+        $this->actingAs($this->createAdminUser())->delete("/programs/{$program->id}");
 
         $this->assertCount(0, Program::all());
     }
@@ -31,7 +31,7 @@ class DeletingProgramsTest extends TestCase
 
         $this->assertCount(1, Program::all());
 
-        $this->actingAs($userWithoutPermission)->delete("/program/{$program->id}")->assertStatus(403);
+        $this->actingAs($userWithoutPermission)->delete("/programs/{$program->id}")->assertStatus(403);
 
         $this->assertCount(1, Program::all());
     }

@@ -22,7 +22,7 @@ class ViewingProgramsTest extends TestCase
     {
         $program = factory(Program::class)->create();
 
-        $response = $this->get("/program/{$program->id}");
+        $response = $this->get("/programs/{$program->id}");
 
         $response->assertJson([
             'program' => $program->fresh()->toArray(),
@@ -34,7 +34,7 @@ class ViewingProgramsTest extends TestCase
     {
         $programs = factory(Program::class, 4)->create();
 
-        $response = $this->actingAs($this->user)->get("/program");
+        $response = $this->actingAs($this->user)->get("/programs");
 
         $response->assertViewHas('programs');
         $this->assertEquals(
@@ -48,7 +48,7 @@ class ViewingProgramsTest extends TestCase
     {
         $programs = factory(Program::class, 50)->create();
 
-        $response = $this->actingAs($this->user)->get("/program");
+        $response = $this->actingAs($this->user)->get("/programs");
 
         $response->assertViewHas('programs');
         $this->assertCount(

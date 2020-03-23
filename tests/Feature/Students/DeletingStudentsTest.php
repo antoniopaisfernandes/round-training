@@ -18,7 +18,7 @@ class DeletingStudentsTest extends TestCase
 
         $this->assertCount(1, Student::all());
 
-        $this->actingAs($this->createAdminUser())->delete("/student/{$student->id}");
+        $this->actingAs($this->createAdminUser())->delete("/students/{$student->id}");
 
         $this->assertCount(0, Student::all());
     }
@@ -31,7 +31,7 @@ class DeletingStudentsTest extends TestCase
 
         $this->assertCount(1, Student::all());
 
-        $this->actingAs($userWithoutPermission)->delete("/student/{$student->id}")->assertStatus(403);
+        $this->actingAs($userWithoutPermission)->delete("/students/{$student->id}")->assertStatus(403);
 
         $this->assertCount(1, Student::all());
     }

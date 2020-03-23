@@ -27,7 +27,7 @@ class CreatingCompaniesTest extends TestCase
 
         $company = factory(Company::class)->make()->toArray();
 
-        $response = $this->post('/company', $company);
+        $response = $this->post('/companies', $company);
 
         $response->assertOk();
         $this->assertDatabaseHas('companies', $company);
@@ -40,7 +40,7 @@ class CreatingCompaniesTest extends TestCase
             'name' => null,
         ])->toArray();
 
-        $response = $this->post('/company', $company);
+        $response = $this->post('/companies', $company);
 
         $response->assertSessionHasErrors(['name']);
     }
@@ -52,7 +52,7 @@ class CreatingCompaniesTest extends TestCase
             'vat_number' => null,
         ])->toArray();
 
-        $response = $this->post('/company', $company);
+        $response = $this->post('/companies', $company);
 
         $response->assertSessionHasErrors(['vat_number']);
     }
@@ -62,7 +62,7 @@ class CreatingCompaniesTest extends TestCase
     {
         $company = factory(Company::class)->make()->toArray();
 
-        $this->be(new User())->post('/company', $company);
+        $this->be(new User())->post('/companies', $company);
 
         $this->assertDatabaseMissing('companies', $company);
         $this->assertCount(0, Company::all());

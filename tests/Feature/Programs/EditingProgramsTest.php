@@ -26,7 +26,7 @@ class EditingProgramsTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $this->actingAs($this->user)->patch("/program/{$program->id}", [
+        $this->actingAs($this->user)->patch("/programs/{$program->id}", [
             'name' => 'New name',
         ]);
 
@@ -42,7 +42,7 @@ class EditingProgramsTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $response = $this->actingAs($this->user)->patch("/program/{$program->id}", [
+        $response = $this->actingAs($this->user)->patch("/programs/{$program->id}", [
             'name' => null,
         ]);
 
@@ -59,7 +59,7 @@ class EditingProgramsTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $this->patch("/program/{$program->id}", [
+        $this->patch("/programs/{$program->id}", [
             'name' => null,
         ]);
 

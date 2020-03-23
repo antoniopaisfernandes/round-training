@@ -30,7 +30,7 @@ class EditingCompaniesTest extends TestCase
             'vat_number' => '123456789',
         ]);
 
-        $this->patch("/company/{$company->id}", [
+        $this->patch("/companies/{$company->id}", [
             'name' => 'New name',
             'vat_number' => '987654321',
         ]);
@@ -48,7 +48,7 @@ class EditingCompaniesTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $response = $this->patch("/company/{$company->id}", [
+        $response = $this->patch("/companies/{$company->id}", [
             'name' => null,
         ]);
 
@@ -65,7 +65,7 @@ class EditingCompaniesTest extends TestCase
             'vat_number' => 'Old vat_number',
         ]);
 
-        $response = $this->patch("/company/{$company->id}", [
+        $response = $this->patch("/companies/{$company->id}", [
             'vat_number' => null,
         ]);
 
@@ -82,7 +82,7 @@ class EditingCompaniesTest extends TestCase
             'name' => 'Old name',
         ]);
 
-        $this->be(new User())->patch("/company/{$company->id}", [
+        $this->be(new User())->patch("/companies/{$company->id}", [
             'name' => null,
         ]);
 

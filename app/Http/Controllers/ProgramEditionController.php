@@ -69,7 +69,12 @@ class ProgramEditionController extends Controller
         $this->authorize('update');
 
         $validated = $request->validate([
-            'name' => 'required',
+            'program_id' => 'required|exists:programs,id',
+            'company_id' => 'required|exists:companies,id',
+            'supplier' => 'required',
+            'teacher_name' => 'required',
+            'starts_at' => 'nullable|date',
+            'ends_at' => 'nullable|date|after_or_equal:starts_at',
         ]);
 
         $programEdition->update(

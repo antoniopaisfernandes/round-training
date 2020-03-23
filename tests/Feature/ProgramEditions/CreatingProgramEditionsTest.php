@@ -35,7 +35,6 @@ class CreatingProgramEditionsTest extends TestCase
     /** @test */
     public function a_supplier_is_required_for_a_program_edition()
     {
-        // $response->dumpSession();
         $programEdition = $this->makeValidProgramEdition([
             'supplier' => null,
         ])->toArray();
@@ -60,7 +59,6 @@ class CreatingProgramEditionsTest extends TestCase
     /** @test */
     public function an_existing_program_is_required_for_a_program_edition()
     {
-        // $response->dumpSession();die;
         $programEdition = $this->makeValidProgramEdition([
             'program_id' => 100,
         ])->toArray();

@@ -32,8 +32,14 @@ class ProgramEditionController extends Controller
         $this->authorize('store');
 
         $validated = $request->validate([
-            'name' => 'required',
+            'program_id' => 'required|exists:programs,id',
+            'company_id' => 'required|exists:companies,id',
+            'supplier' => 'required',
+            'teacher_name' => 'required',
+            'starts_at' => 'nullable|date',
+            'ends_at' => 'nullable|date|after_or_equal:starts_at',
         ]);
+        $validated['created_by'] = auth()->user()->id;
 
         $programEdition = ProgramEdition::create($validated);
 

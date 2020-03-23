@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\ProgramEditions;
 
+use App\Enrollment;
 use App\ProgramEdition;
 use App\Student;
 use App\User;
@@ -99,5 +100,17 @@ class ViewingProgramEditionsTest extends TestCase
 
         $response->assertJson($students->toArray());
         $response->assertJsonMissing($otherStudents->toArray());
+    }
+
+    /** @test */
+    public function an_instance_of_an_enrolled_student_is_an_enrollment()
+    {
+        $programEditionEdition = factory(ProgramEdition::class)->create();
+        $student = factory(Student::class)->create();
+        $programEditionEdition->enroll($student);
+
+        $response = $this->get("/program-editions/{$programEditionEdition->id}/students/{$student->id}");
+
+        $response->assertJson(Enrollment::first()->toArray());
     }
 }

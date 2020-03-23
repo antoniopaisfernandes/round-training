@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Enrollment;
-use App\ProgramEdition;
-use App\Student;
 use Illuminate\Http\Request;
 
-class ProgramEditionStudentController extends Controller
+class EnrollmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ProgramEdition $programEdition)
+    public function index()
     {
-        return response()->json($programEdition->students);
+        //
     }
 
     /**
@@ -33,27 +31,22 @@ class ProgramEditionStudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  ProgramEdition $programEdition
-     * @param  Student $student
+     * @param  \App\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
      */
-    public function show(ProgramEdition $programEdition, Student $student)
+    public function show(Enrollment $enrollment)
     {
-        return resolve(EnrollmentController::class)->show(
-            Enrollment::where('student_id', $student->id)
-                ->where('program_edition_id', $programEdition->id)
-                ->firstOrFail()
-        );
+        return response()->json($enrollment);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Enrollment $enrollment)
     {
         //
     }
@@ -61,10 +54,10 @@ class ProgramEditionStudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Enrollment $enrollment)
     {
         //
     }

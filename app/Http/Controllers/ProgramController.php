@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Program;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProgramController extends Controller
 {
@@ -14,8 +15,16 @@ class ProgramController extends Controller
      */
     public function index()
     {
+        $programs = QueryBuilder::for(Program::class)
+            ->allowedFilters(['id', 'name'])
+            ->allowedIncludes(['editions'])
+            ->defaultSort('name')
+            ->allowedSorts(['id'])
+            ->paginate(20)
+            ->appends(request()->query());
+
         return view('program.index', [
-            'programs' => Program::paginate(20),
+            'programs' => $programs,
         ]);
     }
 

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\StudentResource;
 use App\Student;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Validation\Rule;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class StudentController extends Controller
 {
@@ -17,8 +18,16 @@ class StudentController extends Controller
      */
     public function index()
     {
+        $students = QueryBuilder::for(Student::class)
+            ->allowedFilters(['id', 'name'])
+            ->allowedIncludes(['enrollments', 'company'])
+            ->defaultSort('name')
+            ->allowedSorts(['id', 'name'])
+            ->paginate(20)
+            ->appends(request()->query());
+
         return view('student.index', [
-            'students' => new StudentResource(Student::paginate(20)),
+            'students' => new StudentResource($students),
         ]);
     }
 

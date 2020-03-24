@@ -32,5 +32,3 @@ Goto the project folder:
 https://github.com/spatie/period
 
 https://github.com/LinusBorg/portal-vue
-
-https://github.com/spatie/laravel-query-builder

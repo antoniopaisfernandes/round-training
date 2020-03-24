@@ -61,7 +61,7 @@ class ViewingStudentsTest extends TestCase
         $response->assertViewHas('students');
         $this->assertEquals(
             $students->fresh()->all(),
-            $response->viewData('students')->items()
+            collect($response->viewData('students')->items())->sortBy('id')->values()->all()
         );
     }
 
@@ -77,5 +77,67 @@ class ViewingStudentsTest extends TestCase
             20,
             $response->viewData('students')->items()
         );
+    }
+
+    /** @test */
+    public function it_can_filter_by_name()
+    {
+        $this->withoutExceptionHandling();
+
+        $john = factory(Student::class)->create([
+            'name' => 'John Test'
+        ]);
+        factory(Student::class)->create([
+            'name' => 'Jane Test'
+        ]);
+
+        $response = $this->get("/students?filter[name]=John");
+
+        $response->assertViewHas('students');
+        $data = $response->viewData('students')->items();
+        $this->assertCount(1, $data);
+        $this->assertEquals($john->fresh(), $data[0]);
+    }
+
+    /** @test */
+    public function it_default_sorts_by_name()
+    {
+        $this->withoutExceptionHandling();
+
+        $john = factory(Student::class)->create([
+            'name' => 'John Test'
+        ]);
+        $jane = factory(Student::class)->create([
+            'name' => 'Jane Test'
+        ]);
+
+        $response = $this->get("/students");
+
+        $response->assertViewHas('students');
+        $data = $response->viewData('students')->items();
+        $this->assertCount(2, $data);
+        $this->assertEquals($jane->fresh(), $data[0]);
+        $this->assertEquals($john->fresh(), $data[1]);
+    }
+
+    /** @test */
+    public function it_can_sort_by_id()
+    {
+        $this->withoutExceptionHandling();
+
+        $john = factory(Student::class)->create([
+            'name' => 'John Test'
+        ]);
+        $jane = factory(Student::class)->create([
+            'name' => 'Jane Test'
+        ]);
+
+        $response = $this->get("/students?sort=id");
+
+        $response->assertViewHas('students');
+        $data = $response->viewData('students')->items();
+        $this->assertCount(2, $data);
+        $this->assertEquals($john->fresh(), $data[0]);
+        $this->assertEquals($jane->fresh(), $data[1]);
     }
 }

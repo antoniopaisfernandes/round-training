@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CompanyController extends Controller
 {
@@ -14,8 +15,16 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        $companies = QueryBuilder::for(Company::class)
+            ->allowedFilters(['id', 'name', 'vat_number'])
+            ->allowedIncludes(['programs'])
+            ->defaultSort('name')
+            ->allowedSorts(['id', 'vat_number'])
+            ->paginate(20)
+            ->appends(request()->query());
+
         return view('company.index', [
-            'companies' => Company::paginate(20),
+            'companies' => $companies,
         ]);
     }
 

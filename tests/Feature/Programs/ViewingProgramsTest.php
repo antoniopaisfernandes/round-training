@@ -37,7 +37,7 @@ class ViewingProgramsTest extends TestCase
         $response->assertViewHas('programs');
         $this->assertEquals(
             $programs->fresh()->all(),
-            $response->viewData('programs')->items()
+            collect($response->viewData('programs')->items())->sortBy('id')->values()->all()
         );
     }
 

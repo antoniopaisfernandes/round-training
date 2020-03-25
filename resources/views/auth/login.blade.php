@@ -48,29 +48,27 @@
                     ></v-text-field>
             </v-card-text>
 
-            <v-card-actions>
+            <v-card-actions style="padding: 16px;">
                 <div class="tw-flex tw-flex-col tw-w-full">
-                    <div class="tw-ml-auto">
-                        <v-checkbox
-                            class="tw-mt-0"
-                            name="remember"
-                            id="remember"
-                            {{ old('remember') ? 'checked' : '' }}
-                            label="{{ __('Remember Me') }}"
-                            hide-details="true"
-                        ></v-checkbox>
-                    </div>
-
-                    <v-btn
-                        class="tw-mt-6"
-                        color="primary"
-                        type="submit"
-                    >{{ __('Login') }}</v-btn>
-
-                    <div class="tw-mt-6 tw-w-full tw-text-center">
-                        <a href="{{ route('password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                        </a>
+                    <v-checkbox
+                        class="tw-mt-0"
+                        name="remember"
+                        id="remember"
+                        {{ old('remember') ? 'checked' : '' }}
+                        label="{{ __('Remember Me') }}"
+                        hide-details="true"
+                    ></v-checkbox>
+                    <div class="tw-w-full tw-flex tw-items-center">
+                        <div class="tw-flex-1 tw-flex">
+                            <a class="tw-text-sm tw-ml-auto tw-underline" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                        </div>
+                        <v-btn
+                            class="tw-ml-6"
+                            color="primary"
+                            type="submit"
+                        >{{ __('Login') }}</v-btn>
                     </div>
                 </div>
             </v-card-actions>

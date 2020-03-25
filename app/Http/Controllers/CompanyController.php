@@ -13,19 +13,22 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $companies = QueryBuilder::for(Company::class)
             ->allowedFilters(['id', 'name', 'vat_number'])
             ->allowedIncludes(['programs'])
             ->defaultSort('name')
             ->allowedSorts(['id', 'vat_number'])
-            ->paginate(20)
-            ->appends(request()->query());
+            ->get();
 
-        return view('company.index', [
-            'companies' => $companies,
-        ]);
+        if ($request->wantsJson()) {
+            return $companies;
+        } else {
+            return view('company.index', [
+                'companies' => $companies,
+            ]);
+        }
     }
 
     /**

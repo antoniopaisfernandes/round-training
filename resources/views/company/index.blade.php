@@ -4,7 +4,7 @@
 <v-container fluid>
     <v-row align="center" justify="center">
         <v-col>
-            <company-list :items='@json($companies->items())'></company-list>
+            <company-list :items='@json($companies)'></company-list>
         </v-col>
     </v-row>
 </v-container>

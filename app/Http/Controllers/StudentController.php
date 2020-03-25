@@ -116,13 +116,14 @@ class StudentController extends Controller
             'birth_place' => 'nullable',
             'nationality' => 'nullable',
             'current_job_title' => 'nullable',
+            'current_company_id' => 'nullable',
         ]);
 
         $student->update(
             $validated
         );
 
-        return $this->show($student);
+        return $this->show($student->fresh());
     }
 
     /**

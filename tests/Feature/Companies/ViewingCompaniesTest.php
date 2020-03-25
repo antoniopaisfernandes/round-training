@@ -40,7 +40,7 @@ class ViewingCompaniesTest extends TestCase
         $response->assertViewHas('companies');
         $this->assertEquals(
             $companies->fresh()->all(),
-            collect($response->viewData('companies')->items())->sortBy('id')->values()->all()
+            collect($response->viewData('companies'))->sortBy('id')->values()->all()
         );
     }
 
@@ -54,7 +54,7 @@ class ViewingCompaniesTest extends TestCase
         $response->assertViewHas('companies');
         $this->assertCount(
             20,
-            $response->viewData('companies')->items()
+            $response->viewData('companies')
         );
     }
 }

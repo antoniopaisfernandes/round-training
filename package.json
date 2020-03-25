@@ -15,7 +15,7 @@
         "lodash-es": "^4.17.13",
         "tailwindcss": "^1.2.0",
         "vue": "^2.5.17",
-        "vuetify": "^2.2.18"
+        "vuetify": "^2.2.19"
     },
     "devDependencies": {
         "browser-sync": "^2.26.7",

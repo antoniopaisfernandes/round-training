@@ -16,12 +16,14 @@
             required
             :rules="rules.name"
           ></v-text-field>
-          <v-text-field
-            v-model="editedItem.company.name"
+          <v-select
+            :items="companies"
+            v-model="editedItem.company.id"
             label="Empresa"
             required
-            :rules="rules.company.name"
-          ></v-text-field>
+            :rules="rules.company"
+            @input="editedItem.current_company_id = $event"
+          ></v-select>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -64,6 +66,7 @@
 
 <script>
   import DefaultListMixin from './DefaultListMixin'
+  import map from 'lodash-es/map'
 
   export default {
     mixins: [DefaultListMixin],
@@ -87,16 +90,21 @@
       ],
       editedItem: {
         name: '',
+        current_company_id: '',
         company: {
+          id: '',
           name: ''
         },
       },
       defaultItem: {
         name: '',
+        current_company_id: '',
         company: {
+          id: '',
           name: ''
         },
       },
+      companies: [],
     }),
 
     computed: {
@@ -116,6 +124,17 @@
         }
       }
     },
+
+    mounted: async function () {
+      let data = await this.fetchCompanies()
+
+      this.companies = map(data, (v) => {
+        return {
+          'text': v.name,
+          'value': v.id,
+        }
+      })
+    }
   }
 </script>
 

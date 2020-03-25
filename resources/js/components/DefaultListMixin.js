@@ -40,7 +40,10 @@ export default {
                         `${this.endpoint}/${this.editedItem.id}`,
                         this.editedItem
                     )
-                    Object.assign(this.list[this.editedIndex], this.editedItem)
+                    Object.assign(
+                        this.list[this.editedIndex],
+                        response.data.data
+                    )
                 } else {
                     const response = await axios.post(this.endpoint, this.editedItem)
                     this.list.push(response.data)
@@ -76,6 +79,16 @@ export default {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             }, 300)
+        },
+
+        async fetchCompanies() {
+            try {
+                const response = await axios.get('/companies')
+                return response.data
+            } catch (error) {
+                console.warn(error?.response?.data?.errors) // TODO
+                alert.error(error)
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ class CompanyController extends Controller
             ->allowedSorts(['id', 'vat_number'])
             ->get();
 
-        if ($request->wantsJson()) {
+        if ($request->expectsJson()) {
             return $companies;
         } else {
             return view('company.index', [

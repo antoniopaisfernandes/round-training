@@ -45,15 +45,15 @@ class ViewingCompaniesTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_a_list_of_20_paginated_companies()
+    public function the_companies_show_method_does_not_paginate()
     {
-        factory(Company::class, 50)->create();
+        factory(Company::class, 51)->create();
 
         $response = $this->get("/companies");
 
         $response->assertViewHas('companies');
         $this->assertCount(
-            20,
+            51,
             $response->viewData('companies')
         );
     }

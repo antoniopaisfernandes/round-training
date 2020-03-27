@@ -15,7 +15,9 @@ class ViewingProgramsTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->be(
+            $this->user = factory(User::class)->create()
+        );
     }
 
     public function it_can_view_a_program()
@@ -32,7 +34,7 @@ class ViewingProgramsTest extends TestCase
     {
         $programs = factory(Program::class, 4)->create();
 
-        $response = $this->actingAs($this->user)->get("/programs");
+        $response = $this->get("/programs");
 
         $response->assertViewHas('programs');
         $this->assertEquals(
@@ -44,9 +46,9 @@ class ViewingProgramsTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_20_paginated_programs()
     {
-        $programs = factory(Program::class, 50)->create();
+        factory(Program::class, 50)->create();
 
-        $response = $this->actingAs($this->user)->get("/programs");
+        $response = $this->get("/programs");
 
         $response->assertViewHas('programs');
         $this->assertCount(

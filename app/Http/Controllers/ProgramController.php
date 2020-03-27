@@ -23,9 +23,13 @@ class ProgramController extends Controller
             ->paginate(20)
             ->appends(request()->query());
 
-        return view('program.index', [
-            'programs' => $programs,
-        ]);
+        if (request()->expectsJson()) {
+            return $programs;
+        } else {
+            return view('program.index', [
+                'programs' => $programs,
+            ]);
+        }
     }
 
     /**

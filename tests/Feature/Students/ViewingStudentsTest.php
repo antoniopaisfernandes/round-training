@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Students;
 
+use App\Http\Resources\StudentResource;
 use App\Student;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -59,9 +60,30 @@ class ViewingStudentsTest extends TestCase
         $response = $this->get("/students");
 
         $response->assertViewHas('students');
+        $viewDataStudents = $response->viewData('students');
+        $this->assertInstanceOf(StudentResource::class, $viewDataStudents->first());
         $this->assertEquals(
-            $students->fresh()->all(),
-            collect($response->viewData('students')->items())->sortBy('id')->values()->all()
+            StudentResource::collection($students->fresh())->resolve(),
+            collect($viewDataStudents->resolve())->sortBy('id')->values()->all()
+        );
+    }
+
+    /** @test */
+    public function a_user_without_rgpd_cannot_see_some_data_in_students_list()
+    {
+        $students = factory(Student::class, 4)->create();
+
+        $response = $this->get("/students");
+
+        $viewDataStudents = $response->viewData('students');
+        $this->assertEquals(
+            $students->fresh()->map->toArray()->map(function ($s) {
+                return Arr::except(
+                    $s,
+                    auth()->user()->can('rgpd') ? [] : (new Student)->rgpdFields
+                );
+            })->all(),
+            collect($viewDataStudents->response()->getData(true)['data'])->sortBy('id')->values()->all()
         );
     }
 
@@ -95,8 +117,7 @@ class ViewingStudentsTest extends TestCase
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
-        $this->assertCount(1, $data);
-        $this->assertEquals($john->fresh(), $data[0]);
+        $this->assertEquals($john->fresh(), $data[0]->resource);
     }
 
     /** @test */
@@ -116,8 +137,8 @@ class ViewingStudentsTest extends TestCase
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
         $this->assertCount(2, $data);
-        $this->assertEquals($jane->fresh(), $data[0]);
-        $this->assertEquals($john->fresh(), $data[1]);
+        $this->assertEquals($jane->fresh(), $data[0]->resource);
+        $this->assertEquals($john->fresh(), $data[1]->resource);
     }
 
     /** @test */
@@ -137,7 +158,7 @@ class ViewingStudentsTest extends TestCase
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
         $this->assertCount(2, $data);
-        $this->assertEquals($john->fresh(), $data[0]);
-        $this->assertEquals($jane->fresh(), $data[1]);
+        $this->assertEquals($john->fresh(), $data[0]->resource);
+        $this->assertEquals($jane->fresh(), $data[1]->resource);
     }
 }

@@ -239,14 +239,6 @@
           'value': v.id,
         }
       })
-
-      // DELETE
-      this.$nextTick(() => {
-          this.editedIndex = 0
-          this.editedItem = Object.assign({}, this.items[0])
-          this.dialog = true
-      });
-      // DELETE EOF
     }
   }
 </script>

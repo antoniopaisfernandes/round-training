@@ -45,7 +45,7 @@ class ViewingCompaniesTest extends TestCase
     }
 
     /** @test */
-    public function the_companies_show_method_does_not_paginate()
+    public function the_companies_index_method_does_not_paginate()
     {
         factory(Company::class, 51)->create();
 

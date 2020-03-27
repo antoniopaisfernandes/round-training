@@ -20,8 +20,7 @@ class ProgramController extends Controller
             ->allowedIncludes(['editions'])
             ->defaultSort('name')
             ->allowedSorts(['id'])
-            ->paginate(20)
-            ->appends(request()->query());
+            ->get();
 
         if (request()->expectsJson()) {
             return $programs;

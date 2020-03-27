@@ -39,21 +39,21 @@ class ViewingProgramsTest extends TestCase
         $response->assertViewHas('programs');
         $this->assertEquals(
             $programs->fresh()->all(),
-            collect($response->viewData('programs')->items())->sortBy('id')->values()->all()
+            collect($response->viewData('programs'))->sortBy('id')->values()->all()
         );
     }
 
     /** @test */
-    public function it_shows_a_list_of_20_paginated_programs()
+    public function the_programs_index_method_does_not_paginate()
     {
-        factory(Program::class, 50)->create();
+        factory(Program::class, 51)->create();
 
         $response = $this->get("/programs");
 
         $response->assertViewHas('programs');
         $this->assertCount(
-            20,
-            $response->viewData('programs')->items()
+            51,
+            $response->viewData('programs')
         );
     }
 }

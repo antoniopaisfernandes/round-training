@@ -13,7 +13,7 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $companies = QueryBuilder::for(Company::class)
             ->allowedFilters(['id', 'name', 'vat_number'])
@@ -22,7 +22,7 @@ class CompanyController extends Controller
             ->allowedSorts(['id', 'vat_number'])
             ->get();
 
-        if ($request->expectsJson()) {
+        if (request()->expectsJson()) {
             return $companies;
         } else {
             return view('company.index', [

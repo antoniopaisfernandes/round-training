@@ -27,7 +27,7 @@ class StudentController extends Controller
             ->appends(request()->query());
 
         return view('student.index', [
-            'students' => new StudentResource($students),
+            'students' => StudentResource::collection($students),
         ]);
     }
 

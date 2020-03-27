@@ -1,6 +1,6 @@
 <template>
   <div class="student-list tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-dialog v-model="dialog" @keydown.esc="dialog = false" max-width="500px">
+    <v-dialog v-model="dialog" @keydown.esc="dialog = false" max-width="48rem">
       <template v-slot:activator="{ on }">
         <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Adicionar aluno</v-btn>
       </template>
@@ -13,17 +13,114 @@
             autofocus
             v-model="editedItem.name"
             label="Nome"
+            prepend-icon="mdi-account-edit-outline"
             required
             :rules="rules.name"
           ></v-text-field>
+          <v-text-field
+            v-model="editedItem.address"
+            label="Morada"
+            prepend-icon="mdi-map-marker"
+            required
+            :rules="rules.address"
+          ></v-text-field>
+          <div class="tw-flex">
+            <v-text-field
+              v-model="editedItem.postal_code"
+              label="C.Postal"
+              prepend-icon="mdi-city"
+              required
+              class="tw-w-1/4"
+              :rules="rules.postal_code"
+            ></v-text-field>
+            <v-text-field
+              v-model="editedItem.city"
+              label="Localidade"
+              prepend-icon="mdi-city"
+              required
+              class="tw-w-3/4 tw-ml-2"
+              :rules="rules.city"
+            ></v-text-field>
+          </div>
+          <div v-if="rgpd" class="tw-flex">
+            <v-text-field
+              v-model="editedItem.citizen_id"
+              label="Cartão de cidadão"
+              prepend-icon="mdi-card-account-details-outline"
+              required
+              class="tw-w-3/4"
+              :rules="rules.citizen_id"
+            ></v-text-field>
+            <v-menu
+              v-model="citizenIdValidityDatePickerActive"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="editedItem.citizen_id_validity"
+                  label="Validade"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+                  class="tw-w-1/4 tw-ml-2"
+                  :rules="rules.citizen_id_validity"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="editedItem.citizen_id_validity"
+                @input="citizenIdValidityDatePickerActive = false"
+              ></v-date-picker>
+            </v-menu>
+          </div>
+          <v-text-field
+            v-model="editedItem.email"
+            label="E-mail"
+            type="email"
+            prepend-icon="mdi-email-outline"
+            required
+            :rules="rules.email"
+          ></v-text-field>
+          <div v-if="rgpd" class="tw-flex">
+            <v-text-field
+              v-model="editedItem.birth_place"
+              label="Naturalidade"
+              prepend-icon="mdi-map-marker"
+              required
+              :rules="rules.birth_place"
+            ></v-text-field>
+            <v-text-field
+              v-model="editedItem.nationality"
+              label="Nacionalidade"
+              prepend-icon="mdi-map-marker"
+              required
+              class="tw-ml-2"
+              :rules="rules.nationality"
+            ></v-text-field>
+          </div>
+          <v-divider
+            dark
+            class="tw-my-4"
+          />
           <v-select
             :items="companies"
             v-model="editedItem.company.id"
             label="Empresa"
+            prepend-icon="mdi-factory"
             required
             :rules="rules.company"
             @input="editedItem.current_company_id = $event"
           ></v-select>
+          <v-text-field
+            v-model="editedItem.current_job_title"
+            label="Função"
+            prepend-icon="mdi-barcode-scan"
+            required
+            :rules="rules.current_job_title"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -105,6 +202,7 @@
         },
       },
       companies: [],
+      citizenIdValidityDatePickerActive: false,
     }),
 
     computed: {
@@ -113,6 +211,10 @@
           || this.editedItem.company === ''
           || this.isSaving;
       },
+      rgpd() {
+        return this.editedItem.hasOwnProperty('citizen_id')
+          && this.editedItem.hasOwnProperty('citizen_id_validity')
+      },
       rules() {
         return {
           name: [
@@ -120,7 +222,10 @@
           ],
           company: [
             v => !!v || 'É obrigatória a indicação de um valor para o campo.'
-          ]
+          ],
+          address: [
+            v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          ],
         }
       }
     },
@@ -134,6 +239,14 @@
           'value': v.id,
         }
       })
+
+      // DELETE
+      this.$nextTick(() => {
+          this.editedIndex = 0
+          this.editedItem = Object.assign({}, this.items[0])
+          this.dialog = true
+      });
+      // DELETE EOF
     }
   }
 </script>

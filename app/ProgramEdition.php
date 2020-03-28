@@ -16,6 +16,9 @@ class ProgramEdition extends Model
     protected $with = [
         'program',
     ];
+    protected $appends = [
+        'full_name',
+    ];
 
     public function program()
     {

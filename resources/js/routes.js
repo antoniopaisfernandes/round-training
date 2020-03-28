@@ -25,7 +25,7 @@ const menuRoutes = [
         type: 'v-list-item',
         icon: 'mdi-brain',
         text: 'Cursos',
-        link: '/programs',
+        link: '/program-editions',
     },
     {
         type: 'v-list-item',

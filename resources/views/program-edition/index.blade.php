@@ -4,7 +4,8 @@
 <v-container fluid>
     <v-row align="center" justify="center">
         <v-col>
-            <program-editions-list :items='@json($programEditions->items())'></program-editions-list>
+            <program-edition-list :items='@json($programEditions->items())'></program-edition-list>
+            {{-- <program-edition-list :items='@json($programEditions->items())'></program-edition-list> --}}
         </v-col>
     </v-row>
 </v-container>

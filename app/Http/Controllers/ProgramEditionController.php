@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProgramEdition;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProgramEditionController extends Controller
 {
@@ -14,11 +15,22 @@ class ProgramEditionController extends Controller
      */
     public function index()
     {
-        return view('program-edition.index', [
-            'programEditions' => ProgramEdition::orderBy('starts_at', 'desc')
-                ->orderBy('name', 'asc')
-                ->paginate(20),
-        ]);
+        $programEditions = QueryBuilder::for(ProgramEdition::class)
+            ->withCount('students')
+            ->allowedFilters(['supplier', 'teacher_name', 'starts_at', 'ends_at'])
+            ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
+            ->allowedSorts(['starts_at', 'ends_at'])
+            ->defaultSorts(['-starts_at', 'name'])
+            ->paginate(20)
+            ->appends(request()->query());
+
+        if (request()->expectsJson()) {
+            return $programEditions;
+        } else {
+            return view('program-edition.index', [
+                'programEditions' => $programEditions,
+            ]);
+        }
     }
 
     /**

@@ -69,6 +69,19 @@ class CreatingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_the_cost_of_a_program_edition()
+    {
+        $programEdition = $this->makeValidProgramEdition([
+            'cost' => 100,
+        ])->setAppends([])->toArray();
+
+        $response = $this->post('/program-editions', $programEdition);
+
+        $response->assertOk();
+        $this->assertDatabaseHas('program_editions', $programEdition);
+    }
+
+    /** @test */
     public function a_guest_cannot_create_a_program_edition()
     {
         auth()->logout();

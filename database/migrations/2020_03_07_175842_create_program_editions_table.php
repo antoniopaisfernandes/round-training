@@ -18,6 +18,7 @@ class CreateProgramEditionsTable extends Migration
             $table->foreignId('program_id');
             $table->string('name', 50);
             $table->foreignId('company_id');
+            $table->decimal('cost')->default(0);
             $table->string('supplier');
             $table->string('teacher_name');
             $table->date('starts_at')->nullable()->index();

@@ -107,4 +107,14 @@ class ViewingProgramEditionsTest extends TestCase
 
         $response->assertJson(Enrollment::first()->toArray());
     }
+
+    /** @test */
+    public function a_program_edition_has_a_cost()
+    {
+        $programEditionEdition = factory(ProgramEdition::class)->create([
+            'cost' => 3000.04,
+        ]);
+
+        $this->assertDatabaseHas('program_editions', ['cost' => 3000.04]);
+    }
 }

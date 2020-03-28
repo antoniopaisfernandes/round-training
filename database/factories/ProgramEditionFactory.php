@@ -13,6 +13,7 @@ $factory->define(ProgramEdition::class, function (Faker $faker) {
         'program_id' => factory(Program::class),
         'name' => 'Edition ' . mt_rand(1, 9999),
         'company_id' => factory(Company::class),
+        'cost' => mt_rand(1, 9999),
         'supplier' => $faker->company,
         'teacher_name' => $faker->name,
         'starts_at' => today(),

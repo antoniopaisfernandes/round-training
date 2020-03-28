@@ -97,6 +97,25 @@ class EditingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_the_cost_of_a_program_edition()
+    {
+        $programEdition = factory(ProgramEdition::class)->create([
+            'cost' => 100,
+        ]);
+
+        $this->patch("/program-editions/{$programEdition->id}", array_merge(
+            $programEdition->toArray(),
+            [
+                'cost' => 200,
+            ]
+        ));
+
+        $this->assertDatabaseHas('program_editions', [
+            'cost' => 200,
+        ]);
+    }
+
+    /** @test */
     public function a_guest_cannot_updating_a_program()
     {
         auth()->logout();

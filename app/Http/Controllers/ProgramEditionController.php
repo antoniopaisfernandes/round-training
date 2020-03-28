@@ -97,7 +97,7 @@ class ProgramEditionController extends Controller
             $validated
         );
 
-        return $this->show($programEdition);
+        return $this->show($programEdition->fresh());
     }
 
     /**

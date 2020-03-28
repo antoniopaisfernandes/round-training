@@ -40,37 +40,6 @@
               class="ml-4 tw-w-1/3"
             ></v-text-field>
           </div>
-          <v-divider
-            dark
-            class="my-4"
-          />
-          <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
-            <v-text-field
-              v-model="editedItem.supplier"
-              label="Fornecedor"
-              required
-              :rules="rules.supplier"
-            ></v-text-field>
-            <v-text-field
-              v-model="editedItem.teacher_name"
-              label="Formador"
-              required
-              :rules="rules.teacher_name"
-              class="ml-2"
-            ></v-text-field>
-            <v-text-field
-              v-model="editedItem.cost"
-              label="Valor"
-              required
-              :rules="rules.cost"
-              class="ml-2 tw-w-4 money"
-              prefix="€"
-            ></v-text-field>
-          </div>
-          <v-divider
-            dark
-            class="my-4"
-          />
           <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
             <v-menu
               v-model="startsAtActive"
@@ -124,6 +93,29 @@
               label="Criado por"
               :disabled="true"
               class="ml-2"
+            ></v-text-field>
+          </div>
+          <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
+            <v-text-field
+              v-model="editedItem.supplier"
+              label="Fornecedor"
+              required
+              :rules="rules.supplier"
+            ></v-text-field>
+            <v-text-field
+              v-model="editedItem.teacher_name"
+              label="Formador"
+              required
+              :rules="rules.teacher_name"
+              class="ml-2"
+            ></v-text-field>
+            <v-text-field
+              v-model="editedItem.cost"
+              label="Valor"
+              required
+              :rules="rules.cost"
+              class="ml-2 tw-w-4 money"
+              prefix="€"
             ></v-text-field>
           </div>
         </v-card-text>

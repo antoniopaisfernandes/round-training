@@ -89,6 +89,16 @@ export default {
                 console.warn(error?.response?.data?.errors) // TODO
                 alert.error(error)
             }
-        }
+        },
+
+        async fetchPrograms() {
+            try {
+                const response = await axios.get('/programs')
+                return response.data
+            } catch (error) {
+                console.warn(error?.response?.data?.errors) // TODO
+                alert.error(error)
+            }
+        },
     }
 }

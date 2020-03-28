@@ -86,6 +86,7 @@ class CreatingProgramEditionsTest extends TestCase
             array_merge(
                 [
                     'program_id' => factory(Program::class)->create()->id,
+                    'name' => 'Edition ' . mt_rand(1, 9999),
                     'company_id' => factory(Company::class)->create()->id,
                     'created_by' => auth()->user()->id,
                 ],

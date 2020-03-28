@@ -43,6 +43,11 @@ class ProgramEdition extends Model
                     ->withTimestamps();
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->program->name . ' - ' . $this->name;
+    }
+
     /**
      * Enroll students in current program edition
      *

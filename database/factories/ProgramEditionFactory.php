@@ -11,6 +11,7 @@ use Faker\Generator as Faker;
 $factory->define(ProgramEdition::class, function (Faker $faker) {
     return [
         'program_id' => factory(Program::class),
+        'name' => 'Edition ' . mt_rand(1, 9999),
         'company_id' => factory(Company::class),
         'supplier' => $faker->company,
         'teacher_name' => $faker->name,

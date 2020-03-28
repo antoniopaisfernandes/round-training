@@ -33,6 +33,7 @@ class ProgramEditionController extends Controller
 
         $validated = $request->validate([
             'program_id' => 'required|exists:programs,id',
+            'name' => 'required|max:50',
             'company_id' => 'required|exists:companies,id',
             'supplier' => 'required',
             'teacher_name' => 'required',
@@ -70,6 +71,7 @@ class ProgramEditionController extends Controller
 
         $validated = $request->validate([
             'program_id' => 'required|exists:programs,id',
+            'name' => 'required|max:50',
             'company_id' => 'required|exists:companies,id',
             'supplier' => 'required',
             'teacher_name' => 'required',

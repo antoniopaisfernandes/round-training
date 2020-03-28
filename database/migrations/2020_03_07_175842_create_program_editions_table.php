@@ -16,6 +16,7 @@ class CreateProgramEditionsTable extends Migration
         Schema::create('program_editions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('program_id');
+            $table->string('name', 50);
             $table->foreignId('company_id');
             $table->string('supplier');
             $table->string('teacher_name');

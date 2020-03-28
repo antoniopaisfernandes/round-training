@@ -24,7 +24,7 @@ class CreatingProgramEditionsTest extends TestCase
     /** @test */
     public function it_can_create_a_program_edition()
     {
-        $programEdition = $this->makeValidProgramEdition()->toArray();
+        $programEdition = $this->makeValidProgramEdition()->setAppends([])->toArray();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -37,7 +37,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'supplier' => null,
-        ])->toArray();
+        ])->setAppends([])->toArray();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -49,7 +49,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'company_id' => 100,
-        ])->toArray();
+        ])->setAppends([])->toArray();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -61,7 +61,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'program_id' => 100,
-        ])->toArray();
+        ])->setAppends([])->toArray();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -72,7 +72,7 @@ class CreatingProgramEditionsTest extends TestCase
     public function a_guest_cannot_create_a_program_edition()
     {
         auth()->logout();
-        $programEdition = factory(ProgramEdition::class)->make()->toArray();
+        $programEdition = factory(ProgramEdition::class)->make()->setAppends([])->toArray();
 
         $this->post('/program-editions', $programEdition);
 

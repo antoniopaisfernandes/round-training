@@ -15,6 +15,7 @@ class ProgramEdition extends Model
     protected $guarded = [];
     protected $with = [
         'program',
+        'manager',
     ];
     protected $appends = [
         'full_name',

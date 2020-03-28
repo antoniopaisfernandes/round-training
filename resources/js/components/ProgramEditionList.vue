@@ -44,24 +44,88 @@
             dark
             class="my-4"
           />
-          <v-text-field
-            v-model="editedItem.supplier"
-            label="Fornecedor"
-            required
-            :rules="rules.supplier"
-          ></v-text-field>
-          <v-text-field
-            v-model="editedItem.teacher_name"
-            label="Formador"
-            required
-            :rules="rules.teacher_name"
-          ></v-text-field>
-
+          <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
+            <v-text-field
+              v-model="editedItem.supplier"
+              label="Fornecedor"
+              required
+              :rules="rules.supplier"
+            ></v-text-field>
+            <v-text-field
+              v-model="editedItem.teacher_name"
+              label="Formador"
+              required
+              :rules="rules.teacher_name"
+              class="ml-2"
+            ></v-text-field>
+            <v-text-field
+              v-model="editedItem.cost"
+              label="Valor"
+              required
+              :rules="rules.cost"
+              class="ml-2 tw-w-4 money"
+              prefix="€"
+            ></v-text-field>
+          </div>
           <v-divider
             dark
             class="my-4"
           />
-
+          <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
+            <v-menu
+              v-model="startsAtActive"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="editedItem.starts_at"
+                  label="Início a"
+                  prepend-inner-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+                  :rules="rules.starts_at"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="editedItem.starts_at"
+                @input="startsAtActive = false"
+              ></v-date-picker>
+            </v-menu>
+            <v-menu
+              v-model="endsAtActive"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="editedItem.ends_at"
+                  label="Fim a"
+                  prepend-inner-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+                  class="tw-ml-2"
+                  :rules="rules.ends_at"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="editedItem.ends_at"
+                @input="endsAtActive = false"
+              ></v-date-picker>
+            </v-menu>
+            <v-text-field
+              v-model="editedItem.manager.name"
+              label="Criado por"
+              :disabled="true"
+              class="ml-2"
+            ></v-text-field>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -154,11 +218,15 @@
       ],
       editedItem: {
         name: '',
+        manager: {},
       },
       defaultItem: {
         name: '',
+        manager: {},
       },
       programs: [],
+      startsAtActive: false,
+      endsAtActive: false,
     }),
 
     computed: {
@@ -214,5 +282,9 @@
       justify-content: flex-end;
       padding-right: 50px;
     }
+  }
+
+  .money input {
+    text-align: end;
   }
 </style>

@@ -16,9 +16,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = $this->createAdminUser()
-        );
+        $this->be($this->createAdminUser());
     }
 
     /** @test */
@@ -30,6 +28,18 @@ class CreatingProgramEditionsTest extends TestCase
 
         $response->assertOk();
         $this->assertDatabaseHas('program_editions', $programEdition);
+    }
+
+    /** @test */
+    public function a_guest_cannot_create_a_program_edition()
+    {
+        auth()->logout();
+        $programEdition = factory(ProgramEdition::class)->make()->setAppends([])->toArray();
+
+        $this->post('/program-editions', $programEdition);
+
+        $this->assertDatabaseMissing('program_editions', $programEdition);
+        $this->assertCount(0, ProgramEdition::all());
     }
 
     /** @test */
@@ -79,18 +89,6 @@ class CreatingProgramEditionsTest extends TestCase
 
         $response->assertOk();
         $this->assertDatabaseHas('program_editions', $programEdition);
-    }
-
-    /** @test */
-    public function a_guest_cannot_create_a_program_edition()
-    {
-        auth()->logout();
-        $programEdition = factory(ProgramEdition::class)->make()->setAppends([])->toArray();
-
-        $this->post('/program-editions', $programEdition);
-
-        $this->assertDatabaseMissing('program_editions', $programEdition);
-        $this->assertCount(0, ProgramEdition::all());
     }
 
     private function makeValidProgramEdition($attributes = [], $count = null)

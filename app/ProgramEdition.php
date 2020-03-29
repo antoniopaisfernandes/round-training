@@ -16,6 +16,7 @@ class ProgramEdition extends Model
     protected $with = [
         'program',
         'manager',
+        'schedules',
     ];
     protected $appends = [
         'full_name',
@@ -33,7 +34,7 @@ class ProgramEdition extends Model
 
     public function schedules()
     {
-        return $this->hasMany(ProgramEditionSchedules::class);
+        return $this->hasMany(ProgramEditionSchedule::class);
     }
 
     public function manager()

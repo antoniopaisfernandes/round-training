@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ProgramEditionSchedules;
+use App\ProgramEditionSchedule;
 use Illuminate\Http\Request;
 
 class ProgramEditionSchedulesController extends Controller
@@ -31,10 +31,10 @@ class ProgramEditionSchedulesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ProgramEditionSchedules  $programEditionSchedules
+     * @param  \App\ProgramEditionSchedule  $programEditionSchedules
      * @return \Illuminate\Http\Response
      */
-    public function show(ProgramEditionSchedules $programEditionSchedules)
+    public function show(ProgramEditionSchedule $programEditionSchedules)
     {
         //
     }
@@ -43,10 +43,10 @@ class ProgramEditionSchedulesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProgramEditionSchedules  $programEditionSchedules
+     * @param  \App\ProgramEditionSchedule  $programEditionSchedules
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProgramEditionSchedules $programEditionSchedules)
+    public function update(Request $request, ProgramEditionSchedule $programEditionSchedules)
     {
         //
     }
@@ -54,10 +54,10 @@ class ProgramEditionSchedulesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProgramEditionSchedules  $programEditionSchedules
+     * @param  \App\ProgramEditionSchedule  $programEditionSchedules
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProgramEditionSchedules $programEditionSchedules)
+    public function destroy(ProgramEditionSchedule $programEditionSchedules)
     {
         //
     }

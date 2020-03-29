@@ -15,9 +15,7 @@ class EditingStudentsTest extends TestCase
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = $this->createAdminUser()
-        );
+        $this->be($this->createAdminUser());
     }
 
     /** @test */
@@ -25,7 +23,7 @@ class EditingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $student = factory(Student::class)->create([
+        $student = factory(Student::class)->state('with-citizen-information')->create([
             'name' => 'Old name',
         ]);
         $updatedStudent = with(

@@ -58,19 +58,21 @@ class CreatingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function when_storing_a_student_if_the_citizen_id_is_present_require_the_date()
+    public function when_storing_a_student_if_the_citizen_info_is_present_require_it()
     {
-        $student = factory(Student::class)->make([
-            'citizen_id' => 1234567890,
+        $student = factory(Student::class)->state('with-citizen-information')->make([
+            'citizen_id' => null,
+        ])->toArray();
+        $response = $this->post('/students', $student);
+        $response->assertSessionHasErrors(['citizen_id']);
+
+        $student = factory(Student::class)->state('with-citizen-information')->make([
             'citizen_id_validity' => null,
         ])->toArray();
         $response = $this->post('/students', $student);
         $response->assertSessionHasErrors(['citizen_id_validity']);
 
-        $student = factory(Student::class)->make([
-            'citizen_id' => null,
-            'citizen_id_validity' => null,
-        ])->toArray();
+        $student = factory(Student::class)->state('without-citizen-information')->make()->toArray();
         $response = $this->post('/students', $student);
         $response->assertCreated();
         $response->assertSessionHasNoErrors();

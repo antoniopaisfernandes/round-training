@@ -12,8 +12,6 @@ $factory->define(Student::class, function (Faker $faker) {
         'address' => $faker->address,
         'postal_code' => $faker->postcode,
         'city' => $faker->city,
-        'citizen_id' => $faker->randomNumber(8),
-        'citizen_id_validity' => today()->addYears(10),
         'email' => $faker->safeEmail,
         'phone' => $faker->randomNumber(9),
         'birth_place' => $faker->city,
@@ -22,3 +20,12 @@ $factory->define(Student::class, function (Faker $faker) {
         'current_company_id' => factory(Company::class),
     ];
 });
+
+$factory->state(Student::class, 'with-citizen-information', function (Faker $faker) {
+    return [
+        'citizen_id' => $faker->randomNumber(8),
+        'citizen_id_validity' => today()->addYears(10),
+    ];
+});
+
+$factory->state(Student::class, 'without-citizen-information', []);

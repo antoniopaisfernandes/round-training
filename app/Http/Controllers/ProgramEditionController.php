@@ -45,29 +45,7 @@ class ProgramEditionController extends Controller
     {
         $this->authorize('store');
 
-        $validated = $request->validate([
-            'program_id' => 'required|exists:programs,id',
-            'name' => 'required|max:50',
-            'company_id' => 'required|exists:companies,id',
-            'cost' => 'required|min:0|max:999999',
-            'supplier' => 'required',
-            'teacher_name' => 'required',
-            'starts_at' => 'nullable|date',
-            'ends_at' => 'nullable|date|after_or_equal:starts_at',
-            'schedules.*' => 'nullable',
-            'schedules.*.starts_at' => [
-                'required_with:schedules.*',
-                'date',
-                'after_or_equal:starts_at',
-                'before_or_equal:ends_at',
-            ],
-            'schedules.*.ends_at' => [
-                'required_with:schedules.*',
-                'date',
-                'after_or_equal:schedules.*.starts_at',
-            ],
-        ]);
-        $validated['created_by'] = auth()->user()->id;
+        $validated = $this->validatedFields($request);
 
         $programEdition = DB::transaction(function () use ($validated, $request) {
             $programEdition = ProgramEdition::create(
@@ -108,16 +86,7 @@ class ProgramEditionController extends Controller
     {
         $this->authorize('update');
 
-        $validated = $request->validate([
-            'program_id' => 'required|exists:programs,id',
-            'name' => 'required|max:50',
-            'company_id' => 'required|exists:companies,id',
-            'cost' => 'required|min:0|max:999999',
-            'supplier' => 'required',
-            'teacher_name' => 'required',
-            'starts_at' => 'nullable|date',
-            'ends_at' => 'nullable|date|after_or_equal:starts_at',
-        ]);
+        $validated = $this->validatedFields($request);
 
         $programEdition->update(
             $validated
@@ -139,5 +108,34 @@ class ProgramEditionController extends Controller
         $programEdition->delete();
 
         return response()->json();
+    }
+
+    private function validatedFields($request)
+    {
+        $validated = $request->validate([
+            'program_id' => 'required|exists:programs,id',
+            'name' => 'required|max:50',
+            'company_id' => 'required|exists:companies,id',
+            'cost' => 'required|min:0|max:999999',
+            'supplier' => 'required',
+            'teacher_name' => 'required',
+            'starts_at' => 'nullable|date',
+            'ends_at' => 'nullable|date|after_or_equal:starts_at',
+            'schedules.*' => 'nullable',
+            'schedules.*.starts_at' => [
+                'required_with:schedules.*',
+                'date',
+                'after_or_equal:starts_at',
+                'before_or_equal:ends_at',
+            ],
+            'schedules.*.ends_at' => [
+                'required_with:schedules.*',
+                'date',
+                'after_or_equal:schedules.*.starts_at',
+            ],
+        ]);
+        $validated['created_by'] = auth()->user()->id;
+
+        return $validated;
     }
 }

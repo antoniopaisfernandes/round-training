@@ -10,7 +10,6 @@
           <span class="headline">Curso</span>
         </v-card-title>
         <v-card-text class="mt-5">
-
           <div class="tw-flex">
             <div class="tw-flex tw-flex-row tw-justify-center tw-items-center tw-w-2/3">
               <v-select
@@ -28,6 +27,7 @@
                 x-small
                 color="primary"
                 @click="addProgram"
+                class="tw--mt-2"
               >
                 <v-icon dark>mdi-plus</v-icon>
               </v-btn>
@@ -119,6 +119,16 @@
             ></v-text-field>
           </div>
         </v-card-text>
+
+        <v-card-title>
+          <span class="subtitle-1">Agendamentos</span>
+        </v-card-title>
+        <v-card-text>
+          <div v-bind:key="i" v-for="(schedule, i) in editedItem.schedules">
+            {{ schedule.starts_at }}
+          </div>
+        </v-card-text>
+
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
@@ -211,10 +221,12 @@
       editedItem: {
         name: '',
         manager: {},
+        schedules: [],
       },
       defaultItem: {
         name: '',
         manager: {},
+        schedules: [],
       },
       programs: [],
       startsAtActive: false,
@@ -223,7 +235,9 @@
 
     computed: {
       isSaveDisabled() {
-        return this.editedItem.name === '' || this.isSaving;
+        return this.isSaving
+          // || this.editedItem.name === ''
+        ;
       },
       rules() {
         return {
@@ -252,6 +266,12 @@
           'value': v.id,
         }
       })
+
+      // TODO DELETE
+      this.editedIndex = 0
+      this.editedItem = Object.assign({}, this.list[0])
+      this.dialog = true
+      // TODO EOF
     }
   }
 </script>

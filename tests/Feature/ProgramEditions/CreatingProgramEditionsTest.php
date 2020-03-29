@@ -79,7 +79,7 @@ class CreatingProgramEditionsTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_the_cost_of_a_program_edition()
+    public function it_creates_with_the_cost_of_a_program_edition()
     {
         $programEdition = $this->makeValidProgramEdition([
             'cost' => 100,
@@ -89,6 +89,18 @@ class CreatingProgramEditionsTest extends TestCase
 
         $response->assertOk();
         $this->assertDatabaseHas('program_editions', $programEdition);
+    }
+
+    /** @test */
+    public function it_creates_program_edition_with_schedules()
+    {
+        $programEdition = factory(ProgramEdition::class)->states('with-3-schedules')->make()->toArray();
+
+        $response = $this->post('/program-editions', $programEdition);
+
+        $response->assertOk();
+        $this->assertNotNull($created = ProgramEdition::first());
+        $this->assertCount(3, $created->schedules);
     }
 
     private function makeValidProgramEdition($attributes = [], $count = null)

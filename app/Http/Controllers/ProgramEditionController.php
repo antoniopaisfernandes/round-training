@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ProgramEdition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProgramEditionController extends Controller
@@ -52,12 +54,36 @@ class ProgramEditionController extends Controller
             'teacher_name' => 'required',
             'starts_at' => 'nullable|date',
             'ends_at' => 'nullable|date|after_or_equal:starts_at',
+            'schedules.*' => 'nullable',
+            'schedules.*.starts_at' => [
+                'required_with:schedules.*',
+                'date',
+                'after_or_equal:starts_at',
+                'before_or_equal:ends_at',
+            ],
+            'schedules.*.ends_at' => [
+                'required_with:schedules.*',
+                'date',
+                'after_or_equal:schedules.*.starts_at',
+            ],
         ]);
         $validated['created_by'] = auth()->user()->id;
 
-        $programEdition = ProgramEdition::create($validated);
+        $programEdition = DB::transaction(function () use ($validated, $request) {
+            $programEdition = ProgramEdition::create(
+                Arr::except(
+                    $validated,
+                    ['schedules']
+                )
+            );
+            if ($request->get('schedules')) {
+                $programEdition->schedules()->createMany($request->get('schedules'));
+            }
 
-        return $this->show($programEdition);
+            return $programEdition;
+        });
+
+        return $this->show($programEdition->fresh());
     }
 
     /**

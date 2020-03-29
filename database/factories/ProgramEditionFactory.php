@@ -30,9 +30,13 @@ $factory->define(ProgramEdition::class, function (Faker $faker) {
 Collection::times(5)->each(function ($num) use ($factory) {
     $factory->state(ProgramEdition::class, "with-{$num}-schedules", [])
             ->afterCreatingState(ProgramEdition::class, "with-{$num}-schedules", function (ProgramEdition $programEdition) use ($num) {
-                factory(ProgramEditionSchedule::class, $num)->create(['program_edition_id' => $programEdition->id]);
+                factory(ProgramEditionSchedule::class, $num)->create([
+                    'program_edition_id' => $programEdition->id,
+                ]);
             })
             ->afterMakingState(ProgramEdition::class, "with-{$num}-schedules", function (ProgramEdition $programEdition) use ($num) {
-                $programEdition->setRelation('schedules', factory(ProgramEditionSchedule::class, $num)->make());
+                $programEdition->setRelation('schedules', factory(ProgramEditionSchedule::class, $num)->make([
+                    'program_edition_id' => $programEdition->id,
+                ]));
             });
 });

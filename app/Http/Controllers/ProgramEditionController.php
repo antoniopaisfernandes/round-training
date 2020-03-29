@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProgramEditionRequest;
+use App\Http\Requests\UpdateProgramEditionRequest;
 use App\ProgramEdition;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -38,22 +38,14 @@ class ProgramEditionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreProgramEditionRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreProgramEditionRequest $request)
     {
-        $this->authorize('store');
+        $programEdition = DB::transaction(function () use ($request) {
+            $programEdition = ProgramEdition::create($request->validated());
 
-        $validated = $this->validatedFields($request);
-
-        $programEdition = DB::transaction(function () use ($validated, $request) {
-            $programEdition = ProgramEdition::create(
-                Arr::except(
-                    $validated,
-                    ['schedules']
-                )
-            );
             if ($request->get('schedules')) {
                 $programEdition->schedules()->createMany($request->get('schedules'));
             }
@@ -67,7 +59,7 @@ class ProgramEditionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  ProgramEdition  $programEdition
      * @return \Illuminate\Http\Response
      */
     public function show(ProgramEdition $programEdition)
@@ -78,19 +70,13 @@ class ProgramEditionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  UpdateProgramEditionRequest  $request
+     * @param  ProgramEdition  $programEdition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProgramEdition $programEdition)
+    public function update(UpdateProgramEditionRequest $request, ProgramEdition $programEdition)
     {
-        $this->authorize('update');
-
-        $validated = $this->validatedFields($request);
-
-        $programEdition->update(
-            $validated
-        );
+        $programEdition->update($request->validated());
 
         return $this->show($programEdition->fresh());
     }
@@ -98,7 +84,7 @@ class ProgramEditionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  ProgramEdition  $programEdition
      * @return \Illuminate\Http\Response
      */
     public function destroy(ProgramEdition $programEdition)
@@ -108,34 +94,5 @@ class ProgramEditionController extends Controller
         $programEdition->delete();
 
         return response()->json();
-    }
-
-    private function validatedFields($request)
-    {
-        $validated = $request->validate([
-            'program_id' => 'required|exists:programs,id',
-            'name' => 'required|max:50',
-            'company_id' => 'required|exists:companies,id',
-            'cost' => 'required|min:0|max:999999',
-            'supplier' => 'required',
-            'teacher_name' => 'required',
-            'starts_at' => 'nullable|date',
-            'ends_at' => 'nullable|date|after_or_equal:starts_at',
-            'schedules.*' => 'nullable',
-            'schedules.*.starts_at' => [
-                'required_with:schedules.*',
-                'date',
-                'after_or_equal:starts_at',
-                'before_or_equal:ends_at',
-            ],
-            'schedules.*.ends_at' => [
-                'required_with:schedules.*',
-                'date',
-                'after_or_equal:schedules.*.starts_at',
-            ],
-        ]);
-        $validated['created_by'] = auth()->user()->id;
-
-        return $validated;
     }
 }

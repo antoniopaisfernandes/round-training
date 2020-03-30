@@ -5,6 +5,7 @@ namespace Tests\Feature\ProgramEditions;
 use App\Company;
 use App\Program;
 use App\ProgramEdition;
+use App\ProgramEditionSchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -101,6 +102,30 @@ class CreatingProgramEditionsTest extends TestCase
         $response->assertOk();
         $this->assertNotNull($created = ProgramEdition::first());
         $this->assertCount(3, $created->schedules);
+    }
+
+    /** @test */
+    public function when_creating_program_edition_with_schedules_they_must_have_a_starts_at_date()
+    {
+        $this->withoutExceptionHandling();
+
+        $programEdition = factory(ProgramEdition::class)->make([
+            'schedules' => [
+                factory(ProgramEditionSchedule::class)->make([
+                    'program_edition_id' => null,
+                    'starts_at' => null,
+                ])->toArray(),
+            ],
+        ])->toArray();
+
+        try {
+            $this->post('/program-editions', $programEdition);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertArrayHasKey('schedules.0.starts_at', $e->errors());
+            $this->assertNull(ProgramEdition::first());
+            return;
+        }
+        $this->fail('A validation exception should be thrown but it was not');
     }
 
     private function makeValidProgramEdition($attributes = [], $count = null)

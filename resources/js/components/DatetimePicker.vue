@@ -120,9 +120,11 @@ export default {
     },
     timePickerProps: {
       type: Object,
-      default: {
-        format: '24hr',
-        scrollable: true
+      default: function() {
+        return {
+          format: '24hr',
+          scrollable: true
+        }
       }
     }
   },

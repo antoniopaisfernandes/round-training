@@ -12,6 +12,7 @@
     "dependencies": {
         "@mdi/font": "^5.0.45",
         "axios": "^0.19",
+        "date-fns": "^2.11.1",
         "lodash-es": "^4.17.13",
         "tailwindcss": "^1.2.0",
         "vue": "^2.5.17",

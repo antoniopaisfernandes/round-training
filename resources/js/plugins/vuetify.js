@@ -3,8 +3,10 @@ import Vuetify from 'vuetify'
 import colors from '../colors'
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/dist/vuetify.min.css'
+import DatetimePicker from './datetime-picker'
 
 Vue.use(Vuetify)
+Vue.use(DatetimePicker)
 
 const theme = {
     icons: {

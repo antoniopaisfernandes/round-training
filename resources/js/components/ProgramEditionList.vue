@@ -136,13 +136,13 @@
         <v-card-text>
           <div v-bind:key="i" v-for="(schedule, i) in editedItem.schedules" class="tw-flex">
             <div class="tw-w-1/4">
-              <v-datetime-picker label="Início" v-model="schedule.starts_at"></v-datetime-picker>
+              <v-datetime-picker label="Início" v-model="schedule.starts_at" timeFormat="HH:mm"></v-datetime-picker>
             </div>
             <div class="tw-w-1/4 tw-ml-2">
-              <v-datetime-picker label="Fim" v-model="schedule.ends_at"></v-datetime-picker>
+              <v-datetime-picker label="Fim" v-model="schedule.ends_at" timeFormat="HH:mm"></v-datetime-picker>
             </div>
             <div class="tw-w-1/4 tw-ml-2">
-              <v-datetime-picker label="Início intervalo" v-model="schedule.interval_start"></v-datetime-picker>
+              <v-datetime-picker label="Início intervalo" v-model="schedule.interval_start" timeFormat="HH:mm"></v-datetime-picker>
             </div>
             <div class="tw-w-20/100 tw-ml-2">
               <v-text-field label="Duranção intervalo" v-model="schedule.interval_minutes"></v-text-field>

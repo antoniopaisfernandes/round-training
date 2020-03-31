@@ -102,7 +102,7 @@ export default {
     },
     timeFormat: {
       type: String,
-      default: 'HH:mm'
+      default: DEFAULT_TIME_FORMAT
     },
     clearText: {
       type: String,

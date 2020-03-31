@@ -122,6 +122,16 @@
 
         <v-card-title>
           <span class="subtitle-1">Agendamentos</span>
+          <v-btn
+            fab
+            dark
+            x-small
+            color="primary"
+            @click="addSchedule"
+            class="tw-ml-2 tw--mt-2"
+          >
+            <v-icon dark>mdi-plus</v-icon>
+          </v-btn>
         </v-card-title>
         <v-card-text>
           <div v-bind:key="i" v-for="(schedule, i) in editedItem.schedules" class="tw-flex">
@@ -134,8 +144,20 @@
             <div class="tw-w-1/4 tw-ml-2">
               <v-datetime-picker label="Início intervalo" v-model="schedule.interval_start"></v-datetime-picker>
             </div>
-            <div class="tw-w-1/4 tw-ml-2">
+            <div class="tw-w-20/100 tw-ml-2">
               <v-text-field label="Duranção intervalo" v-model="schedule.interval_minutes"></v-text-field>
+            </div>
+            <div class="tw-w-5/100 tw-ml-2 tw-flex tw-items-center">
+              <v-btn
+                fab
+                dark
+                x-small
+                color="error"
+                @click="deleteSchedule(i)"
+                class="tw-ml-2 tw--mt-2"
+              >
+                <v-icon dark>mdi-minus</v-icon>
+              </v-btn>
             </div>
           </div>
         </v-card-text>
@@ -265,6 +287,12 @@
     methods: {
       addProgram() {
         alert('ola')
+      },
+      addSchedule() {
+        this.editedItem.schedules.push({})
+      },
+      deleteSchedule(index) {
+        this.editedItem.schedules.splice(index, 1)
       }
     },
 

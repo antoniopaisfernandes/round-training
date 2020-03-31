@@ -34,7 +34,8 @@ class ProgramEdition extends Model
 
     public function schedules()
     {
-        return $this->hasMany(ProgramEditionSchedule::class);
+        return $this->hasMany(ProgramEditionSchedule::class)
+                    ->orderBy('starts_at');
     }
 
     public function manager()

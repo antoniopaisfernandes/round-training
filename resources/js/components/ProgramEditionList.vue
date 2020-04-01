@@ -37,6 +37,7 @@
                 :existing-programs="programs"
                 :visible="addProgramDialogVisible"
                 @close="addProgramDialogVisible = false"
+                @input="selectProgramId($event)"
               ></add-program-dialog>
 
             </div>
@@ -298,6 +299,20 @@
     },
 
     methods: {
+      // Program names
+      selectProgramId(program) {
+        if (! program) {
+          return
+        }
+
+        this.programs.push({
+          text: program.name,
+          value: program.id
+        })
+        this.editedItem.program_id = program.id
+      },
+
+      // Schedules
       addSchedule() {
         this.editedItem.schedules.push({})
       },

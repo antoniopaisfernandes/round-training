@@ -3,7 +3,7 @@
     v-model="show"
     max-width="500px"
   >
-    <v-card>
+    <v-card :loading="isSaving">
 
       <v-card-title>
         Adicionar nome de curso
@@ -18,8 +18,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-btn color="blue darken-1" text @click="cancel">Cancelar</v-btn>
+        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">{{ commitButton }}</v-btn>
       </v-card-actions>
 
     </v-card>
@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import isObject from 'lodash-es/isObject'
+import alert from '../plugins/toast'
+
 export default {
   name: 'add-program-dialog',
 
@@ -49,7 +52,8 @@ export default {
 
   data() {
     return {
-      selectedProgram: null
+      selectedProgram: null,
+      isSaving: false
     }
   },
 
@@ -65,22 +69,48 @@ export default {
       }
     },
     isSaveDisabled() {
-      return this.selectedProgram === null
+      return this.selectedProgram === null || this.selectedProgram == ''
+    },
+    commitButton() {
+      return isObject(this.selectedProgram) ? 'Ok' : 'Guardar'
     }
   },
 
   methods: {
-    save() {
-      // TODO axios
-      this.close()
-      this.$emit('input', this.selectedProgram)
-      // this.$nextTick(() => this.selectedProgram = null)
+    async save() {
+      if (! this.selectedProgram) {
+        this.cancel()
+        return
+      }
+
+      if (isObject(this.selectedProgram)) {
+        this.close()
+        this.$emit('input', {
+          id: this.selectedProgram.value,
+          name: this.selectedProgram.text,
+        })
+        return
+      }
+
+      this.isSaving = true
+
+      try {
+        let response = await axios.post('/programs', {
+          name: this.selectedProgram
+        });
+
+        this.cancel()
+        this.$emit('input', response.data)
+      } catch (error) {
+          this.isSaving = false
+          console.warn(error?.response?.data?.errors) // TODO
+          alert.error(error)
+      }
     },
 
     cancel() {
       this.close()
       this.selectedProgram = null
-      this.$emit('input', this.selectedProgram)
     },
 
     close() {

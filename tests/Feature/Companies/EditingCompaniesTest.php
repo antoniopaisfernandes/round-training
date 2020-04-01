@@ -62,7 +62,7 @@ class EditingCompaniesTest extends TestCase
     public function a_vat_number_is_required_updating_a_company()
     {
         $company = factory(Company::class)->create([
-            'vat_number' => 'Old vat_number',
+            'vat_number' => 'Old',
         ]);
 
         $response = $this->patch("/companies/{$company->id}", [
@@ -71,7 +71,7 @@ class EditingCompaniesTest extends TestCase
 
         $response->assertSessionHasErrors(['vat_number']);
         $this->assertDatabaseHas('companies', [
-            'vat_number' => 'Old vat_number',
+            'vat_number' => 'Old',
         ]);
     }
 

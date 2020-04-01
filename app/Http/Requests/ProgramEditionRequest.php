@@ -31,8 +31,15 @@ class ProgramEditionRequest extends FormRequest
             'cost' => 'required|min:0|max:999999',
             'supplier' => 'required',
             'teacher_name' => 'required',
-            'starts_at' => 'nullable|date',
-            'ends_at' => 'nullable|date|after_or_equal:starts_at',
+            'starts_at' => [
+                'nullable',
+                'date',
+            ],
+            'ends_at' => [
+                'nullable',
+                'date',
+                'after_or_equal:starts_at',
+            ],
             'schedules' => 'sometimes|array',
             'schedules.*.starts_at' => [
                 'required_with:schedules',

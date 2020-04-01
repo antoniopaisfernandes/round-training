@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Arr;
-
 class StoreProgramEditionRequest extends ProgramEditionRequest
 {
     /**
@@ -14,18 +12,5 @@ class StoreProgramEditionRequest extends ProgramEditionRequest
     public function authorize()
     {
         return auth()->user()->can('store');
-    }
-
-    /**
-     * Get the validated data from the request.
-     *
-     * @return array
-     */
-    public function validated()
-    {
-        return Arr::except(
-            parent::validated(),
-            ['schedules']
-        );
     }
 }

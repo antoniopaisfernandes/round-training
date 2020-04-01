@@ -40,3 +40,5 @@ Collection::times(5)->each(function ($num) use ($factory) {
                 ]));
             });
 });
+
+$factory->state(ProgramEdition::class, 'without-schedules', []);

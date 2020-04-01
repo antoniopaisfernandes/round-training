@@ -76,7 +76,15 @@ class ProgramEditionController extends Controller
      */
     public function update(UpdateProgramEditionRequest $request, ProgramEdition $programEdition)
     {
-        $programEdition->update($request->validated());
+        $programEdition = DB::transaction(function () use ($request, $programEdition) {
+            $programEdition->update($request->validated());
+
+            if ($request->get('schedules')) {
+                $programEdition->schedules()->syncMany($request->get('schedules'));
+            }
+
+            return $programEdition;
+        });
 
         return $this->show($programEdition->fresh());
     }

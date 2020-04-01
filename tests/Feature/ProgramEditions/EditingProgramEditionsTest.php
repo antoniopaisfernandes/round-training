@@ -3,6 +3,7 @@
 namespace Tests\Feature\ProgramEditions;
 
 use App\ProgramEdition;
+use App\ProgramEditionSchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -37,6 +38,23 @@ class EditingProgramEditionsTest extends TestCase
 
         $this->assertDatabaseHas('program_editions', [
             'teacher_name' => 'New teacher',
+        ]);
+    }
+
+    /** @test */
+    public function a_guest_cannot_updating_a_program()
+    {
+        auth()->logout();
+        $programEdition = factory(ProgramEdition::class)->create([
+            'teacher_name' => 'Old teacher_name',
+        ]);
+
+        $this->patch("/program-editions/{$programEdition->id}", [
+            'teacher_name' => null,
+        ]);
+
+        $this->assertDatabaseHas('program_editions', [
+            'teacher_name' => 'Old teacher_name',
         ]);
     }
 
@@ -116,19 +134,28 @@ class EditingProgramEditionsTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_cannot_updating_a_program()
+    public function when_adding_schedules_to_a_program_edition_they_must_have_a_starts_at_date()
     {
-        auth()->logout();
-        $programEdition = factory(ProgramEdition::class)->create([
-            'teacher_name' => 'Old teacher_name',
-        ]);
+        $this->withoutExceptionHandling();
 
-        $this->patch("/program-editions/{$programEdition->id}", [
-            'teacher_name' => null,
-        ]);
+        $programEdition = factory(ProgramEdition::class)->states('without-schedules')->create()->fresh();
 
-        $this->assertDatabaseHas('program_editions', [
-            'teacher_name' => 'Old teacher_name',
-        ]);
+        $updatedProgramEdition = array_merge(
+            $programEdition->toArray(),
+            [
+                'schedules' => [
+                    []
+                ],
+            ]
+        );
+
+        try {
+            $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertArrayHasKey('schedules.0.starts_at', $e->errors());
+            $this->assertNull(ProgramEditionSchedule::first());
+            return;
+        }
+        $this->fail('A validation exception should be thrown but it was not');
     }
 }

@@ -214,6 +214,7 @@
 <script>
   import DefaultListMixin from './DefaultListMixin'
   import AddProgramDialog from './AddProgramDialog'
+  import ProgramEditionSchedule from '../models/ProgramEditionSchedule'
   import map from 'lodash-es/map'
 
   export default {
@@ -314,7 +315,7 @@
 
       // Schedules
       addSchedule() {
-        this.editedItem.schedules.push({})
+        this.editedItem.schedules.push(new ProgramEditionSchedule)
       },
       deleteSchedule(index) {
         this.editedItem.schedules.splice(index, 1)

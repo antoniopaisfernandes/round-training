@@ -331,12 +331,6 @@
           'value': v.id,
         }
       })
-
-      // TODO DELETE
-      this.editedIndex = 0
-      this.editedItem = Object.assign({}, this.list[0])
-      this.dialog = true
-      // TODO EOF
     }
   }
 </script>

@@ -31,6 +31,7 @@ export default {
             this.editedItem = Object.assign({}, item)
             this.dialog = true
         },
+
         async save() {
             this.isSaving = true
 
@@ -42,7 +43,7 @@ export default {
                     )
                     Object.assign(
                         this.list[this.editedIndex],
-                        response.data.data
+                        response.data
                     )
                 } else {
                     const response = await axios.post(this.endpoint, this.editedItem)
@@ -56,6 +57,7 @@ export default {
                 alert.error(error)
             }
         },
+
         async deleteItem(item) {
             const index = this.list.indexOf(item)
 
@@ -73,6 +75,7 @@ export default {
                 alert.error(error)
             }
         },
+
         close() {
             this.dialog = false
             setTimeout(() => {

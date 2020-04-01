@@ -1,6 +1,6 @@
 <template>
   <div class="program-edition-list tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-dialog v-model="dialog" @keydown.esc="dialog = false" max-width="48rem">
+    <v-dialog persistent v-model="dialog" @keydown.esc="dialog = false" max-width="48rem">
       <template v-slot:activator="{ on }">
         <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Novo Curso</v-btn>
       </template>
@@ -12,6 +12,7 @@
         <v-card-text class="mt-5">
           <div class="tw-flex">
             <div class="tw-flex tw-flex-row tw-justify-center tw-items-center tw-w-2/3">
+
               <v-select
                 :items="programs"
                 v-model="editedItem.program_id"
@@ -21,16 +22,23 @@
                 @input="editedItem.program_id = $event"
                 class="tw-w-8/12"
               ></v-select>
+
               <v-btn
                 fab
                 dark
                 x-small
                 color="primary"
-                @click="addProgram"
+                @click="addProgramDialogVisible = true"
                 class="tw--mt-2"
               >
                 <v-icon dark>mdi-plus</v-icon>
               </v-btn>
+              <add-program-dialog
+                :existing-programs="programs"
+                :visible="addProgramDialogVisible"
+                @close="addProgramDialogVisible = false"
+              ></add-program-dialog>
+
             </div>
             <v-text-field
               v-model="editedItem.name"
@@ -168,9 +176,6 @@
           <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
         </v-card-actions>
       </v-card>
-
-
-
     </v-dialog>
 
     <v-data-table
@@ -207,10 +212,15 @@
 
 <script>
   import DefaultListMixin from './DefaultListMixin'
+  import AddProgramDialog from './AddProgramDialog'
   import map from 'lodash-es/map'
 
   export default {
     mixins: [DefaultListMixin],
+
+    components: {
+      AddProgramDialog
+    },
 
     data: () => ({
       endpoint: '/program-editions',
@@ -262,8 +272,11 @@
         schedules: [],
       },
       programs: [],
+
+      // UI
       startsAtActive: false,
       endsAtActive: false,
+      addProgramDialogVisible: false,
     }),
 
     computed: {
@@ -285,9 +298,6 @@
     },
 
     methods: {
-      addProgram() {
-        alert('ola')
-      },
       addSchedule() {
         this.editedItem.schedules.push({})
       },

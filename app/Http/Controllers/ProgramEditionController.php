@@ -79,8 +79,8 @@ class ProgramEditionController extends Controller
         $programEdition = DB::transaction(function () use ($request, $programEdition) {
             $programEdition->update($request->validated());
 
-            if ($request->get('schedules')) {
-                $programEdition->schedules()->syncMany($request->get('schedules'));
+            if ($request->has('schedules')) {
+                $programEdition->schedules()->sync($request->get('schedules') ?: []);
             }
 
             return $programEdition;

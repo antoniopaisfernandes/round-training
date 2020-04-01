@@ -158,4 +158,43 @@ class EditingProgramEditionsTest extends TestCase
         }
         $this->fail('A validation exception should be thrown but it was not');
     }
+
+    /** @test */
+    public function it_can_remove_schedules_from_program_edition()
+    {
+        $this->withoutExceptionHandling();
+
+        $programEdition = factory(ProgramEdition::class)->states('with-2-schedules')->create();
+        $this->assertCount(2, ProgramEditionSchedule::all());
+
+        $updatedProgramEdition = array_merge(
+            $programEdition->toArray(),
+            [
+                'schedules' => [],
+            ]
+        );
+
+        $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
+
+        $this->assertCount(0, ProgramEditionSchedule::all());
+    }
+
+    /** @test */
+    public function it_can_add_schedules_to_program_edition_with_schedules()
+    {
+        $this->withoutExceptionHandling();
+
+        $programEdition = factory(ProgramEdition::class)->states('with-2-schedules')->create()->fresh();
+        $this->assertCount(2, ProgramEditionSchedule::all());
+        $updatedProgramEdition = $programEdition->toArray();
+        $updatedProgramEdition['schedules'][] = factory(ProgramEditionSchedule::class)->make([
+            'program_edition_id' => null,
+            'starts_at' => $programEdition->starts_at,
+            'ends_at' => $programEdition->ends_at,
+        ])->toArray();
+
+        $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
+
+        $this->assertCount(3, ProgramEditionSchedule::all());
+    }
 }

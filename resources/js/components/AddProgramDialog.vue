@@ -10,21 +10,16 @@
       </v-card-title>
 
       <v-card-text>
-        <v-select
+        <v-combobox
+          v-model="selectedProgram"
           :items="existingPrograms"
-          label="A Select List"
-          item-value="text"
-        ></v-select>
+        ></v-combobox>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn
-          color="primary"
-          text
-          @click="close"
-        >
-        Close
-        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
       </v-card-actions>
 
     </v-card>
@@ -68,14 +63,18 @@ export default {
           this.$emit('close')
         }
       }
+    },
+    isSaveDisabled() {
+      return this.selectedProgram === null
     }
   },
 
   methods: {
-    ok() {
+    save() {
       // TODO axios
       this.close()
       this.$emit('input', this.selectedProgram)
+      // this.$nextTick(() => this.selectedProgram = null)
     },
 
     cancel() {

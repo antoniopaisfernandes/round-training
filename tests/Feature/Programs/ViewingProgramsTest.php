@@ -36,10 +36,9 @@ class ViewingProgramsTest extends TestCase
 
         $response = $this->get("/programs");
 
-        $response->assertViewHas('programs');
         $this->assertEquals(
-            $programs->fresh()->all(),
-            collect($response->viewData('programs'))->sortBy('id')->values()->all()
+            $programs->fresh()->toArray(),
+            collect($response->json())->sortBy('id')->values()->all()
         );
     }
 
@@ -50,10 +49,9 @@ class ViewingProgramsTest extends TestCase
 
         $response = $this->get("/programs");
 
-        $response->assertViewHas('programs');
         $this->assertCount(
             51,
-            $response->viewData('programs')
+            $response->json()
         );
     }
 }

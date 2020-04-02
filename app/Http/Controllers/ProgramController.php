@@ -11,31 +11,23 @@ class ProgramController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $programs = QueryBuilder::for(Program::class)
+        return QueryBuilder::for(Program::class)
             ->allowedFilters(['id', 'name'])
             ->allowedIncludes(['editions'])
             ->defaultSort('name')
             ->allowedSorts(['id'])
             ->get();
-
-        if (request()->expectsJson()) {
-            return $programs;
-        } else {
-            return view('program.index', [
-                'programs' => $programs,
-            ]);
-        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JonResponse
      */
     public function store(Request $request)
     {
@@ -54,7 +46,7 @@ class ProgramController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Program  $program
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Program $program)
     {
@@ -66,7 +58,7 @@ class ProgramController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Program  $program
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Program $program)
     {
@@ -87,7 +79,7 @@ class ProgramController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Program  $program
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Program $program)
     {

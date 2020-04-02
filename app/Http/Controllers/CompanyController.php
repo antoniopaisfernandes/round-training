@@ -35,7 +35,8 @@ class CompanyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
@@ -55,7 +56,7 @@ class CompanyController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Company $company)
     {
@@ -68,6 +69,7 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Company $company)
     {
@@ -89,7 +91,8 @@ class CompanyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(Company $company)
     {

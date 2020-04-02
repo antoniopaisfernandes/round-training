@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\StudentResource;
 use App\Student;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class StudentController extends Controller
@@ -32,20 +30,11 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return JsonResource
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function store(Request $request)
     {
@@ -75,22 +64,11 @@ class StudentController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\JsonResource
      */
     public function show(Student $student)
     {
-        return new StudentResource($student);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Student $student)
-    {
-        //
+        return StudentResource::make($student);
     }
 
     /**
@@ -98,7 +76,8 @@ class StudentController extends Controller
      *
      * @param  Request  $request
      * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function update(Request $request, Student $student)
     {
@@ -130,7 +109,8 @@ class StudentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(Student $student)
     {

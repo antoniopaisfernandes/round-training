@@ -13,7 +13,7 @@ class ProgramEditionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
@@ -39,11 +39,11 @@ class ProgramEditionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreProgramEditionRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreProgramEditionRequest $request)
     {
-        $programEdition = DB::transaction(function () use ($request) {
+        $programEdition = DB::transaction(static function () use ($request) {
             $programEdition = ProgramEdition::create($request->validated());
 
             if ($request->get('schedules')) {
@@ -60,7 +60,7 @@ class ProgramEditionController extends Controller
      * Display the specified resource.
      *
      * @param  ProgramEdition  $programEdition
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(ProgramEdition $programEdition)
     {
@@ -72,11 +72,11 @@ class ProgramEditionController extends Controller
      *
      * @param  UpdateProgramEditionRequest  $request
      * @param  ProgramEdition  $programEdition
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateProgramEditionRequest $request, ProgramEdition $programEdition)
     {
-        $programEdition = DB::transaction(function () use ($request, $programEdition) {
+        $programEdition = DB::transaction(static function () use ($request, $programEdition) {
             $programEdition->update($request->validated());
 
             if ($request->has('schedules')) {
@@ -93,7 +93,8 @@ class ProgramEditionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  ProgramEdition  $programEdition
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(ProgramEdition $programEdition)
     {

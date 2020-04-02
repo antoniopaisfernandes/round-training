@@ -27,7 +27,8 @@ class ProgramController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JonResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
@@ -59,6 +60,7 @@ class ProgramController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Program  $program
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Program $program)
     {
@@ -78,8 +80,9 @@ class ProgramController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Program  $program
+     * @param \App\Program $program
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(Program $program)
     {

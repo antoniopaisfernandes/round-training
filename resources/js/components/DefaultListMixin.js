@@ -1,4 +1,5 @@
 import alert from '../plugins/toast'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 export default {
     props: ['items'],
@@ -28,7 +29,7 @@ export default {
     methods: {
         editItem(item) {
             this.editedIndex = this.list.indexOf(item)
-            this.editedItem = Object.assign({}, item)
+            this.editedItem = cloneDeep(item)
             this.dialog = true
         },
 
@@ -77,7 +78,6 @@ export default {
         },
 
         close() {
-            this.dialog = false
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1

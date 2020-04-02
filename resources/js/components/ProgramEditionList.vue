@@ -1,11 +1,9 @@
 <template>
   <div class="program-edition-list tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-dialog persistent v-model="dialog" @keydown.esc="dialog = false" max-width="48rem">
-      <template v-slot:activator="{ on }">
-        <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Novo Curso</v-btn>
-      </template>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="dialog = true">Novo Curso</v-btn>
 
-      <v-card :loading="isSaving" class="px-5 py-5">
+    <v-dialog persistent scrollable v-model="dialog" @keydown.esc="dialog = false" max-width="48rem">
+      <v-card :loading="isSaving" class="px-5 py-5" height="90vh">
         <v-card-title>
           <span class="headline">Curso</span>
         </v-card-title>
@@ -127,22 +125,21 @@
               prefix="€"
             ></v-text-field>
           </div>
-        </v-card-text>
 
-        <v-card-title>
-          <span class="subtitle-1">Agendamentos</span>
-          <v-btn
-            fab
-            dark
-            x-small
-            color="primary"
-            @click="addSchedule"
-            class="tw-ml-2 tw--mt-2"
-          >
-            <v-icon dark>mdi-plus</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text>
+          <div class="mt-2">
+            <span class="subtitle-1">Agendamentos</span>
+            <v-btn
+              fab
+              dark
+              x-small
+              color="primary"
+              @click="addSchedule"
+              class="tw-ml-2 tw--mt-2"
+            >
+              <v-icon dark>mdi-plus</v-icon>
+            </v-btn>
+          </div>
+
           <div v-bind:key="i" v-for="(schedule, i) in editedItem.schedules" class="tw-flex">
             <div class="tw-w-1/4">
               <v-datetime-picker label="Início" v-model="schedule.starts_at" timeFormat="HH:mm"></v-datetime-picker>
@@ -173,7 +170,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">Cancelar</v-btn>
           <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
         </v-card-actions>
       </v-card>
@@ -214,6 +211,7 @@
 <script>
   import DefaultListMixin from './DefaultListMixin'
   import AddProgramDialog from './AddProgramDialog'
+  import ProgramEdition from '../models/ProgramEdition'
   import ProgramEditionSchedule from '../models/ProgramEditionSchedule'
   import map from 'lodash-es/map'
 
@@ -263,16 +261,8 @@
           sortable: false,
         },
       ],
-      editedItem: {
-        name: '',
-        manager: {},
-        schedules: [],
-      },
-      defaultItem: {
-        name: '',
-        manager: {},
-        schedules: [],
-      },
+      editedItem: new ProgramEdition(),
+      defaultItem: new ProgramEdition(),
       programs: [],
 
       // UI

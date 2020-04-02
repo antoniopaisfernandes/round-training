@@ -1,4 +1,5 @@
 import Model from './Model'
+
 export default class ProgramEditionSchedule extends Model {
   id = null
   program_edition_id = null

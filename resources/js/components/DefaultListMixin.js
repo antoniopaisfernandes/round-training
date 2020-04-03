@@ -51,7 +51,7 @@ export default {
                     this.list.push(response.data)
                 }
                 this.isSaving = false
-                this.close()
+                this.dialog = false
             } catch (error) {
                 this.isSaving = false
                 console.warn(error?.response?.data?.errors) // TODO

@@ -1,6 +1,11 @@
 import appLayout from './Layout'
+import toast from './Toast'
+import programEditionIndex from './ProgramEdition/index.vue'
 
 Vue.component('app-layout', appLayout)
+Vue.component('toast', toast)
+Vue.component('program-edition-index', programEditionIndex)
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -10,5 +15,5 @@ Vue.component('app-layout', appLayout)
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-const files = require.context('./', true, /\.vue$/i)
-files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))

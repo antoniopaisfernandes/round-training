@@ -28,7 +28,7 @@
 
 <script>
 import isObject from 'lodash-es/isObject'
-import alert from '../plugins/toast'
+import alert from '../../plugins/toast'
 
 export default {
   name: 'add-program-dialog',

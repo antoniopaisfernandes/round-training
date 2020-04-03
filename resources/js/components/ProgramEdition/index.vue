@@ -1,5 +1,5 @@
 <template>
-  <div class="program-edition-list tw-flex tw-flex-col tw-mt-10 tw-mx-20">
+  <div class="program-edition-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
     <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="dialog = true">Novo Curso</v-btn>
 
     <v-dialog persistent scrollable v-model="dialog" @keydown.esc="dialog = false" max-width="48rem">
@@ -209,13 +209,15 @@
 </template>
 
 <script>
-  import DefaultListMixin from './DefaultListMixin'
-  import AddProgramDialog from './AddProgramDialog'
-  import ProgramEdition from '../models/ProgramEdition'
-  import ProgramEditionSchedule from '../models/ProgramEditionSchedule'
+  import DefaultListMixin from '../DefaultListMixin'
+  import AddProgramDialog from '../Program/create'
+  import ProgramEdition from '../../models/ProgramEdition'
+  import ProgramEditionSchedule from '../../models/ProgramEditionSchedule'
   import map from 'lodash-es/map'
 
   export default {
+    name: 'ProgramEditionList',
+
     mixins: [DefaultListMixin],
 
     components: {
@@ -326,7 +328,7 @@
 </script>
 
 <style lang="scss">
-  .program-edition-list {
+  .program-edition-index {
     table th {
       text-transform: uppercase;
       letter-spacing: 1px;

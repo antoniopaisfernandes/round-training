@@ -1,5 +1,5 @@
 <template>
-  <div class="company-list tw-flex tw-flex-col tw-mt-10 tw-mx-20">
+  <div class="company-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
     <v-dialog v-model="dialog" @keydown.esc="dialog = false" max-width="500px">
       <template v-slot:activator="{ on }">
         <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Nova Empresa</v-btn>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import DefaultListMixin from './DefaultListMixin'
+  import DefaultListMixin from '../DefaultListMixin'
 
   export default {
     mixins: [DefaultListMixin],
@@ -116,7 +116,7 @@
 </script>
 
 <style lang="scss">
-  .company-list {
+  .company-index {
     table th {
       text-transform: uppercase;
       letter-spacing: 1px;

@@ -22,10 +22,14 @@ export default {
     },
 
     created() {
-        this.list = this.items.map((c) => new Company(c))
+        this.list = this.items.map((c) => this.instance(c))
     },
 
     methods: {
+        instance(attributes) {
+            throw Error('Instance method must be defined in parent')
+        },
+
         editItem(item) {
             this.editedIndex = this.list.indexOf(item)
             this.editedItem = item.clone()
@@ -49,9 +53,7 @@ export default {
             }
 
             try {
-                const response = await axios.delete(
-                    `${this.endpoint}/${item.id}`
-                )
+                item.delete()
                 this.list.splice(index, 1)
             } catch (error) {
                 console.warn(error?.response?.data?.errors) // TODO

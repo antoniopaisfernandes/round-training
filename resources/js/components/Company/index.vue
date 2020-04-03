@@ -72,7 +72,13 @@
       defaultItem: new Company(),
       editedItem: new Company(),
       createVisible: false
-    })
+    }),
+
+    methods: {
+      instance(attributes = {}) {
+        return new Company(attributes);
+      }
+    },
   }
 </script>
 

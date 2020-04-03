@@ -5,6 +5,7 @@
     <create-dialog
       v-model="editedItem"
       :visible="createVisible"
+      @saved="saved($event)"
       @close="createVisible = false"
     ></create-dialog>
 
@@ -68,6 +69,7 @@
         },
         { text: 'Acções', value: 'actions', sortable: false },
       ],
+      defaultItem: new Company(),
       editedItem: new Company(),
       createVisible: false
     })

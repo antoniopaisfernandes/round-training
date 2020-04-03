@@ -32,30 +32,13 @@ export default {
             this.createVisible = true
         },
 
-        async save() {
-            this.isSaving = true
-
-            try {
-                if (this.editedIndex > -1) {
-                    const response = await axios.put(
-                        `${this.endpoint}/${this.editedItem.id}`,
-                        this.editedItem
-                    )
-                    Object.assign(
-                        this.list[this.editedIndex],
-                        response.data
-                    )
-                } else {
-                    const response = await axios.post(this.endpoint, this.editedItem)
-                    this.list.push(response.data)
-                }
-                this.isSaving = false
-                this.dialog = false
-            } catch (error) {
-                this.isSaving = false
-                console.warn(error?.response?.data?.errors) // TODO
-                alert.error(error)
+        saved(item) {
+            if (this.editedIndex > -1) {
+                Object.assign(this.list[this.editedIndex], item)
+            } else {
+                this.list.push(item)
             }
+            this.close()
         },
 
         async deleteItem(item) {

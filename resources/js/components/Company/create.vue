@@ -66,6 +66,7 @@ export default {
       set (value) {
         if (! value) {
           this.$emit('close')
+          this.dataCompany = new Company()
         }
       }
     },
@@ -98,9 +99,9 @@ export default {
         this.isSaving = false
         this.close()
         this.$emit('input', company)
+        this.$emit('saved', company)
       } catch (error) {
         this.isSaving = false
-        console.warn(error?.response?.data?.errors) // TODO
         alert.error(error)
       }
     },

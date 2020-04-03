@@ -2,7 +2,7 @@ import { Model as BaseModel } from 'vue-api-query'
 import cloneDeep from 'lodash-es/cloneDeep'
 import isObject from 'lodash-es/isObject'
 
-const getCircularReplacer = () => {
+const circularReplacer = () => {
   const set = new WeakSet()
   return (key, value) => {
     if (isObject(value) && value !== null) {
@@ -26,7 +26,7 @@ export default class Model extends BaseModel {
       // Fix circular reference bug in _builder prop
       transformRequest: [(data) => {
         return isObject(data)
-          ? JSON.parse(JSON.stringify(data, getCircularReplacer()))
+          ? JSON.parse(JSON.stringify(data, circularReplacer()))
           : data
       }, ...this.$http.defaults.transformRequest],
       ...config

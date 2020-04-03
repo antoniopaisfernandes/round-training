@@ -1,5 +1,4 @@
 import alert from '../plugins/toast'
-import cloneDeep from 'lodash-es/cloneDeep'
 import Program from '../models/Program'
 import Company from '../models/Company'
 
@@ -66,16 +65,6 @@ export default {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
             }, 300)
-        },
-
-        async fetchCompanies() {
-            try {
-                const response = Company.get()
-                return response
-            } catch (error) {
-                console.warn(error?.response?.data?.errors) // TODO
-                alert.error(error)
-            }
         },
 
         async fetchPrograms() {

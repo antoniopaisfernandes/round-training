@@ -1,5 +1,7 @@
 import alert from '../plugins/toast'
 import cloneDeep from 'lodash-es/cloneDeep'
+import Program from '../models/Program'
+import Company from '../models/Company'
 
 export default {
     props: ['items'],
@@ -86,8 +88,8 @@ export default {
 
         async fetchCompanies() {
             try {
-                const response = await axios.get('/companies')
-                return response.data
+                const response = Company.get()
+                return response
             } catch (error) {
                 console.warn(error?.response?.data?.errors) // TODO
                 alert.error(error)
@@ -96,8 +98,8 @@ export default {
 
         async fetchPrograms() {
             try {
-                const response = await axios.get('/programs')
-                return response.data
+                const response = await Program.get()
+                return response
             } catch (error) {
                 console.warn(error?.response?.data?.errors) // TODO
                 alert.error(error)

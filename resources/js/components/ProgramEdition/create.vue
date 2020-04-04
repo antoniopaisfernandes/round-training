@@ -228,6 +228,7 @@ export default {
     isSaving: false,
 
     programs: [],
+    students: [],
     startsAtActive: false,
     endsAtActive: false,
     addProgramDialogVisible: false,
@@ -304,12 +305,41 @@ export default {
     },
     deleteSchedule(index) {
       this.dataProgramEdition.schedules.splice(index, 1)
-    }
+    },
+
+    // OnMount
+    async getPrograms() {
+      try {
+        let data = await Program.get()
+
+        this.programs = map(data, (v) => {
+          return {
+            'text': v.name,
+            'value': v.id,
+          }
+        })
+      } catch (error) {
+        alert.error(error)
+      }
+    },
+    async getStudents() {
+      this.isSaving = true
+      try {
+        let data = await this.programEdition.students().get()
+        this.students = data
+      } catch (error) {
+        this.students = []
+        alert.error(error)
+      } finally {
+        this.isSaving = false
+      }
+    },
   },
 
   watch: {
     programEdition: function(value) {
       this.dataProgramEdition = value
+      this.getStudents()
     },
     visible: function(value) {
       this.dataVisible = value
@@ -317,18 +347,7 @@ export default {
   },
 
   mounted: async function () {
-    try {
-      let data = await Program.get()
-
-      this.programs = map(data, (v) => {
-        return {
-          'text': v.name,
-          'value': v.id,
-        }
-      })
-    } catch (error) {
-      alert.error(error)
-    }
+    this.getPrograms()
   },
 }
 </script>
@@ -336,6 +355,10 @@ export default {
 <style>
   .money input {
     text-align: end;
+  }
+
+  .v-card {
+    box-shadow: none;
   }
 
   .vert-card {

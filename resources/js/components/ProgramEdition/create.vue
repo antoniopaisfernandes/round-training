@@ -176,7 +176,13 @@
         </v-tab-item>
         <v-tab-item key="students">
           <v-card>
-            <v-card-text>TODO</v-card-text>
+            <v-card-text>
+              <div>
+                <ul>
+                  <li v-for="(student, i) in students" :key="i" v-text="student.name"></li>
+                </ul>
+              </div>
+            </v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -244,6 +250,7 @@ export default {
       set (value) {
         if (! value) {
           this.$emit('close')
+          this.tab = null
           this.dataProgramEdition = new ProgramEdition()
         }
       }

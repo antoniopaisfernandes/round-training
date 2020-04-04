@@ -1,6 +1,6 @@
 <template>
   <div class="program-edition-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="createVisible = false">Novo Curso</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="createVisible = true">Novo Curso</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -36,7 +36,7 @@
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">Ainda não existem edições de cursos.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible = false">Novo Curso</v-btn>
+      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible = true">Novo Curso</v-btn>
     </div>
   </div>
 </template>

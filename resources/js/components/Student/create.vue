@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dataVisible" @keydown.esc="dataVisible = false" max-width="48rem">
+  <v-dialog scrollable v-model="dataVisible" @keydown.esc="dataVisible = false" max-width="48rem">
     <v-card :loading="isSaving" class="px-5 py-5">
       <v-card-title>
         <span class="headline">Aluno</span>

@@ -1,6 +1,6 @@
 <template>
   <div class="company-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="createVisible = true">Nova Empresa</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Nova Empresa</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -41,19 +41,18 @@
 </template>
 
 <script>
-  import NewDefaultListMixin from '../NewDefaultListMixin'
+  import DefaultListMixin from '../DefaultListMixin'
   import createDialog from './create'
   import Company from '../../models/Company'
 
   export default {
-    mixins: [NewDefaultListMixin],
+    mixins: [DefaultListMixin],
 
     components: {
       createDialog
     },
 
     data: () => ({
-      endpoint: '/companies',
       headers: [
         {
           text: 'Nome',

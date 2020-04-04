@@ -1,64 +1,43 @@
 import alert from '../plugins/toast'
-import cloneDeep from 'lodash-es/cloneDeep'
-import Program from '../models/Program'
-import Company from '../models/Company'
 
 export default {
     props: ['items'],
 
     data: () => ({
-        endpoint: null,
         list: [],
         editedIndex: -1,
         isSaving: false,
-        dialog: false,
+        createVisible: false,
     }),
 
-    watch: {
-        dialog(val) {
-            val || this.close()
-        }
-    },
-
     created() {
-        this.list = this.items
-
-        if (typeof this.initialize === 'function') {
-            this.initialize()
-        }
+        this.list = this.items.map((c) => this.instance(c))
     },
 
     methods: {
-        editItem(item) {
-            this.editedIndex = this.list.indexOf(item)
-            this.editedItem = cloneDeep(item)
-            this.dialog = true
+        instance(attributes) {
+            throw Error('Instance method must be defined in parent')
         },
 
-        async save() {
-            this.isSaving = true
+        newItem() {
+            this.editedIndex = -1
+            this.editedItem = this.instance()
+            this.createVisible = true
+        },
 
-            try {
-                if (this.editedIndex > -1) {
-                    const response = await axios.put(
-                        `${this.endpoint}/${this.editedItem.id}`,
-                        this.editedItem
-                    )
-                    Object.assign(
-                        this.list[this.editedIndex],
-                        response.data
-                    )
-                } else {
-                    const response = await axios.post(this.endpoint, this.editedItem)
-                    this.list.push(response.data)
-                }
-                this.isSaving = false
-                this.dialog = false
-            } catch (error) {
-                this.isSaving = false
-                console.warn(error?.response?.data?.errors) // TODO
-                alert.error(error)
+        editItem(item) {
+            this.editedIndex = this.list.indexOf(item)
+            this.editedItem = item.clone()
+            this.createVisible = true
+        },
+
+        saved(item) {
+            if (this.editedIndex > -1) {
+                Object.assign(this.list[this.editedIndex], item)
+            } else {
+                this.list.push(item)
             }
+            this.close()
         },
 
         async deleteItem(item) {
@@ -69,9 +48,7 @@ export default {
             }
 
             try {
-                const response = await axios.delete(
-                    `${this.endpoint}/${item.id}`
-                )
+                item.delete()
                 this.list.splice(index, 1)
             } catch (error) {
                 console.warn(error?.response?.data?.errors) // TODO
@@ -80,30 +57,7 @@ export default {
         },
 
         close() {
-            setTimeout(() => {
-                this.editedItem = Object.assign({}, this.defaultItem)
-                this.editedIndex = -1
-            }, 300)
+            //
         },
-
-        async fetchCompanies() {
-            try {
-                const response = Company.get()
-                return response
-            } catch (error) {
-                console.warn(error?.response?.data?.errors) // TODO
-                alert.error(error)
-            }
-        },
-
-        async fetchPrograms() {
-            try {
-                const response = await Program.get()
-                return response
-            } catch (error) {
-                console.warn(error?.response?.data?.errors) // TODO
-                alert.error(error)
-            }
-        },
-    }
+    },
 }

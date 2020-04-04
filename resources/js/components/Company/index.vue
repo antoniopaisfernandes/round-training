@@ -1,35 +1,13 @@
 <template>
   <div class="company-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-dialog v-model="dialog" @keydown.esc="dialog = false" max-width="500px">
-      <template v-slot:activator="{ on }">
-        <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" v-on="on">Nova Empresa</v-btn>
-      </template>
-      <v-card :loading="isSaving" class="px-5 py-5">
-        <v-card-title>
-          <span class="headline">Empresa</span>
-        </v-card-title>
-        <v-card-text class="mt-5">
-          <v-text-field
-            autofocus
-            v-model="editedItem.name"
-            label="Nome"
-            required
-            :rules="rules.name"
-          ></v-text-field>
-          <v-text-field
-            v-model="editedItem.vat_number"
-            label="Contribuinte"
-            required
-            :rules="rules.vat_number"
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-          <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Nova Empresa</v-btn>
+
+    <create-dialog
+      v-model="editedItem"
+      :visible="createVisible"
+      @saved="saved($event)"
+      @close="createVisible = false"
+    ></create-dialog>
 
     <v-data-table
       :headers="headers"
@@ -57,19 +35,24 @@
     </v-data-table>
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">Ainda não existem empresas.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="dialog=true">Nova Empresa</v-btn>
+      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Nova Empresa</v-btn>
     </div>
   </div>
 </template>
 
 <script>
   import DefaultListMixin from '../DefaultListMixin'
+  import createDialog from './create'
+  import Company from '../../models/Company'
 
   export default {
     mixins: [DefaultListMixin],
 
+    components: {
+      createDialog
+    },
+
     data: () => ({
-      endpoint: '/companies',
       headers: [
         {
           text: 'Nome',
@@ -85,31 +68,14 @@
         },
         { text: 'Acções', value: 'actions', sortable: false },
       ],
-      editedItem: {
-        name: '',
-        vat_number: '',
-      },
-      defaultItem: {
-        name: '',
-        vat_number: '',
-      },
+      defaultItem: new Company(),
+      editedItem: new Company(),
+      createVisible: false
     }),
 
-    computed: {
-      isSaveDisabled() {
-        return this.editedItem.name === ''
-          || this.editedItem.vat_number === ''
-          || this.isSaving;
-      },
-      rules() {
-        return {
-          name: [
-            v => !!v || 'É obrigatória a indicação de um valor para o campo.'
-          ],
-          vat_number: [
-            v => !!v || 'É obrigatória a indicação de um valor para o campo.'
-          ]
-        }
+    methods: {
+      instance(attributes = {}) {
+        return new Company(attributes);
       }
     },
   }

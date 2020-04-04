@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enrollment;
+use App\Http\Resources\StudentResource;
 use App\ProgramEdition;
 use App\Student;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class ProgramEditionStudentController extends Controller
      */
     public function index(ProgramEdition $programEdition)
     {
-        return response()->json($programEdition->students);
+        return StudentResource::collection($programEdition->students);
     }
 
     /**

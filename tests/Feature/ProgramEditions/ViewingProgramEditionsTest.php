@@ -99,11 +99,11 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function an_instance_of_an_enrolled_student_is_an_enrollment()
     {
-        $programEditionEdition = factory(ProgramEdition::class)->create();
+        $programEdition = factory(ProgramEdition::class)->create();
         $student = factory(Student::class)->create();
-        $programEditionEdition->enroll($student);
+        $programEdition->enroll($student);
 
-        $response = $this->get("/program-editions/{$programEditionEdition->id}/students/{$student->id}");
+        $response = $this->get("/program-editions/{$programEdition->id}/students/{$student->id}");
 
         $response->assertJson(Enrollment::first()->toArray());
     }
@@ -111,10 +111,28 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function a_program_edition_has_a_cost()
     {
-        $programEditionEdition = factory(ProgramEdition::class)->create([
+        factory(ProgramEdition::class)->create([
             'cost' => 3000.04,
         ]);
 
         $this->assertDatabaseHas('program_editions', ['cost' => 3000.04]);
+    }
+
+    /** @test */
+    public function a_user_without_rgpd_cannot_see_some_data_in_students_list()
+    {
+        if (! $rgpdFields = auth()->user()->can('rgpd') ? [] : (new Student)->rgpdFields) {
+            $this->markTestSkipped('There are no RGPD fields to filter');
+        }
+
+        $student = factory(Student::class)->create();
+        $programEdition = factory(ProgramEdition::class)->create();
+        $student->enroll($programEdition);
+
+        $response = $this->get("/program-editions/{$programEdition->id}/students");
+
+        foreach ($rgpdFields as $field) {
+            $this->assertArrayNotHasKey($field, $response->json()[0]);
+        }
     }
 }

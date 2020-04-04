@@ -7,15 +7,8 @@ export default {
         list: [],
         editedIndex: -1,
         isSaving: false,
-        dialog: false,
         createVisible: false,
     }),
-
-    watch: {
-        dialog(val) {
-            val || this.close()
-        },
-    },
 
     created() {
         this.list = this.items.map((c) => this.instance(c))

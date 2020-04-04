@@ -175,7 +175,7 @@ export default {
     },
     isSaveDisabled() {
       return ! this.dataStudent.name
-        || ! this.dataStudent.vat_number
+        || ! this.dataStudent.current_company_id
         || this.isSaving
     },
     rules() {

@@ -147,6 +147,35 @@ class ViewingStudentsTest extends TestCase
     }
 
     /** @test */
+    public function enrolled_students_get_enrolled_id_in_the_response()
+    {
+        $this->withoutExceptionHandling();
+
+        $firstProgramEdition = factory(ProgramEdition::class)->create();
+        $secondProgramEdition = factory(ProgramEdition::class)->create();
+        $enrolledStudent = factory(Student::class)->create();
+        $enrolledStudent->enroll($firstProgramEdition);
+        $enrolledStudent->enroll($secondProgramEdition);
+
+        $response = $this->getJson("/students?include=enrollments");
+
+        $firstStudentData = $response->json()['data'][0];
+        $this->assertEquals(
+            [
+                $firstProgramEdition->id,
+                $secondProgramEdition->id,
+            ],
+            collect($firstStudentData['enrollments'])->pluck('program_edition_id')->toArray()
+        );
+        $this->assertTrue($firstProgramEdition->fresh()->is(
+            ProgramEdition::find($firstStudentData['enrolled_program_editions'][0]['id'])
+        ));
+        $this->assertTrue($secondProgramEdition->fresh()->is(
+            ProgramEdition::find($firstStudentData['enrolled_program_editions'][1]['id'])
+        ));
+    }
+
+    /** @test */
     public function it_default_sorts_by_name()
     {
         $this->withoutExceptionHandling();

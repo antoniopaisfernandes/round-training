@@ -36,6 +36,8 @@ class StudentResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'enrollments' => $this->whenLoaded('enrollments', $this->enrollments),
+            'enrolled_program_editions' => $this->whenLoaded('enrolledProgramEditions', $this->enrolledProgramEditions),
         ];
     }
 }

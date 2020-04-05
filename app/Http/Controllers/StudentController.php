@@ -24,7 +24,11 @@ class StudentController extends Controller
                     'name',
                     AllowedFilter::scope('not_enrolled'),
                 ])
-                ->allowedIncludes(['enrollments', 'company'])
+                ->allowedIncludes([
+                    'company',
+                    'enrollments',
+                    'enrolled_program_editions',
+                ])
                 ->defaultSort('name')
                 ->allowedSorts(['id', 'name'])
                 ->paginate(20)

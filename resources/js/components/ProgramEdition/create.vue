@@ -175,15 +175,12 @@
           </v-card>
         </v-tab-item>
         <v-tab-item key="students">
-          <v-card>
-            <v-card-text>
-              <div>
-                <ul>
-                  <li v-for="(student, i) in students" :key="i" v-text="student.name"></li>
-                </ul>
-              </div>
-            </v-card-text>
-          </v-card>
+          <students-tab
+            :students="students"
+            :program-edition="dataProgramEdition"
+            @add="students.push($event)"
+            @delete="students.splice($event, 1)"
+          ></students-tab>
         </v-tab-item>
       </v-tabs-items>
 
@@ -198,6 +195,7 @@
 
 <script>
 import AddProgramDialog from '../Program/create'
+import StudentsTab from './students'
 import Program from '../../models/Program'
 import ProgramEdition from '../../models/ProgramEdition'
 import ProgramEditionSchedule from '../../models/ProgramEditionSchedule'
@@ -209,7 +207,8 @@ export default {
   name: 'program-edition-create',
 
   components: {
-    AddProgramDialog
+    AddProgramDialog,
+    StudentsTab,
   },
 
   model: {

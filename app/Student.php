@@ -27,6 +27,11 @@ class Student extends Model
 
     public function enrollments()
     {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function enrolledProgramEditions()
+    {
         return $this->belongsToMany(ProgramEdition::class, 'enrollments')
             ->as('enrollments')
             ->withPivot('company_id')
@@ -40,10 +45,9 @@ class Student extends Model
 
     public function enroll(ProgramEdition $programEdition)
     {
-        $this->enrollments()->sync([
-            $programEdition->id => [
-                'company_id' => $this->current_company_id,
-            ],
+        return $this->enrollments()->firstOrCreate([
+            'program_edition_id' => $programEdition->id,
+            'company_id' => $this->current_company_id,
         ]);
     }
 

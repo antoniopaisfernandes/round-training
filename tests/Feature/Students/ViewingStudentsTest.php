@@ -72,19 +72,17 @@ class ViewingStudentsTest extends TestCase
     /** @test */
     public function a_user_without_rgpd_cannot_see_some_data_in_students_list()
     {
-        $students = factory(Student::class, 4)->create();
+        $student = factory(Student::class)->create();
 
         $response = $this->get("/students");
 
         $viewDataStudents = $response->viewData('students');
-        $this->assertEquals(
-            $students->fresh()->map->toArray()->map(function ($s) {
-                return Arr::except(
-                    $s,
-                    auth()->user()->can('rgpd') ? [] : (new Student)->rgpdFields
-                );
-            })->all(),
-            collect($viewDataStudents->response()->getData(true)['data'])->sortBy('id')->values()->all()
+
+        $this->assertEmpty(
+            array_intersect_key(
+                $viewDataStudents->first()->resource->toArray(),
+                auth()->user()->can('rgpd') ? [] : (new Student)->rgpdFields
+            )
         );
     }
 
@@ -118,7 +116,7 @@ class ViewingStudentsTest extends TestCase
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
-        $this->assertEquals($john->fresh(), $data[0]->resource);
+        $this->assertTrue($john->fresh()->is($data[0]->resource));
     }
 
     /** @test */
@@ -165,8 +163,8 @@ class ViewingStudentsTest extends TestCase
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
         $this->assertCount(2, $data);
-        $this->assertEquals($jane->fresh(), $data[0]->resource);
-        $this->assertEquals($john->fresh(), $data[1]->resource);
+        $this->assertTrue($jane->fresh()->is($data[0]->resource));
+        $this->assertTrue($john->fresh()->is($data[1]->resource));
     }
 
     /** @test */
@@ -174,19 +172,15 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $john = factory(Student::class)->create([
-            'name' => 'John Test'
-        ]);
-        $jane = factory(Student::class)->create([
-            'name' => 'Jane Test'
-        ]);
+        $first = factory(Student::class)->create();
+        $second = factory(Student::class)->create();
 
         $response = $this->get("/students?sort=id");
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
         $this->assertCount(2, $data);
-        $this->assertEquals($john->fresh(), $data[0]->resource);
-        $this->assertEquals($jane->fresh(), $data[1]->resource);
+        $this->assertTrue($first->fresh()->is($data[0]->resource));
+        $this->assertTrue($second->fresh()->is($data[1]->resource));
     }
 }

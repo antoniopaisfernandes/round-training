@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\StudentResource;
 use App\Student;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class StudentController extends Controller
@@ -16,17 +17,27 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = QueryBuilder::for(Student::class)
-            ->allowedFilters(['id', 'name'])
-            ->allowedIncludes(['enrollments', 'company'])
-            ->defaultSort('name')
-            ->allowedSorts(['id', 'name'])
-            ->paginate(20)
-            ->appends(request()->query());
+        $students = StudentResource::collection(
+            QueryBuilder::for(Student::class)
+                ->allowedFilters([
+                    AllowedFilter::exact('id'),
+                    'name',
+                    AllowedFilter::scope('not_enrolled'),
+                ])
+                ->allowedIncludes(['enrollments', 'company'])
+                ->defaultSort('name')
+                ->allowedSorts(['id', 'name'])
+                ->paginate(20)
+                ->appends(request()->query())
+        );
 
-        return view('student.index', [
-            'students' => StudentResource::collection($students),
-        ]);
+        if (request()->expectsJson()) {
+            return $students;
+        } else {
+            return view('student.index', [
+                'students' => $students,
+            ]);
+        }
     }
 
     /**

@@ -3,8 +3,10 @@
 namespace App;
 
 use App\ProgramEdition;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class Student extends Model
 {
@@ -43,5 +45,14 @@ class Student extends Model
                 'company_id' => $this->current_company_id,
             ],
         ]);
+    }
+
+    public function scopeNotEnrolled(Builder $query, ...$programEditionIds)
+    {
+        $query->whereNotIn('id', static function ($query) use ($programEditionIds) {
+            $query->select('student_id')
+                ->from('enrollments')
+                ->whereIn('enrollments.program_edition_id', Arr::wrap($programEditionIds));
+        });
     }
 }

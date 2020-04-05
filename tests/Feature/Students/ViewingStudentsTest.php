@@ -3,6 +3,7 @@
 namespace Tests\Feature\Students;
 
 use App\Http\Resources\StudentResource;
+use App\ProgramEdition;
 use App\Student;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -118,6 +119,33 @@ class ViewingStudentsTest extends TestCase
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
         $this->assertEquals($john->fresh(), $data[0]->resource);
+    }
+
+    /** @test */
+    public function it_can_search_students_not_enrolled_in_program_edition()
+    {
+        $this->withoutExceptionHandling();
+
+        $blankProgramEdition = factory(ProgramEdition::class)->create();
+        $toEnrollProgramEdition = factory(ProgramEdition::class)->create();
+        $notEnrolledStudent = factory(Student::class)->create([
+            'name' => 'Jane Test'
+        ]);
+        $enrolledStudent = factory(Student::class)->create([
+            'name' => 'John Test'
+        ]);
+        $enrolledStudent->enroll($toEnrollProgramEdition);
+
+        $response = $this->getJson("/students?filter[not_enrolled]={$toEnrollProgramEdition->id}&sort=name");
+
+        $response->assertJsonFragment([
+            'id' => $notEnrolledStudent->fresh()->id,
+            'name' => $notEnrolledStudent->name,
+        ]);
+        $response->assertJsonMissing([
+            'id' => $enrolledStudent->fresh()->id,
+            'name' => $enrolledStudent->name,
+        ]);
     }
 
     /** @test */

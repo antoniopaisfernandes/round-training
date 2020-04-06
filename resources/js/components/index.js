@@ -1,5 +1,5 @@
 import appLayout from './Layout'
-import toast from './Toast'
+import toast from './Generic/Toast'
 import programEditionIndex from './ProgramEdition/index.vue'
 import companyIndex from './Company/index.vue'
 import studentIndex from './Student/index.vue'

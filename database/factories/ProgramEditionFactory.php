@@ -3,9 +3,11 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Company;
+use App\Enrollment;
 use App\Program;
 use App\ProgramEdition;
 use App\ProgramEditionSchedule;
+use App\Student;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Collection;
@@ -40,5 +42,20 @@ Collection::times(5)->each(function ($num) use ($factory) {
                 ]));
             });
 });
-
 $factory->state(ProgramEdition::class, 'without-schedules', []);
+
+// Make 5 different states for student enrollments
+Collection::times(5)->each(function ($num) use ($factory) {
+    $factory->state(ProgramEdition::class, "with-{$num}-students", [])
+        ->afterCreatingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
+            factory(Student::class, $num)->create([
+                'current_company_id' => $programEdition->company_id,
+            ])->each->enroll($programEdition);
+        })
+        ->afterMakingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
+            $programEdition->setRelation('students', factory(Student::class, $num)->create([
+                'current_company_id' => $programEdition->company_id,
+            ]));
+        });
+});
+$factory->state(ProgramEdition::class, 'without-students', []);

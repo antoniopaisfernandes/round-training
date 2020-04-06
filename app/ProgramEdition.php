@@ -43,6 +43,11 @@ class ProgramEdition extends Model
         return $this->hasOne(User::class, 'id', 'created_by');
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
     public function students()
     {
         return $this->belongsToMany(Student::class, 'enrollments')

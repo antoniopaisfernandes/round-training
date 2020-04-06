@@ -128,6 +128,20 @@ class CreatingProgramEditionsTest extends TestCase
         $this->fail('A validation exception should be thrown but it was not');
     }
 
+    /** @test */
+    public function it_creates_program_edition_with_students()
+    {
+        $this->withoutExceptionHandling();
+
+        $programEdition = factory(ProgramEdition::class)->states('with-3-students')->make()->toArray();
+
+        $response = $this->post('/program-editions', $programEdition);
+
+        $response->assertOk();
+        $this->assertNotNull($created = ProgramEdition::first());
+        $this->assertCount(3, $created->students);
+    }
+
     private function makeValidProgramEdition($attributes = [], $count = null)
     {
         return factory(ProgramEdition::class, $count)->make(

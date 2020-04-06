@@ -49,6 +49,16 @@ class ProgramEditionController extends Controller
             if ($request->get('schedules')) {
                 $programEdition->schedules()->createMany($request->get('schedules'));
             }
+            if ($request->has('students')) {
+                $enrollments = collect($request->get('students'))->map(function ($student) {
+                    return [
+                        'student_id' => $student['id'],
+                        'company_id' => $student['current_company_id'],
+                    ];
+                })->toArray();
+
+                $programEdition->enrollments()->createMany($enrollments);
+            }
 
             return $programEdition;
         });

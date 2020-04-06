@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Company;
+use App\Enrollment;
 use App\Program;
 use App\ProgramEdition;
 use App\ProgramEditionSchedule;
@@ -52,9 +53,15 @@ Collection::times(5)->each(function ($num) use ($factory) {
             ])->each->enroll($programEdition);
         })
         ->afterMakingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
-            $programEdition->setRelation('students', factory(Student::class, $num)->create([
+            $programEdition->setRelation('students', $students = factory(Student::class, $num)->create([
                 'current_company_id' => $programEdition->company_id,
             ]));
+            $programEdition->setRelation('enrollments', $students->map(function (Student $student) {
+                return new Enrollment([
+                    'student_id' => $student->id,
+                    'company_id' => $student->current_company_id,
+                ]);
+            }));
         });
 });
 $factory->state(ProgramEdition::class, 'without-students', []);

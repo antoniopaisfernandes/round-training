@@ -214,4 +214,22 @@ class EditingProgramEditionsTest extends TestCase
 
         $this->assertCount(3, Enrollment::all());
     }
+
+    /** @test */
+    public function it_can_add_enrollments_to_program_edition_with_enrollments()
+    {
+        $this->withoutExceptionHandling();
+
+        $programEdition = factory(ProgramEdition::class)->states('with-2-students')->create()->fresh();
+        $this->assertCount(2, Enrollment::all());
+        $updatedProgramEdition = $programEdition->with('enrollments')->first()->toArray();
+        unset($updatedProgramEdition['students']); // just to make sure
+        $updatedProgramEdition['enrollments'][] = factory(Enrollment::class)->create([
+            'program_edition_id' => $programEdition->id,
+        ])->toArray();
+
+        $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
+
+        $this->assertCount(3, Enrollment::all());
+    }
 }

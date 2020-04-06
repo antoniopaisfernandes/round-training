@@ -48,7 +48,9 @@ class ProgramEditionController extends Controller
             if ($request->get('schedules')) {
                 $programEdition->schedules()->createMany($request->get('schedules'));
             }
-            if ($request->has('students')) {
+            if ($request->has('enrollments')) {
+                $programEdition->enrollments()->createMany($request->get('enrollments'));
+            } elseif ($request->has('students')) {
                 $enrollments = collect($request->get('students'))->map(function ($student) {
                     return [
                         'student_id' => $student['id'],
@@ -91,7 +93,9 @@ class ProgramEditionController extends Controller
             if ($request->has('schedules')) {
                 $programEdition->schedules()->sync($request->get('schedules') ?: []);
             }
-            if ($request->has('students')) {
+            if ($request->has('enrollments')) {
+                $programEdition->enrollments()->sync($request->get('enrollments'));
+            } elseif ($request->has('students')) {
                 $enrollments = collect($request->get('students'))->map(function ($student) {
                     return [
                         'student_id' => $student['id'],

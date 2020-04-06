@@ -18,6 +18,9 @@ class ProgramEdition extends Model
         'manager',
         'schedules',
     ];
+    protected $withCount = [
+        'students',
+    ];
     protected $appends = [
         'full_name',
     ];

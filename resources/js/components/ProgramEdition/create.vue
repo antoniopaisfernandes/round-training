@@ -15,7 +15,6 @@
             <v-card-text>
               <div class="tw-flex">
                 <div class="tw-flex tw-flex-row tw-justify-center tw-items-center tw-w-2/3">
-
                   <v-select
                     :items="programs"
                     v-model="dataProgramEdition.program_id"
@@ -25,7 +24,6 @@
                     @input="dataProgramEdition.program_id = $event"
                     class="tw-w-8/12"
                   ></v-select>
-
                   <v-btn
                     fab
                     dark
@@ -42,7 +40,6 @@
                     @close="addProgramDialogVisible = false"
                     @input="selectProgramId($event)"
                   ></add-program-dialog>
-
                 </div>
                 <v-text-field
                   v-model="dataProgramEdition.name"
@@ -56,7 +53,6 @@
                 <v-menu
                   v-model="startsAtActive"
                   :close-on-content-click="false"
-                  :nudge-right="40"
                   transition="scale-transition"
                   offset-y
                   min-width="290px"
@@ -79,7 +75,6 @@
                 <v-menu
                   v-model="endsAtActive"
                   :close-on-content-click="false"
-                  :nudge-right="40"
                   transition="scale-transition"
                   offset-y
                   min-width="290px"
@@ -100,12 +95,15 @@
                     @input="endsAtActive = false"
                   ></v-date-picker>
                 </v-menu>
-                <v-text-field
-                  v-model="managerName"
-                  label="Criado por"
-                  :disabled="true"
-                  class="ml-2"
-                ></v-text-field>
+                <v-select
+                  :items="companies"
+                  v-model="dataProgramEdition.company_id"
+                  label="Empresa"
+                  required
+                  :rules="rules.company_id"
+                  @input="dataProgramEdition.company_id = $event"
+                  class="tw-ml-2 tw-w-8/12"
+                ></v-select>
               </div>
               <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
                 <v-text-field
@@ -186,8 +184,13 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-text-field
+          v-model="managerName"
+          label="Criado por"
+          :disabled="true"
+        ></v-text-field>
+        <v-btn class="ml-2" color="blue darken-1" text @click="close">Cancelar</v-btn>
+        <v-btn class="ml-2" color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -197,6 +200,7 @@
 import AddProgramDialog from '../Program/create'
 import StudentsTab from './students'
 import Program from '../../models/Program'
+import Company from '../../models/Company'
 import ProgramEdition from '../../models/ProgramEdition'
 import ProgramEditionSchedule from '../../models/ProgramEditionSchedule'
 import Model from '../../models/Model'
@@ -232,6 +236,7 @@ export default {
     dataProgramEdition: new ProgramEdition(),
     isSaving: false,
 
+    companies: [],
     programs: [],
     students: [],
     startsAtActive: false,
@@ -281,6 +286,7 @@ export default {
       this.isSaving = true
 
       try {
+        this.dataProgramEdition.students = this.students || [] // TODO
         let programEdition = await this.dataProgramEdition.save()
         this.isSaving = false
         this.close()
@@ -313,6 +319,19 @@ export default {
       this.dataProgramEdition.schedules.splice(index, 1)
     },
 
+    async getStudents() {
+      this.isSaving = true
+      try {
+        let data = await this.programEdition.students().get()
+        this.students = data
+      } catch (error) {
+        this.students = []
+        alert.error(error)
+      } finally {
+        this.isSaving = false
+      }
+    },
+
     // OnMount
     async getPrograms() {
       try {
@@ -328,18 +347,21 @@ export default {
         alert.error(error)
       }
     },
-    async getStudents() {
-      this.isSaving = true
+    async getCompanies() {
       try {
-        let data = await this.programEdition.students().get()
-        this.students = data
+        let data = await Company.get()
+
+        this.companies = map(data, (v) => {
+          return {
+            'text': v.name,
+            'value': v.id,
+          }
+        })
       } catch (error) {
-        this.students = []
         alert.error(error)
-      } finally {
-        this.isSaving = false
       }
     },
+
   },
 
   watch: {
@@ -354,6 +376,7 @@ export default {
 
   mounted: async function () {
     this.getPrograms()
+    this.getCompanies()
   },
 }
 </script>

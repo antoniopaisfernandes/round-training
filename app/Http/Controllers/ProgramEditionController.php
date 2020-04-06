@@ -18,7 +18,6 @@ class ProgramEditionController extends Controller
     public function index()
     {
         $programEditions = QueryBuilder::for(ProgramEdition::class)
-            ->withCount('students')
             ->allowedFilters(['supplier', 'teacher_name', 'starts_at', 'ends_at'])
             ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
             ->allowedSorts(['starts_at', 'ends_at'])

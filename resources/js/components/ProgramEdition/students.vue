@@ -30,24 +30,33 @@
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
       </div>
-
-      <div class="tw-mt-6">
-        <ul>
-          <li v-for="(student, i) in students" :key="i">
-            <span v-text="student.name"></span>
-            <v-btn
-              fab
-              dark
-              x-small
-              color="error"
-              @click="deleteStudent(i)"
-              class="tw-ml-2 tw--mt-2"
-            >
-              <v-icon dark>mdi-minus</v-icon>
-            </v-btn>
-          </li>
-        </ul>
-      </div>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Nome</th>
+              <th class="text-left">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(student, i) in students" :key="i">
+              <td>{{ student.name }}</td>
+              <td>
+                <v-btn
+                  fab
+                  dark
+                  x-small
+                  color="error"
+                  @click="deleteStudent(i)"
+                  class="tw-ml-2 tw--mt-2"
+                >
+                  <v-icon dark>mdi-minus</v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-card-text>
   </v-card>
 </template>

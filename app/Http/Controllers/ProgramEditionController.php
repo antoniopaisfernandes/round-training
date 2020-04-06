@@ -92,6 +92,16 @@ class ProgramEditionController extends Controller
             if ($request->has('schedules')) {
                 $programEdition->schedules()->sync($request->get('schedules') ?: []);
             }
+            if ($request->has('students')) {
+                $enrollments = collect($request->get('students'))->map(function ($student) {
+                    return [
+                        'student_id' => $student['id'],
+                        'company_id' => $student['current_company_id'],
+                    ];
+                })->toArray();
+
+                $programEdition->enrollments()->sync($enrollments);
+            }
 
             return $programEdition;
         });

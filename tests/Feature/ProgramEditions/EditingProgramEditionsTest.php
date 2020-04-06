@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\ProgramEditions;
 
+use App\Enrollment;
 use App\ProgramEdition;
 use App\ProgramEditionSchedule;
+use App\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -196,5 +198,20 @@ class EditingProgramEditionsTest extends TestCase
         $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
 
         $this->assertCount(3, ProgramEditionSchedule::all());
+    }
+
+    /** @test */
+    public function it_can_add_students_to_program_edition_with_students()
+    {
+        $this->withoutExceptionHandling();
+
+        $programEdition = factory(ProgramEdition::class)->states('with-2-students')->create()->fresh();
+        $this->assertCount(2, Enrollment::all());
+        $updatedProgramEdition = $programEdition->with('students')->first()->toArray();
+        $updatedProgramEdition['students'][] = factory(Student::class)->create()->toArray();
+
+        $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
+
+        $this->assertCount(3, Enrollment::all());
     }
 }

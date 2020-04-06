@@ -3,7 +3,6 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Company;
-use App\Enrollment;
 use App\Program;
 use App\ProgramEdition;
 use App\ProgramEditionSchedule;

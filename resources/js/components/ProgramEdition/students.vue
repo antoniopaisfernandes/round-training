@@ -83,7 +83,7 @@ export default {
 
   methods: {
     addStudent() {
-      this.$emit('add', this.student)
+      this.$emit('add', new Student(this.student))
       this.search = null
       this.studentsFromQuery = []
       this.student = null

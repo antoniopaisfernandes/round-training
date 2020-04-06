@@ -200,6 +200,7 @@
 import AddProgramDialog from '../Program/create'
 import StudentsTab from './students'
 import Program from '../../models/Program'
+import Enrollment from '../../models/Enrollment'
 import Company from '../../models/Company'
 import ProgramEdition from '../../models/ProgramEdition'
 import ProgramEditionSchedule from '../../models/ProgramEditionSchedule'
@@ -286,8 +287,15 @@ export default {
       this.isSaving = true
 
       try {
-        this.dataProgramEdition.students = this.students || [] // TODO
+        this.dataProgramEdition.enrollments = this.students.map((student) => {
+          return new Enrollment({
+            'student_id': student.id,
+            'program_edition_id': this.dataProgramEdition.id,
+            'company_id': student.current_company_id,
+          })
+        }) || []
         let programEdition = await this.dataProgramEdition.save()
+        this.dataProgramEdition = new ProgramEdition()
         this.isSaving = false
         this.close()
         this.$emit('input', programEdition)

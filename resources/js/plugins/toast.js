@@ -1,19 +1,19 @@
 import Event from './event-bus'
 
 export default {
-    info (message) {
-        Event.fire('toast', { type: 'info', message })
-    },
+  info (message) {
+    Event.fire('toast', { type: 'info', message })
+  },
 
-    success (message) {
-        Event.fire('toast', { type: 'success', message })
-    },
+  success (message) {
+    Event.fire('toast', { type: 'success', message })
+  },
 
-    warning (message) {
-        Event.fire('toast', { type: 'warning', message })
-    },
+  warning (message) {
+    Event.fire('toast', { type: 'warning', message })
+  },
 
-    error (message) {
-        Event.fire('toast', { type: 'error', message })
-    }
+  error (message) {
+    Event.fire('toast', { type: 'error', message })
+  }
 }

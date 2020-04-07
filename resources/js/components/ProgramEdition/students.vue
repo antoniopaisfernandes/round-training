@@ -30,7 +30,7 @@
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
       </div>
-      <v-simple-table>
+      <v-simple-table v-if="students.length > 0">
         <template v-slot:default>
           <thead>
             <tr>
@@ -110,6 +110,7 @@ export default {
       }
 
       this.isLoading = true
+      this.studentsFromQuery = []
 
       try {
         const { data: students } = await Student

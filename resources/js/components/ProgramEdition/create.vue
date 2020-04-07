@@ -328,12 +328,16 @@ export default {
     },
 
     async getStudents() {
+      this.students = []
+      if (! this.programEdition.id) {
+        return;
+      }
+
       this.isSaving = true
       try {
         let data = await this.programEdition.students().get()
-        this.students = data
+        this.students = data || []
       } catch (error) {
-        this.students = []
         alert.error(error)
       } finally {
         this.isSaving = false

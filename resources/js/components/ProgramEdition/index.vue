@@ -1,6 +1,6 @@
 <template>
   <div class="program-edition-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="createVisible = true">Novo Curso</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newProgramEdition">Novo Curso</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -98,7 +98,11 @@
     methods: {
       instance(attributes = {}) {
         return new ProgramEdition(attributes);
-      }
+      },
+      newProgramEdition() {
+        this.editedItem = this.defaultItem
+        this.createVisible = true
+      },
     },
   }
 </script>

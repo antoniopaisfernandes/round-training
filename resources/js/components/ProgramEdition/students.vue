@@ -113,7 +113,7 @@ export default {
 
       try {
         const { data: students } = await Student
-          .where('not_enrolled', this.programEdition.id)
+          // .where('not_enrolled', this.programEdition.id || '')
           .orderBy('name')
           .get()
 

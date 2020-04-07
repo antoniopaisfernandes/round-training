@@ -18,6 +18,28 @@ class ProgramEditionRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->has('students') && $this->has('enrollments')) {
+            $this->offsetUnset('students');
+        }
+
+        elseif ($this->has('students')) {
+            $this->offsetSet('enrollments', collect($this->get('students'))->map(function ($student) {
+                return [
+                    'student_id' => $student['id'],
+                    'company_id' => $student['current_company_id'],
+                ];
+            })->toArray());
+            $this->offsetUnset('students');
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

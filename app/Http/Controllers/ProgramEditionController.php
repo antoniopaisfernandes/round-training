@@ -50,15 +50,6 @@ class ProgramEditionController extends Controller
             }
             if ($request->has('enrollments')) {
                 $programEdition->enrollments()->createMany($request->get('enrollments'));
-            } elseif ($request->has('students')) {
-                $enrollments = collect($request->get('students'))->map(function ($student) {
-                    return [
-                        'student_id' => $student['id'],
-                        'company_id' => $student['current_company_id'],
-                    ];
-                })->toArray();
-
-                $programEdition->enrollments()->createMany($enrollments);
             }
 
             return $programEdition;
@@ -95,15 +86,6 @@ class ProgramEditionController extends Controller
             }
             if ($request->has('enrollments')) {
                 $programEdition->enrollments()->sync($request->get('enrollments'));
-            } elseif ($request->has('students')) {
-                $enrollments = collect($request->get('students'))->map(function ($student) {
-                    return [
-                        'student_id' => $student['id'],
-                        'company_id' => $student['current_company_id'],
-                    ];
-                })->toArray();
-
-                $programEdition->enrollments()->sync($enrollments);
             }
 
             return $programEdition;

@@ -104,6 +104,11 @@ export default {
   },
 
   watch: {
+    programEdition (val) {
+      this.student = null
+      this.studentsFromQuery = []
+    },
+
     async search (val) {
       if (this.isLoading) {
         return

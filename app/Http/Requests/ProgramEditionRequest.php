@@ -86,6 +86,15 @@ class ProgramEditionRequest extends FormRequest
                 'gt:0',
             ],
             'enrollments' => 'sometimes|array',
+            'enrollments.*.student_id' => [
+                'required_with:enrollments',
+                'distinct',
+                'exists:students,id'
+            ],
+            'enrollments.*.company_id' => [
+                'required_with:enrollments',
+                'exists:companies,id'
+            ],
         ];
     }
 

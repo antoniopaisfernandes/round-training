@@ -3,7 +3,7 @@ const menuRoutes = [
         type: 'v-list-item',
         icon: 'mdi-monitor-dashboard',
         text: 'Dashboard',
-        link: '',
+        link: '/',
     },
     {
         // TODO: extract to components

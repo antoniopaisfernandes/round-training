@@ -64,6 +64,7 @@
 <script>
 import Student from '../../models/Student'
 import Model from '../../models/Model'
+import alert from '../../plugins/toast'
 import findIndex from 'lodash-es/findIndex'
 import filter from 'lodash-es/filter'
 
@@ -87,7 +88,7 @@ export default {
     isLoading: false,
     search: null,
     studentsFromQuery: [],
-    student: null
+    student: null,
   }),
 
   methods: {
@@ -118,7 +119,7 @@ export default {
 
         this.studentsFromQuery = filter(students, (student) => findIndex(this.students, {id: student.id}) < 0)
       } catch (error) {
-        console.log(err)
+        alert.error(error)
       } finally {
         this.isLoading = false
       }

@@ -85,6 +85,7 @@ class ProgramEditionRequest extends FormRequest
                 'integer',
                 'gt:0',
             ],
+            'enrollments' => 'sometimes|array',
         ];
     }
 
@@ -102,7 +103,7 @@ class ProgramEditionRequest extends FormRequest
                     'created_by' => auth()->user()->id,
                 ]
             ),
-            ['schedules']
+            ['schedules', 'enrollments']
         );
     }
 }

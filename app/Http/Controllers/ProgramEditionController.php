@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProgramEditionRequest;
 use App\Http\Requests\UpdateProgramEditionRequest;
 use App\ProgramEdition;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProgramEditionController extends Controller
@@ -18,7 +19,13 @@ class ProgramEditionController extends Controller
     public function index()
     {
         $programEditions = QueryBuilder::for(ProgramEdition::class)
-            ->allowedFilters(['supplier', 'teacher_name', 'starts_at', 'ends_at'])
+            ->allowedFilters([
+                'supplier',
+                'teacher_name',
+                'starts_at',
+                'ends_at',
+                AllowedFilter::scope('status'),
+            ])
             ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
             ->allowedSorts(['starts_at', 'ends_at'])
             ->defaultSorts(['-starts_at', 'name'])

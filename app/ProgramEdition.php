@@ -62,6 +62,17 @@ class ProgramEdition extends Model
         return $this->program->name . ' - ' . $this->name;
     }
 
+    public function scopeStatus($query, $status)
+    {
+        if ($status == 'active') {
+            $query->where('ends_at', '>=', today());
+        } elseif ($status == 'ended') {
+            $query->where('ends_at', '<', today());
+        } elseif ($status == 'future') {
+            $query->where('starts_at', '>', today());
+        }
+    }
+
     /**
      * Enroll students in current program edition
      *

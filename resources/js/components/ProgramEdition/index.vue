@@ -96,7 +96,7 @@
     }),
 
     methods: {
-      instance(attributes = {}) {
+      instance(attributes) {
         return new ProgramEdition(attributes);
       },
       newProgramEdition() {

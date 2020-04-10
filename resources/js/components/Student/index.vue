@@ -75,7 +75,7 @@
     }),
 
     methods: {
-      instance(attributes = {}) {
+      instance(attributes) {
         return new Student(attributes);
       }
     },

@@ -74,7 +74,7 @@
     }),
 
     methods: {
-      instance(attributes = {}) {
+      instance(attributes) {
         return new Company(attributes);
       }
     },

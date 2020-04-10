@@ -44,7 +44,6 @@ export default class Model extends BaseModel {
   }
 
   async fetch(options) {
-
     const orderBy = options['sortBy'].map((value, key) => (options['sortDesc'][key] ? '-' : '') + value)
     const page = options['page'] || 1
     const limit = options['itemsPerPage'] || 10

@@ -48,7 +48,7 @@ class ViewingProgramEditionsTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_a_list_of_20_paginated_programs()
+    public function it_shows_a_list_of_10_paginated_programs()
     {
         factory(ProgramEdition::class, 50)->create();
 
@@ -56,7 +56,7 @@ class ViewingProgramEditionsTest extends TestCase
 
         $response->assertViewHas('programEditions');
         $this->assertCount(
-            20,
+            10,
             $response->viewData('programEditions')->items()
         );
     }

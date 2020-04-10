@@ -21,6 +21,10 @@ class ProgramEditionController extends Controller
      */
     public function index()
     {
+        request()->validate([
+            'limit' => 'sometimes|int',
+        ]);
+
         $programEditions = ProgramEditionResource::collection(
                 QueryBuilder::for(ProgramEdition::class)
                 ->allowedFilters([
@@ -39,17 +43,15 @@ class ProgramEditionController extends Controller
                     'students_count',
                 ])
                 ->defaultSorts(['-starts_at', 'name'])
-                ->paginate(20)
+                ->paginate(! request()->has('limit') ? 10 : (request()->get('limit') < 0 ? 9999 : request()->get('limit')))
                 ->appends(request()->query())
         );
 
-        if (request()->expectsJson()) {
-            return $programEditions;
-        } else {
-            return view('program-edition.index', [
+        return request()->expectsJson()
+            ? $programEditions
+            : view('program-edition.index', [
                 'programEditions' => $programEditions,
             ]);
-        }
     }
 
     /**

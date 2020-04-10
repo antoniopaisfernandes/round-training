@@ -88,7 +88,7 @@ class ViewingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_a_list_of_20_paginated_students()
+    public function it_shows_a_list_of_10_paginated_students()
     {
         factory(Student::class, 50)->create();
 
@@ -96,7 +96,7 @@ class ViewingStudentsTest extends TestCase
 
         $response->assertViewHas('students');
         $this->assertCount(
-            20,
+            10,
             $response->viewData('students')->items()
         );
     }

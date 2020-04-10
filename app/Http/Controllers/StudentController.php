@@ -22,6 +22,10 @@ class StudentController extends Controller
      */
     public function index()
     {
+        request()->validate([
+            'limit' => 'sometimes|int',
+        ]);
+
         $students = StudentResource::collection(
             QueryBuilder::for(Student::class)
                 ->select('students.*')
@@ -41,7 +45,7 @@ class StudentController extends Controller
                     'name',
                     AllowedSort::custom('company.name', new CompanyNameSort('students', 'current_company_id'))->defaultDirection('asc'),
                 ])
-                ->paginate(20)
+                ->paginate(! request()->has('limit') ? 10 : (request()->get('limit') < 0 ? 9999 : request()->get('limit')))
                 ->appends(request()->query())
         );
 

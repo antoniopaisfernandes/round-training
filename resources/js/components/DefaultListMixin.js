@@ -31,15 +31,6 @@ export default {
       this.createVisible = true
     },
 
-    saved(item) {
-      if (this.editedIndex > -1) {
-        Object.assign(this.list[this.editedIndex], item)
-      } else {
-        this.list.push(item)
-      }
-      this.close()
-    },
-
     async deleteItem(item) {
       const index = this.list.indexOf(item)
 
@@ -53,6 +44,15 @@ export default {
       } catch (error) {
         alert.error(error)
       }
+    },
+
+    saved(item) {
+      if (this.editedIndex > -1) {
+        Object.assign(this.list[this.editedIndex], item)
+      } else {
+        this.list.push(item)
+      }
+      this.close()
     },
 
     close() {

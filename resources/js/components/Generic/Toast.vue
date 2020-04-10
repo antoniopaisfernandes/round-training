@@ -39,7 +39,7 @@
     },
     computed: {
       color() {
-        return this.type == 'danger'
+        return this.type == 'warning'
           ? colors.warning
           : (
             this.type == 'error'

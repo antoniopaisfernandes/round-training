@@ -7,6 +7,7 @@
       >
         <v-tab key="programEdition">Curso</v-tab>
         <v-tab key="students">Alunos</v-tab>
+        <v-tab key="export" v-if="dataProgramEdition.id">Exportar</v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab">
@@ -180,6 +181,11 @@
             @delete="students.splice($event, 1)"
           ></students-tab>
         </v-tab-item>
+        <v-tab-item key="export" v-if="dataProgramEdition.id">
+          <export-tab
+            :program-edition="dataProgramEdition"
+          ></export-tab>
+        </v-tab-item>
       </v-tabs-items>
 
       <v-card-actions>
@@ -199,6 +205,7 @@
 <script>
 import AddProgramDialog from '../Program/create'
 import StudentsTab from './students'
+import ExportTab from './export'
 import Program from '../../models/Program'
 import Enrollment from '../../models/Enrollment'
 import Company from '../../models/Company'
@@ -214,6 +221,7 @@ export default {
   components: {
     AddProgramDialog,
     StudentsTab,
+    ExportTab,
   },
 
   model: {

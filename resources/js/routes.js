@@ -27,10 +27,16 @@ const menuRoutes = [
         text: 'Cursos',
         link: '/program-editions',
     },
+    // {
+    //     type: 'v-list-item',
+    //     icon: 'mdi-book-account-outline',
+    //     text: 'Inscrições',
+    //     link: '',
+    // },
     {
         type: 'v-list-item',
-        icon: 'mdi-book-account-outline',
-        text: 'Inscrições',
+        icon: 'mdi-microsoft-excel',
+        text: 'Exportar',
         link: '',
     },
 ]

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProgramEditionRequest;
 use App\Http\Requests\UpdateProgramEditionRequest;
+use App\Http\Resources\ProgramEditionResource;
 use App\ProgramEdition;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -18,19 +19,21 @@ class ProgramEditionController extends Controller
      */
     public function index()
     {
-        $programEditions = QueryBuilder::for(ProgramEdition::class)
-            ->allowedFilters([
-                'supplier',
-                'teacher_name',
-                'starts_at',
-                'ends_at',
-                AllowedFilter::scope('status'),
-            ])
-            ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
-            ->allowedSorts(['starts_at', 'ends_at'])
-            ->defaultSorts(['-starts_at', 'name'])
-            ->paginate(20)
-            ->appends(request()->query());
+        $programEditions = ProgramEditionResource::collection(
+                QueryBuilder::for(ProgramEdition::class)
+                ->allowedFilters([
+                    'supplier',
+                    'teacher_name',
+                    'starts_at',
+                    'ends_at',
+                    AllowedFilter::scope('status'),
+                ])
+                ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
+                ->allowedSorts(['starts_at', 'ends_at'])
+                ->defaultSorts(['-starts_at', 'name'])
+                ->paginate(20)
+                ->appends(request()->query())
+        );
 
         if (request()->expectsJson()) {
             return $programEditions;

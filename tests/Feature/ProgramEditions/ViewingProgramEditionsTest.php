@@ -42,7 +42,7 @@ class ViewingProgramEditionsTest extends TestCase
         $response = $this->get("/program-editions");
 
         $response->assertViewHas('programEditions');
-        $programEditionsFromView = collect($response->viewData('programEditions')->items());
+        $programEditionsFromView = collect($response->viewData('programEditions')->items())->map->resource;
         $this->assertContainsOnlyInstancesOf(ProgramEdition::class, $programEditionsFromView);
         $this->assertEquals($programEditions->count(), $programEditionsFromView->count());
     }

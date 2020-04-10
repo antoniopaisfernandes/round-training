@@ -6,8 +6,10 @@ use App\Http\Requests\StoreProgramEditionRequest;
 use App\Http\Requests\UpdateProgramEditionRequest;
 use App\Http\Resources\ProgramEditionResource;
 use App\ProgramEdition;
+use App\Queries\Sorts\ProgramNameSort;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProgramEditionController extends Controller
@@ -29,7 +31,11 @@ class ProgramEditionController extends Controller
                     AllowedFilter::scope('status'),
                 ])
                 ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
-                ->allowedSorts(['starts_at', 'ends_at'])
+                ->allowedSorts([
+                    'starts_at',
+                    'ends_at',
+                    AllowedSort::custom('program.name', new ProgramNameSort('program_editions', 'program_id'))->defaultDirection('asc'),
+                ])
                 ->defaultSorts(['-starts_at', 'name'])
                 ->paginate(20)
                 ->appends(request()->query())

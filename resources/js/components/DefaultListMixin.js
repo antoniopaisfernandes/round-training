@@ -1,17 +1,23 @@
 import alert from '../plugins/toast'
 
 export default {
-  props: ['items'],
+  props: ['items', 'totalItems'],
 
   data: () => ({
     list: [],
+    totalList: 0,
+
+    options: {},
     editedIndex: -1,
+
+    isLoading: false,
     isSaving: false,
     createVisible: false,
   }),
 
   created() {
     this.list = this.items.map((c) => this.instance(c))
+    this.totalList = this.totalItems || this.list.length
   },
 
   methods: {
@@ -57,6 +63,33 @@ export default {
 
     close() {
       //
+    },
+  },
+
+  watch: {
+    options: {
+      async handler (options, oldOptions) {
+        // Do nothing when oldOptions are empty since we have hidration
+        // from server side when components are build
+        if (! oldOptions.page) {
+          return
+        }
+
+        // After that, let's use ajax to fetch new data and fill the
+        // tables or lists
+        this.isLoading = true
+        try {
+          const { data, meta } = await this.instance().fetch(options)
+          this.list = data
+          this.totalList = meta.total
+        } catch (error) {
+          this.list = []
+          this.totalList = 0
+        } finally {
+          this.isLoading = false
+        }
+      },
+      deep: true,
     },
   },
 

@@ -16,6 +16,16 @@ const circularReplacer = () => {
 }
 
 export default class Model extends BaseModel {
+  // We need to add this since there's a conditional
+  // in the parent:   if (attributes.length === 0)
+  // that we should handle properly
+  constructor(attributes) {
+    if (attributes) {
+      super(attributes)
+    } else {
+      super()
+    }
+  }
 
   baseURL() {
     return ''
@@ -31,6 +41,15 @@ export default class Model extends BaseModel {
       }, ...this.$http.defaults.transformRequest],
       ...config
     })
+  }
+
+  async fetch(options) {
+
+    const orderBy = options['sortBy'].map((value, key) => (options['sortDesc'][key] ? '-' : '') + value)
+
+    const results = await this.orderBy(orderBy).get()
+
+    return results
   }
 
   clone() {

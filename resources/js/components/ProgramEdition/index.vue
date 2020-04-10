@@ -14,6 +14,9 @@
       :headers="headers"
       :fixed-header="true"
       :items="list"
+      :options.sync="options"
+      :server-items-length="totalItems"
+      :loading="isLoading"
       sort-by="name"
       class="elevation-1"
     >

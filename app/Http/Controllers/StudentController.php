@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StudentResource;
+use App\Queries\Sorts\CompanyNameSort;
 use App\Student;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\View\View;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class StudentController extends Controller
@@ -13,12 +18,13 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResource|View
      */
     public function index()
     {
         $students = StudentResource::collection(
             QueryBuilder::for(Student::class)
+                ->select('students.*')
                 ->allowedFilters([
                     AllowedFilter::exact('id'),
                     'name',
@@ -30,25 +36,27 @@ class StudentController extends Controller
                     'enrolled_program_editions',
                 ])
                 ->defaultSort('name')
-                ->allowedSorts(['id', 'name'])
+                ->allowedSorts([
+                    'id',
+                    'name',
+                    AllowedSort::custom('company.name', new CompanyNameSort('students', 'current_company_id'))->defaultDirection('asc'),
+                ])
                 ->paginate(20)
                 ->appends(request()->query())
         );
 
-        if (request()->expectsJson()) {
-            return $students;
-        } else {
-            return view('student.index', [
+        return request()->expectsJson()
+            ? $students
+            : view('student.index', [
                 'students' => $students,
             ]);
-        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Exception
      */
     public function store(Request $request)
@@ -79,7 +87,7 @@ class StudentController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Student  $student
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\JsonResource
+     * @return JsonResponse|JsonResource
      */
     public function show(Student $student)
     {
@@ -91,7 +99,7 @@ class StudentController extends Controller
      *
      * @param  Request  $request
      * @param  \App\Student  $student
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Exception
      */
     public function update(Request $request, Student $student)
@@ -124,7 +132,7 @@ class StudentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Student  $student
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Exception
      */
     public function destroy(Student $student)

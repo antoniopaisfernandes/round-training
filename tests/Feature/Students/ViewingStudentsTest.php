@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Students;
 
+use App\Company;
 use App\Http\Resources\StudentResource;
 use App\ProgramEdition;
 use App\Student;
@@ -117,6 +118,30 @@ class ViewingStudentsTest extends TestCase
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
         $this->assertTrue($john->fresh()->is($data[0]->resource));
+    }
+
+    /** @test */
+    public function it_can_sort_students_by_company_name()
+    {
+        $this->withoutExceptionHandling();
+
+        $first = factory(Student::class)->create([
+            'current_company_id' => factory(Company::class)->create([
+                'name' => 'ZCompany',
+            ])
+        ]);
+        $second = factory(Student::class)->create([
+            'current_company_id' => factory(Company::class)->create([
+                'name' => 'ACompany',
+            ])
+        ]);
+
+        $response = $this->get("/students?sort=company.name");
+
+        $response->assertViewHas('students');
+        $data = $response->viewData('students')->items();
+        $this->assertTrue($first->fresh()->is($data[1]->resource));
+        $this->assertTrue($second->fresh()->is($data[0]->resource));
     }
 
     /** @test */

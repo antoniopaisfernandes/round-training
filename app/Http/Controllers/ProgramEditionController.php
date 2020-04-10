@@ -32,9 +32,11 @@ class ProgramEditionController extends Controller
                 ])
                 ->allowedIncludes(['program', 'company', 'schedules', 'manager', 'students'])
                 ->allowedSorts([
+                    AllowedSort::custom('program.name', new ProgramNameSort('program_editions', 'program_id'))->defaultDirection('asc'),
+                    'name',
                     'starts_at',
                     'ends_at',
-                    AllowedSort::custom('program.name', new ProgramNameSort('program_editions', 'program_id'))->defaultDirection('asc'),
+                    'students_count',
                 ])
                 ->defaultSorts(['-starts_at', 'name'])
                 ->paginate(20)

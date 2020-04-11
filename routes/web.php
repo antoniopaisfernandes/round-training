@@ -7,6 +7,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProgramEditionController;
+use App\Http\Controllers\ProgramEditionExportController;
 use App\Http\Controllers\ProgramEditionStudentController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('/programs', ProgramController::class)->names('programs');
 
     Route::apiResource('/program-editions.students', ProgramEditionStudentController::class);
+    Route::get('/program-editions/{programEdition}/export', ProgramEditionExportController::class);
     Route::apiResource('/program-editions', ProgramEditionController::class);
 
     Route::apiResource('/companies', CompanyController::class);

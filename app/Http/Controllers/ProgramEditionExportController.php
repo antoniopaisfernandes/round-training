@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ProgramEditionExport;
+use App\Exports\ProgramEdition\ProgramEditionExport;
 use App\ProgramEdition;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProgramEditionExportController extends Controller

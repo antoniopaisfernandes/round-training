@@ -2,7 +2,7 @@
   <div>
     <h2
       class="mt-10 warning tw-text-center tw-text-white tw-font-mono tw-rounded"
-    >A exportação ocorre sempre baseado nos dados do servidor pelo que necessitará gravar quaisquer alterações que tenha efectuado</h2>
+    >A exportação ocorre sempre baseado nos dados do servidor pelo que necessitará gravar quaisquer alterações que tenha efectuado.</h2>
 
     <div class="mt-10 container tw-flex tw-justify-between tw-items-end">
       <div>
@@ -10,7 +10,12 @@
         <v-switch v-model="students" label="Informação dos alunos"></v-switch>
       </div>
       <div>
-        <v-btn color="primary darken-1" :disabled="!generic && !students" @click="exportExcel">Exportar</v-btn>
+        <v-btn
+          color="primary darken-1"
+          :loading="isExporting"
+          :disabled="!generic && !students"
+          @click="exportExcel"
+        >Exportar</v-btn>
       </div>
     </div>
   </div>
@@ -30,15 +35,28 @@ export default {
   },
 
   data: () => ({
+    isExporting: false,
     generic: true,
     students: true,
   }),
 
   methods: {
     exportExcel() {
-      alert.warning('todo')
+      this.isExporting = true
+      try {
+        this.programEdition.export({
+          withGenericData: this.generic,
+          withStudentsData: this.students,
+          format: 'xlsx',
+        })
+      } catch (error) {
+        alert.warning(error)
+      } finally {
+        this.isExporting = false
+      }
     }
   },
+
 }
 </script>
 

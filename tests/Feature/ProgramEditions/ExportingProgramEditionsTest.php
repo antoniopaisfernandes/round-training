@@ -48,4 +48,20 @@ class ExportingProgramEditionsTest extends TestCase
                 && $export->sheets()[1] instanceof StudentsExport;
         });
     }
+
+    /** @test */
+    public function the_program_edition_export_students_page_has_all_the_students()
+    {
+        $this->withoutExceptionHandling();
+        Excel::fake();
+        $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
+
+        $this->get("/program-editions/{$programEdition->id}/export");
+
+        Excel::assertDownloaded("{$programEdition->id}.xlsx", function (ProgramEditionExport $export) {
+            $studentsExport = $export->sheets()[1];
+
+            return $studentsExport->collection()->count() == 4;
+        });
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="program-edition-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
+  <c-data-table>
     <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newProgramEdition">Novo Curso</v-btn>
 
     <create-dialog
@@ -41,7 +41,8 @@
       <h1 class="tw-font-bold tw-text-lg">Ainda não existem edições de cursos.</h1>
       <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible = true">Novo Curso</v-btn>
     </div>
-  </div>
+
+  </c-data-table>
 </template>
 
 <script>
@@ -109,24 +110,3 @@
     },
   }
 </script>
-
-<style lang="scss">
-  .program-edition-index {
-    table th {
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      .v-icon {
-        margin-left: 5px;
-      }
-    }
-
-    table tr th:last-child,
-    table tr td:last-child {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 50px;
-    }
-  }
-</style>

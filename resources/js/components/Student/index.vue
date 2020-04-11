@@ -1,5 +1,5 @@
 <template>
-  <div class="student-index tw-flex tw-flex-col tw-mt-10 tw-mx-20">
+  <c-data-table>
     <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Adicionar aluno</v-btn>
 
     <create-dialog
@@ -10,6 +10,7 @@
     ></create-dialog>
 
     <v-data-table
+      v-if="list.length"
       :headers="headers"
       :fixed-header="true"
       :items="list"
@@ -18,7 +19,6 @@
       :loading="isLoading"
       sort-by="name"
       class="elevation-1"
-      v-if="list.length"
     >
       <template v-slot:item.actions="{ item }">
         <v-icon
@@ -36,73 +36,56 @@
         </v-icon>
       </template>
     </v-data-table>
+
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">Ainda não existem alunos.</h1>
       <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Adicionar aluno</v-btn>
     </div>
-  </div>
+
+  </c-data-table>
 </template>
 
 <script>
-  import DefaultListMixin from '../DefaultListMixin'
-  import createDialog from './create'
-  import Student from '../../models/Student'
-  import alert from '../../plugins/toast'
+import DefaultListMixin from '../DefaultListMixin'
+import cDataTable from '../Generic/Table'
+import createDialog from './create'
+import Student from '../../models/Student'
+import alert from '../../plugins/toast'
 
-  export default {
-    mixins: [DefaultListMixin],
+export default {
+  mixins: [DefaultListMixin],
 
-    components: {
-      createDialog
-    },
+  components: {
+    createDialog,
+    cDataTable,
+  },
 
-    data: () => ({
-      headers: [
-        {
-          text: 'Nome',
-          align: 'start',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'Empresa',
-          align: 'start',
-          sortable: true,
-          value: 'company.name',
-        },
-        { text: 'Acções', value: 'actions', sortable: false },
-      ],
-      editedItem: new Student(),
-      defaultItem: new Student(),
-      createVisible: false,
-    }),
+  data: () => ({
+    headers: [
+      {
+        text: 'Nome',
+        align: 'start',
+        sortable: true,
+        value: 'name',
+      },
+      {
+        text: 'Empresa',
+        align: 'start',
+        sortable: true,
+        value: 'company.name',
+      },
+      { text: 'Acções', value: 'actions', sortable: false },
+    ],
+    editedItem: new Student(),
+    defaultItem: new Student(),
+    createVisible: false,
+  }),
 
-    methods: {
-      instance(attributes) {
-        return new Student(attributes);
-      }
-    },
+  methods: {
+    instance(attributes) {
+      return new Student(attributes)
+    }
+  },
 
-  }
+}
 </script>
-
-<style lang="scss">
-  .student-index {
-    table th {
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      .v-icon {
-        margin-left: 5px;
-      }
-    }
-
-    table tr th:last-child,
-    table tr td:last-child {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 50px;
-    }
-  }
-</style>

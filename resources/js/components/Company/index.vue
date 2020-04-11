@@ -44,6 +44,7 @@
 
 <script>
 import DefaultListMixin from '../DefaultListMixin'
+import cDataTable from '../Generic/Table'
 import createDialog from './create'
 import Company from '../../models/Company'
 
@@ -51,7 +52,8 @@ export default {
   mixins: [DefaultListMixin],
 
   components: {
-    createDialog
+    createDialog,
+    cDataTable,
   },
 
   data: () => ({

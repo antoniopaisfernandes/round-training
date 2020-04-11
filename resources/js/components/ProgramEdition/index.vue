@@ -46,67 +46,69 @@
 </template>
 
 <script>
-  import DefaultListMixin from '../DefaultListMixin'
-  import createDialog from './create'
-  import ProgramEdition from '../../models/ProgramEdition'
+import DefaultListMixin from '../DefaultListMixin'
+import cDataTable from '../Generic/Table'
+import createDialog from './create'
+import ProgramEdition from '../../models/ProgramEdition'
 
-  export default {
-    mixins: [DefaultListMixin],
+export default {
+  mixins: [DefaultListMixin],
 
-    components: {
-      createDialog
-    },
+  components: {
+    createDialog,
+    cDataTable,
+  },
 
-    data: () => ({
-      headers: [
-        {
-          text: 'Curso',
-          align: 'start',
-          sortable: true,
-          value: 'program.name',
-        },
-        {
-          text: 'Edição',
-          align: 'start',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'Data início',
-          align: 'start',
-          sortable: true,
-          value: 'starts_at',
-        },
-        {
-          text: 'Data fim',
-          align: 'start',
-          sortable: true,
-          value: 'ends_at',
-        },
-        {
-          text: 'Inscritos',
-          align: 'start',
-          sortable: true,
-          value: 'students_count',
-        },
-        {
-          text: 'Acções',
-          value: 'actions',
-          sortable: false,
-        },
-      ],
-      editedItem: new ProgramEdition(),
-      defaultItem: new ProgramEdition(),
-    }),
-
-    methods: {
-      instance(attributes) {
-        return new ProgramEdition(attributes);
+  data: () => ({
+    headers: [
+      {
+        text: 'Curso',
+        align: 'start',
+        sortable: true,
+        value: 'program.name',
       },
-      newProgramEdition() {
-        this.editedItem = this.defaultItem
-        this.createVisible = true
+      {
+        text: 'Edição',
+        align: 'start',
+        sortable: true,
+        value: 'name',
       },
+      {
+        text: 'Data início',
+        align: 'start',
+        sortable: true,
+        value: 'starts_at',
+      },
+      {
+        text: 'Data fim',
+        align: 'start',
+        sortable: true,
+        value: 'ends_at',
+      },
+      {
+        text: 'Inscritos',
+        align: 'start',
+        sortable: true,
+        value: 'students_count',
+      },
+      {
+        text: 'Acções',
+        value: 'actions',
+        sortable: false,
+      },
+    ],
+    editedItem: new ProgramEdition(),
+    defaultItem: new ProgramEdition(),
+  }),
+
+  methods: {
+    instance(attributes) {
+      return new ProgramEdition(attributes);
     },
-  }
+    newProgramEdition() {
+      this.editedItem = this.defaultItem
+      this.createVisible = true
+    },
+  },
+}
 </script>

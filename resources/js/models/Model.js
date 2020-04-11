@@ -1,6 +1,7 @@
-import { Model as BaseModel } from 'vue-api-query'
+import { saveAs } from 'file-saver'
 import cloneDeep from 'lodash-es/cloneDeep'
 import isObject from 'lodash-es/isObject'
+import { Model as BaseModel } from 'vue-api-query'
 
 const circularReplacer = () => {
   const set = new WeakSet()
@@ -54,6 +55,13 @@ export default class Model extends BaseModel {
         .get()
 
     return results
+  }
+
+  export(options) {
+    const params = new URLSearchParams(options).toString()
+    const endpoint = `/${this.resource()}/${this.id}/export?${params}`
+    const filename = `${this.id}.${options.format}`
+    saveAs(endpoint, filename)
   }
 
   clone() {

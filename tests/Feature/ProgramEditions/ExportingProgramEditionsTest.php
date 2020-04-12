@@ -50,6 +50,24 @@ class ExportingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function the_program_edition_export_has_a_cover_page_and_a_student_list_sheets_with_correct_names()
+    {
+        $this->withoutExceptionHandling();
+        $programEdition = factory(ProgramEdition::class)->create();
+
+        $file = $this->get("/program-editions/{$programEdition->id}/export")
+            ->baseResponse
+            ->getFile()
+            ->getPathname();
+
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load($file);
+
+        $this->assertTrue($spreadsheet->sheetNameExists('Curso'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Alunos'));
+    }
+
+    /** @test */
     public function the_program_edition_export_cover_page_has_all_the_needed_data()
     {
         $this->withoutExceptionHandling();
@@ -97,5 +115,39 @@ class ExportingProgramEditionsTest extends TestCase
 
             return $studentsExport->collection()->count() == 4;
         });
+    }
+
+    /** @test */
+    public function it_can_export_only_the_students_sheet()
+    {
+        $this->withoutExceptionHandling();
+        Excel::fake();
+        $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
+
+        $this->get("/program-editions/{$programEdition->id}/export?cover=0");
+
+        Excel::assertDownloaded("{$programEdition->id}.xlsx", function (ProgramEditionExport $export) {
+            $this->assertCount(1, $export->sheets());
+
+            return $export->sheets()[0]->collection()->count() == 4;
+        });
+    }
+
+    /** @test */
+    public function it_can_export_only_the_cover_page_sheet()
+    {
+        $this->withoutExceptionHandling();
+        $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
+
+        $file = $this->get("/program-editions/{$programEdition->id}/export?students=0")
+                    ->baseResponse
+                    ->getFile()
+                    ->getPathname();
+
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load($file);
+
+        $this->assertTrue($spreadsheet->sheetNameExists('Curso'));
+        $this->assertFalse($spreadsheet->sheetNameExists('Alunos'));
     }
 }

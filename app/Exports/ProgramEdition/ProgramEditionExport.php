@@ -3,15 +3,20 @@
 namespace App\Exports\ProgramEdition;
 
 use App\ProgramEdition;
+use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class ProgramEditionExport implements WithMultipleSheets
 {
-    protected $programEdition;
+    use ConditionallyLoadsAttributes;
 
-    public function __construct(ProgramEdition $programEdition)
+    protected $programEdition;
+    protected $options;
+
+    public function __construct(ProgramEdition $programEdition, array $options = [])
     {
         $this->programEdition = $programEdition;
+        $this->options = $options;
     }
 
     /**
@@ -19,9 +24,9 @@ class ProgramEditionExport implements WithMultipleSheets
      */
     public function sheets() : array
     {
-        return [
-            new CoverPageExport($this->programEdition),
-            new StudentsExport($this->programEdition),
-        ];
+        return $this->filter([
+            $this->when($this->options['cover'] ?? true, new CoverPageExport($this->programEdition)),
+            $this->when($this->options['students'] ?? true, new StudentsExport($this->programEdition)),
+        ]);
     }
 }

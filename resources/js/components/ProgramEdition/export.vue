@@ -6,14 +6,14 @@
 
     <div class="mt-10 container tw-flex tw-justify-between tw-items-end">
       <div>
-        <v-switch v-model="generic" label="Dados globais"></v-switch>
+        <v-switch v-model="cover" label="Dados globais"></v-switch>
         <v-switch v-model="students" label="Informação dos alunos"></v-switch>
       </div>
       <div>
         <v-btn
           color="primary darken-1"
           :loading="isExporting"
-          :disabled="!generic && !students"
+          :disabled="!cover && !students"
           @click="exportExcel"
         >Exportar</v-btn>
       </div>
@@ -36,7 +36,7 @@ export default {
 
   data: () => ({
     isExporting: false,
-    generic: true,
+    cover: true,
     students: true,
   }),
 
@@ -45,9 +45,8 @@ export default {
       this.isExporting = true
       try {
         this.programEdition.export({
-          withGenericData: this.generic,
-          withStudentsData: this.students,
-          format: 'xlsx',
+          cover: this.cover,
+          students: this.students,
         })
       } catch (error) {
         alert.warning(error)

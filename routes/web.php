@@ -10,6 +10,7 @@ use App\Http\Controllers\ProgramEditionController;
 use App\Http\Controllers\ProgramEditionExportController;
 use App\Http\Controllers\ProgramEditionStudentController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentExportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::apiResource('/companies', CompanyController::class);
 
+    Route::get('/students/{student}/export', StudentExportController::class);
     Route::resource('/students', StudentController::class);
 });
 

@@ -7,7 +7,6 @@ use App\Exports\ProgramEdition\ProgramEditionExport;
 use App\Exports\ProgramEdition\StudentsExport;
 use App\ProgramEdition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;
 

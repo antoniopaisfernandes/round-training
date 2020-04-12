@@ -124,7 +124,7 @@ class ExportingProgramEditionsTest extends TestCase
         Excel::fake();
         $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
 
-        $this->get("/program-editions/{$programEdition->id}/export?cover=0");
+        $this->get("/program-editions/{$programEdition->id}/export?cover=false");
 
         Excel::assertDownloaded("{$programEdition->id}.xlsx", function (ProgramEditionExport $export) {
             $this->assertCount(1, $export->sheets());
@@ -139,7 +139,7 @@ class ExportingProgramEditionsTest extends TestCase
         $this->withoutExceptionHandling();
         $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
 
-        $file = $this->get("/program-editions/{$programEdition->id}/export?students=0")
+        $file = $this->get("/program-editions/{$programEdition->id}/export?students=false")
                     ->baseResponse
                     ->getFile()
                     ->getPathname();

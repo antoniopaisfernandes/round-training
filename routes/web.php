@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
@@ -37,6 +38,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/students/{student}/export', StudentExportController::class);
     Route::resource('/students', StudentController::class);
+
+    Route::prefix('admin')->middleware('admin')->group(function () {
+        Route::apiResource('users', UserController::class)->names('users');
+    });
 });
 
 

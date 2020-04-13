@@ -66,7 +66,8 @@ class ProgramEdition extends Model
     public function scopeStatus($query, $status)
     {
         if ($status == 'active') {
-            $query->where('ends_at', '>=', today());
+            $query->where('starts_at', '<=', today())
+                ->where('ends_at', '>=', today());
         } elseif ($status == 'ended') {
             $query->where('ends_at', '<', today());
         } elseif ($status == 'future') {

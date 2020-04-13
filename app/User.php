@@ -39,6 +39,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = [
+        'roles',
+        'permissions',
+    ];
+
+    /**
+     * Receive the password in plain text and hash item
+     *
+     * @param string $value
+     * @return void
+     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);

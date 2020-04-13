@@ -41,14 +41,21 @@ const menuRoutes = [
     },
 ]
 
-const authRoutes = [
+const footerRoutes = [
+    {
+        type: 'v-list-item',
+        icon: 'mdi-account-key-outline',
+        text: 'Gestão de utilizadores',
+        link: '/admin/users',
+        admin: true,
+    },
     {
         type: 'v-list-item',
         icon: 'mdi-account-circle-outline',
         text: 'Logout',
-        link: '/logout',
+        link: '/logout'
     }
 ]
 
 export default menuRoutes
-export { authRoutes }
+export { footerRoutes }

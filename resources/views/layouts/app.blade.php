@@ -18,6 +18,7 @@
     <div id="app">
         <toast></toast>
         <app-layout
+            ref="eApp"
             :auth="{{ json_encode(auth()->user()) }}"
         >
             @yield('content')

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\RolesController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->middleware('admin')->group(function () {
         Route::apiResource('users', UserController::class)->names('users');
+        Route::get('roles', RolesController::class)->name('roles.index');
     });
 });
 

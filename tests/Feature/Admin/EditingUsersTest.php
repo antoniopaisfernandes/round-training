@@ -30,7 +30,7 @@ class EditingUsersTest extends TestCase
         $this->patch("/admin/users/{$user->id}", [
             'name' => 'New name',
             'email' => $user->email,
-        ]);
+        ])->assertSuccessful();
 
         $this->assertDatabaseHas('users', [
             'name' => 'New name',
@@ -74,7 +74,7 @@ class EditingUsersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_assign_roles_to_users()
+    public function it_can_assign_a_role_to_a_user()
     {
         $this->withoutExceptionHandling();
 
@@ -83,14 +83,18 @@ class EditingUsersTest extends TestCase
 
         $this->patch("/admin/users/{$user->id}", array_merge(
             $user->toArray(),
-            ['roles' => ['admin']]
+            ['roles' => [
+                [
+                    'name' => 'admin',
+                ]
+            ]]
         ))->assertSuccessful();
 
         $this->assertCount(1, $user->fresh()->roles);
     }
 
     /** @test */
-    public function it_can_assign_permissions_to_users()
+    public function it_can_assign_permission_to_a_user()
     {
         Permission::create(['name' => 'rgpd']);
         $user = factory(User::class)->create();
@@ -98,7 +102,11 @@ class EditingUsersTest extends TestCase
 
         $this->patch("/admin/users/{$user->id}", array_merge(
             $user->toArray(),
-            ['permissions' => ['rgpd']]
+            ['permissions' => [
+                [
+                    'name' => 'rgpd',
+                ]
+            ]]
         ))->assertSuccessful();
 
         $this->assertCount(1, $user->fresh()->permissions);

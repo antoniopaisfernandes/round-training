@@ -34,24 +34,11 @@ class ViewingUsersTest extends TestCase
     {
         $users = factory(User::class, 4)->create();
 
-        $response = $this->get("/admin/users");
+        $response = $this->getJson("/admin/users");
 
         $this->assertCount(
             $users->count() + 1, // Admin user created in setUp
-            collect($response->json())
-        );
-    }
-
-    /** @test */
-    public function the_users_index_method_does_not_paginate()
-    {
-        factory(User::class, 51)->create();
-
-        $response = $this->get("/admin/users");
-
-        $this->assertCount(
-            51 + 1, // Admin user created in setUp
-            $response->json()
+            collect($response->json()['data'])
         );
     }
 

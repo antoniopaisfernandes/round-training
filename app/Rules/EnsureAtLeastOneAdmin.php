@@ -30,7 +30,7 @@ class EnsureAtLeastOneAdmin implements Rule
     public function passes($attribute, $value)
     {
         // We're only checking when removing admin roles
-        if (in_array('admin', $value)) {
+        if (collect($value)->pluck('name')->contains('admin')) {
             return true;
         }
 

@@ -81,12 +81,16 @@ class CreatingUsersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_users_with_their_roles()
+    public function it_can_add_users_with_a_role()
     {
         $this->withoutExceptionHandling();
 
         $user = $this->validUser([
-            'roles' => ['admin'],
+            'roles' => [
+                [
+                    'name' => 'admin',
+                ]
+            ],
         ]);
 
         $createdUser = $this->post('/admin/users', $user)->baseResponse->original;
@@ -101,7 +105,11 @@ class CreatingUsersTest extends TestCase
 
         Permission::create(['name' => 'rgpd']);
         $user = $this->validUser([
-            'permissions' => ['rgpd'],
+            'permissions' => [
+                [
+                    'name' => 'rgpd',
+                ]
+            ],
         ]);
 
         $createdUser = $this->post('/admin/users', $user)->baseResponse->original;

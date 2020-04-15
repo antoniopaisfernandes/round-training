@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Rules\EnsureAtLeastOneAdmin;
+use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -19,14 +19,21 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = QueryBuilder::for(User::class)
-            ->allowedFilters(['id', 'name', 'email'])
-            ->allowedIncludes(['roles'])
-            ->defaultSort('name')
-            ->allowedSorts(['id', 'name'])
-            ->get();
+        $users = UserResource::collection(
+            QueryBuilder::for(User::class)
+                ->allowedFilters(['id', 'name', 'email'])
+                ->allowedIncludes(['roles'])
+                ->defaultSort('name')
+                ->allowedSorts(['id', 'name'])
+                ->paginate(! request()->has('limit') ? 10 : (request()->get('limit') < 0 ? 9999 : request()->get('limit')))
+                ->appends(request()->query())
+        );
 
-        return $users;
+        return request()->expectsJson()
+            ? $users
+            : view('user.index', [
+                'users' => $users,
+            ]);
     }
 
     /**
@@ -69,25 +76,21 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UserRequest  $request
      * @param  \App\User  $user
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)],
-            'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
-            'roles' => ['sometimes', 'array', new EnsureAtLeastOneAdmin($user)],
-            'permissions' => ['sometimes', 'array'],
-        ]);
-
         $user = DB::transaction(function () use ($request, $user) {
-            $user->update($request->only(['name', 'email', 'password']));
-            $user->assignRole($request->get('roles') ?: []);
-            $user->givePermissionTo($request->get('permissions') ?: []);
+            $user->update($request->validated());
+            if ($request->has('roles')) {
+                $user->syncRoles(...$request->get('roles'));
+            }
+            if ($request->has('permissions')) {
+                $user->syncPermissions(...$request->get('permissions'));
+            }
 
             return $user;
         });

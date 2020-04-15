@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class EditingUsersTest extends TestCase
@@ -70,5 +71,49 @@ class EditingUsersTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'old@example.com',
         ]);
+    }
+
+    /** @test */
+    public function it_can_assign_roles_to_users()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = factory(User::class)->create();
+        $this->assertCount(0, $user->roles);
+
+        $this->patch("/admin/users/{$user->id}", array_merge(
+            $user->toArray(),
+            ['roles' => ['admin']]
+        ))->assertSuccessful();
+
+        $this->assertCount(1, $user->fresh()->roles);
+    }
+
+    /** @test */
+    public function it_can_assign_permissions_to_users()
+    {
+        Permission::create(['name' => 'rgpd']);
+        $user = factory(User::class)->create();
+        $this->assertCount(0, $user->permissions);
+
+        $this->patch("/admin/users/{$user->id}", array_merge(
+            $user->toArray(),
+            ['permissions' => ['rgpd']]
+        ))->assertSuccessful();
+
+        $this->assertCount(1, $user->fresh()->permissions);
+    }
+
+    /** @test */
+    public function it_cannot_remove_admin_role_if_there_is_only_one_user()
+    {
+        // We have the user created in the setUp method
+
+        $this->patch("/admin/users/{$this->user->id}", array_merge(
+            $this->user->toArray(),
+            ['roles' => []]
+        ))->assertRedirect();
+
+        $this->assertCount(1, $this->user->fresh()->roles);
     }
 }

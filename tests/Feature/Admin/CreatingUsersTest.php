@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 class CreatingUsersTest extends TestCase
@@ -77,6 +78,35 @@ class CreatingUsersTest extends TestCase
 
         $this->assertDatabaseMissing('users', $user);
         $this->assertCount(1, User::all());
+    }
+
+    /** @test */
+    public function it_can_add_users_with_their_roles()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = $this->validUser([
+            'roles' => ['admin'],
+        ]);
+
+        $createdUser = $this->post('/admin/users', $user)->baseResponse->original;
+
+        $this->assertCount(1, $createdUser->roles);
+    }
+
+    /** @test */
+    public function it_can_add_users_with_their_permissions()
+    {
+        $this->withoutExceptionHandling();
+
+        Permission::create(['name' => 'rgpd']);
+        $user = $this->validUser([
+            'permissions' => ['rgpd'],
+        ]);
+
+        $createdUser = $this->post('/admin/users', $user)->baseResponse->original;
+
+        $this->assertCount(1, $createdUser->permissions);
     }
 
     private function validUser($attributes = []) : array

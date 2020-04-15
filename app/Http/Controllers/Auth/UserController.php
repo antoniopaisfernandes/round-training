@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Rules\EnsureAtLeastOneAdmin;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -42,7 +44,13 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $user = User::create($validated);
+        $user = DB::transaction(function () use ($request, $validated) {
+            $user = User::create($validated);
+            $user->assignRole($request->get('roles') ?: []);
+            $user->givePermissionTo($request->get('permissions') ?: []);
+
+            return $user;
+        });
 
         return $this->show($user);
     }
@@ -68,15 +76,21 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)],
             'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
+            'roles' => ['sometimes', 'array', new EnsureAtLeastOneAdmin($user)],
+            'permissions' => ['sometimes', 'array'],
         ]);
 
-        $user->update(
-            $validated
-        );
+        $user = DB::transaction(function () use ($request, $user) {
+            $user->update($request->only(['name', 'email', 'password']));
+            $user->assignRole($request->get('roles') ?: []);
+            $user->givePermissionTo($request->get('permissions') ?: []);
+
+            return $user;
+        });
 
         return $this->show($user);
     }

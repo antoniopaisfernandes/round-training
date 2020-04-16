@@ -5,9 +5,9 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="programEdition">Curso</v-tab>
-        <v-tab key="students">Alunos</v-tab>
-        <v-tab key="export" v-if="dataProgramEdition.id">Exportar</v-tab>
+        <v-tab key="programEdition">Program</v-tab>
+        <v-tab key="students">Students</v-tab>
+        <v-tab key="export" v-if="dataProgramEdition.id">Export</v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab">
@@ -19,7 +19,7 @@
                   <v-select
                     :items="programs"
                     v-model="dataProgramEdition.program_id"
-                    label="Nome do curso"
+                    label="Program name"
                     required
                     :rules="rules.program_id"
                     @input="dataProgramEdition.program_id = $event"
@@ -44,7 +44,7 @@
                 </div>
                 <v-text-field
                   v-model="dataProgramEdition.name"
-                  label="Nome da edição"
+                  label="Event name"
                   required
                   :rules="rules.name"
                   class="ml-4 tw-w-1/3"
@@ -99,7 +99,7 @@
                 <v-select
                   :items="companies"
                   v-model="dataProgramEdition.company_id"
-                  label="Empresa"
+                  label="Company"
                   required
                   :rules="rules.company_id"
                   @input="dataProgramEdition.company_id = $event"
@@ -109,20 +109,20 @@
               <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
                 <v-text-field
                   v-model="dataProgramEdition.supplier"
-                  label="Fornecedor"
+                  label="Supplier name"
                   required
                   :rules="rules.supplier"
                 ></v-text-field>
                 <v-text-field
                   v-model="dataProgramEdition.teacher_name"
-                  label="Formador"
+                  label="Teacher"
                   required
                   :rules="rules.teacher_name"
                   class="ml-2"
                 ></v-text-field>
                 <v-text-field
                   v-model="dataProgramEdition.cost"
-                  label="Valor"
+                  label="Cost"
                   required
                   :rules="rules.cost"
                   class="ml-2 tw-w-4 money"
@@ -131,7 +131,7 @@
               </div>
 
               <div class="mt-2">
-                <span class="subtitle-1">Agendamentos</span>
+                <span class="subtitle-1">Schedules</span>
                 <v-btn
                   fab
                   dark
@@ -146,16 +146,16 @@
 
               <div v-bind:key="i" v-for="(schedule, i) in dataProgramEdition.schedules" class="tw-flex">
                 <div class="tw-w-1/4">
-                  <v-datetime-picker label="Início" v-model="schedule.starts_at" timeFormat="HH:mm"></v-datetime-picker>
+                  <v-datetime-picker label="Start" v-model="schedule.starts_at" timeFormat="HH:mm"></v-datetime-picker>
                 </div>
                 <div class="tw-w-1/4 tw-ml-2">
-                  <v-datetime-picker label="Fim" v-model="schedule.ends_at" timeFormat="HH:mm"></v-datetime-picker>
+                  <v-datetime-picker label="End" v-model="schedule.ends_at" timeFormat="HH:mm"></v-datetime-picker>
                 </div>
                 <div class="tw-w-1/4 tw-ml-2">
-                  <v-datetime-picker label="Início intervalo" v-model="schedule.interval_start" timeFormat="HH:mm"></v-datetime-picker>
+                  <v-datetime-picker label="Interval start" v-model="schedule.interval_start" timeFormat="HH:mm"></v-datetime-picker>
                 </div>
                 <div class="tw-w-20/100 tw-ml-2">
-                  <v-text-field label="Duranção intervalo" v-model="schedule.interval_minutes"></v-text-field>
+                  <v-text-field label="Interval duration" v-model="schedule.interval_minutes"></v-text-field>
                 </div>
                 <div class="tw-w-5/100 tw-ml-2 tw-flex tw-items-center">
                   <v-btn
@@ -192,11 +192,11 @@
         <v-spacer></v-spacer>
         <v-text-field
           v-model="managerName"
-          label="Criado por"
+          label="Added by"
           :disabled="true"
         ></v-text-field>
-        <v-btn class="ml-2" color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn class="ml-2" color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-btn class="ml-2" color="blue darken-1" text @click="close">Cancel</v-btn>
+        <v-btn class="ml-2" color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -275,10 +275,10 @@ export default {
     rules() {
       return {
         name: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field is mandatory.'
         ],
         program_id: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field is mandatory.'
         ]
       }
     },

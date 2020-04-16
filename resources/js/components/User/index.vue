@@ -38,7 +38,7 @@
     </v-data-table>
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
-      <h1 class="tw-font-bold tw-text-lg">Ainda não existem alunos.</h1>
+      <h1 class="tw-font-bold tw-text-lg">No students yet.</h1>
       <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Adicionar utilizador</v-btn>
     </div>
 

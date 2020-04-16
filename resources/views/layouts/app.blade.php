@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>EsferaSaúde - Gestão de Formação</title>
+    <title>Company - Teaching management</title>
     <link rel="shortcut icon" href="/images/esferafavicon.png" type="image/x-icon" />
 
     <script src="{{ mix('js/manifest.js') }}"></script>

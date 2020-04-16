@@ -21,19 +21,19 @@ class StudentsExport implements FromCollection, ShouldAutoSize, WithHeadings, Wi
 
     public function title(): string
     {
-        return 'Alunos';
+        return 'Students';
     }
 
     public function headings(): array
     {
         return [
-            'Nome',
-            'Morada',
-            'CodPostal',
-            'Localidade',
+            'Name',
+            'Address',
+            'Postal code',
+            'City',
             'Email',
-            'Empresa',
-            'Função',
+            'Company',
+            'Job description',
         ];
     }
 

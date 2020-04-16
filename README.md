@@ -1,4 +1,4 @@
-# GESTÃO DE FORMAÇÃO
+# TEACHING SUPPORT PLATFORM
 
 ## Requirements
 
@@ -19,20 +19,7 @@ Goto the project folder:
 
 * run `composer create-project`
 * edit your `.env` file with correct database settings
-* run `php artisan migrate --seed` (default credentials are u: `admin@esferasaude.pt` p: `password`)
+* run `php artisan migrate --seed` (default credentials are u: `admin@company.pt` p: `password`)
 * run `npm install`
 * run `npm run prod` to build the frontend assets
 * bootstrap server with `php artisan serve`
-
-
-
-
-## Packages to check (delete this section afterwards)
-
-https://github.com/spatie/period
-https://github.com/lukeraymonddowning/poser
-https://github.com/spatie/laravel-activitylog
-https://github.com/fico7489/laravel-eloquent-join
-https://github.com/spatie/laravel-schemaless-attributes
-
-https://github.com/LinusBorg/portal-vue

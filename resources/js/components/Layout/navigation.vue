@@ -80,7 +80,6 @@ export default {
 
   computed: {
     auth: function() {
-      // TODO: replace with store when store is implemented
       return this.$root.$refs['eApp'].$options.propsData.auth
     },
 

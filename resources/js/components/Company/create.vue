@@ -2,27 +2,27 @@
   <v-dialog v-model="dataVisible" @keydown.esc="dataVisible = false" max-width="500px">
     <v-card :loading="isSaving" class="px-5 py-5">
       <v-card-title>
-        <span class="headline">Empresa</span>
+        <span class="headline">Company</span>
       </v-card-title>
       <v-card-text class="mt-5">
         <v-text-field
           autofocus
           v-model="dataCompany.name"
-          label="Nome"
+          label="Name"
           required
           :rules="rules.name"
         ></v-text-field>
         <v-text-field
           v-model="dataCompany.vat_number"
-          label="Contribuinte"
+          label="VAT"
           required
           :rules="rules.vat_number"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -78,10 +78,10 @@ export default {
     rules() {
       return {
         name: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field is mandatory.'
         ],
         vat_number: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field is mandatory.'
         ]
       }
     },

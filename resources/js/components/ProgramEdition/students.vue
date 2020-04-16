@@ -12,8 +12,8 @@
             hide-selected
             item-text="name"
             item-value="id"
-            label="Alunos"
-            placeholder="Nome do aluno"
+            label="Students"
+            placeholder="Student name"
             prepend-icon="mdi-database-search"
             return-object
           ></v-autocomplete>
@@ -34,7 +34,7 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">Nome</th>
+              <th class="text-left">Name</th>
               <th class="text-left">&nbsp;</th>
             </tr>
           </thead>

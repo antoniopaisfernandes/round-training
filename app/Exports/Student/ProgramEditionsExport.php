@@ -21,18 +21,18 @@ class ProgramEditionsExport implements FromCollection, ShouldAutoSize, WithHeadi
 
     public function title(): string
     {
-        return 'Cursos';
+        return 'Programs';
     }
 
     public function headings(): array
     {
         return [
-            'Curso',
-            'Fornecedor',
-            'Formador',
-            'Data início',
-            'Data fim',
-            'Horas',
+            'Program',
+            'Supplier',
+            'Teacher',
+            'Start date',
+            'End date',
+            'Hours',
         ];
     }
 

@@ -63,8 +63,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -125,10 +125,10 @@ export default {
     rules() {
       return {
         name: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field is mandatory.'
         ],
         email: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field is mandatory.'
         ]
       }
     },

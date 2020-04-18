@@ -8,7 +8,9 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "cypress:open": "node_modules/.bin/cypress open --project ./tests/Acceptance"
+        "cypress:run": "node_modules/.bin/cypress run --project ./tests/Acceptance",
+        "cypress:open": "node_modules/.bin/cypress open --project ./tests/Acceptance",
+        "cypress:test": "concurrently --kill-others \"php artisan serve --env=acceptance\" \"npm run cypress:run\""
     },
     "dependencies": {
         "@mdi/font": "^5.0.45",
@@ -25,6 +27,7 @@
         "@babel/plugin-proposal-class-properties": "^7.8.3",
         "browser-sync": "^2.26.7",
         "browser-sync-webpack-plugin": "^2.2.2",
+        "concurrently": "^5.1.0",
         "cross-env": "^7.0",
         "cypress": "3.4.1",
         "laravel-mix": "^5.0.4",

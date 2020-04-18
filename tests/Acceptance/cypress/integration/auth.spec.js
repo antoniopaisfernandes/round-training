@@ -1,4 +1,4 @@
-describe('Login', () => {
+describe('Authentication', () => {
 
     it('shows the login page when accessing the homepage without auth', () => {
         cy.visit('/').location().should((location) => {

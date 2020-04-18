@@ -10,7 +10,9 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "cypress:run": "node_modules/.bin/cypress run --project ./tests/Acceptance",
         "cypress:open": "node_modules/.bin/cypress open --project ./tests/Acceptance",
-        "cypress:test": "concurrently --kill-others \"php artisan serve --env=acceptance\" \"npm run cypress:run\""
+        "cypress:prep": "node tests/Acceptance/setup.js",
+        "cypress:teardown": "node tests/Acceptance/teardown.js",
+        "cypress:test": "npm run cypress:prep && (((concurrently \"npx wait-on tcp:8000 && npm run cypress:run\" --kill-others \"php artisan serve\" --success first) && npm run cypress:teardown) || (npm run cypress:teardown && bash -c 'false'))"
     },
     "dependencies": {
         "@mdi/font": "^5.0.45",
@@ -36,6 +38,7 @@
         "sass": "^1.26.3",
         "sass-loader": "^8.0.0",
         "vue-template-compiler": "^2.6.10",
-        "vuetify-loader": "^1.4.3"
+        "vuetify-loader": "^1.4.3",
+        "wait-on": "^4.0.2"
     }
 }

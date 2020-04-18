@@ -13,6 +13,9 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+// Register before and after hooks
+import './registerBeforeAfter'
+
 // Import commands.js using ES2015 syntax:
 import './commands'
 

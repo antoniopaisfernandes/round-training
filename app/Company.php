@@ -9,9 +9,9 @@ class Company extends Model
 {
     protected $guarded = [];
 
-    public function programs()
+    public function programsEditions()
     {
-        return $this->hasMany(Program::class);
+        return $this->hasMany(ProgramEdition::class);
     }
 
     public function students()

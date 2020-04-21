@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Company;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -36,23 +37,12 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreCompanyRequest  $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(StoreCompanyRequest $request)
     {
-        $this->authorize('store');
-
-        $request->validate([
-            'name' => 'required',
-            'vat_number' => 'required',
-            'budgets' => 'sometimes|array',
-            'budgets.*.company_id' => 'sometimes|nullable',
-            'budgets.*.year' => 'required|integer|min:1990|max:2100',
-            'budgets.*.budget' => 'required|integer|min:0',
-        ]);
-
         $company = DB::transaction(function () use ($request) {
             $company = Company::create($request->only('name', 'vat_number'));
             $company->budgets()->createMany($request->get('budgets') ?: []);
@@ -76,24 +66,13 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateCompanyRequest  $request
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $this->authorize('update');
-
-        $request->validate([
-            'name' => 'required',
-            'vat_number' => 'required',
-            'budgets' => 'sometimes|array',
-            'budgets.*.company_id' => 'nullable|integer',
-            'budgets.*.year' => 'required|integer|min:1990|max:2100',
-            'budgets.*.budget' => 'required|numeric|min:0',
-        ]);
-
         $company = DB::transaction(function () use ($request, $company) {
             $company->update($request->only('name', 'vat_number'));
             $company->budgets()->sync($request->get('budgets') ?: []);

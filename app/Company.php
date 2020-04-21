@@ -18,4 +18,9 @@ class Company extends Model
     {
         return $this->hasMany(Student::class);
     }
+
+    public function budgets()
+    {
+        return $this->hasMany(CompanyYearlyBudget::class);
+    }
 }

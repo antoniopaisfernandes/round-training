@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CompanyController extends Controller
@@ -42,14 +43,22 @@ class CompanyController extends Controller
     {
         $this->authorize('store');
 
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required',
             'vat_number' => 'required',
+            'budgets' => 'sometimes|array',
+            'budgets.*.company_id' => 'sometimes|nullable',
+            'budgets.*.year' => 'required|integer|min:1990|max:2100',
+            'budgets.*.budget' => 'required|integer|min:0',
         ]);
 
-        $company = Company::create($validated);
+        $company = DB::transaction(function () use ($request) {
+            $company = Company::create($request->only('name', 'vat_number'));
+            $company->budgets()->createMany($request->get('budgets') ?: []);
+            return $company;
+        });
 
-        return response()->json($company);
+        return $this->show($company->fresh());
     }
 
     /**
@@ -60,7 +69,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return response()->json($company);
+        return response()->json($company->load(['budgets']));
     }
 
     /**
@@ -75,14 +84,20 @@ class CompanyController extends Controller
     {
         $this->authorize('update');
 
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required',
             'vat_number' => 'required',
+            'budgets' => 'sometimes|array',
+            'budgets.*.company_id' => 'required',
+            'budgets.*.year' => 'required|integer|min:1990|max:2100',
+            'budgets.*.budget' => 'required|integer|min:0',
         ]);
 
-        $company->update(
-            $validated
-        );
+        $company = DB::transaction(function () use ($request, $company) {
+            $company->update($request->only('name', 'vat_number'));
+            $company->budgets()->sync($request->get('budgets') ?: []);
+            return $company;
+        });
 
         return $this->show($company);
     }

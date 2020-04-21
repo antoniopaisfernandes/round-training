@@ -3,6 +3,7 @@
 namespace Tests\Feature\Companies;
 
 use App\Company;
+use App\CompanyYearlyBudget;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -42,6 +43,22 @@ class EditingCompaniesTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_cannot_updating_a_company()
+    {
+        $company = factory(Company::class)->create([
+            'name' => 'Old name',
+        ]);
+
+        $this->be(new User())->patch("/companies/{$company->id}", [
+            'name' => null,
+        ])->assertStatus(403);
+
+        $this->assertDatabaseHas('companies', [
+            'name' => 'Old name',
+        ]);
+    }
+
+    /** @test */
     public function a_name_is_required_updating_a_company()
     {
         $company = factory(Company::class)->create([
@@ -76,18 +93,38 @@ class EditingCompaniesTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_cannot_updating_a_company()
+    public function when_editing_a_company_it_can_add_yearly_budgets()
     {
-        $company = factory(Company::class)->create([
-            'name' => 'Old name',
-        ]);
+        $this->withoutExceptionHandling();
 
-        $this->be(new User())->patch("/companies/{$company->id}", [
-            'name' => null,
-        ]);
+        $company = factory(Company::class)->create();
 
-        $this->assertDatabaseHas('companies', [
-            'name' => 'Old name',
-        ]);
+        $response = $this->patch("/companies/{$company->id}", array_merge(
+            $company->toArray(),
+            [
+                'budgets' => factory(CompanyYearlyBudget::class, 2)->make()->toArray(),
+            ]
+        ));
+
+        $response->assertOk();
+        $this->assertCount(2, CompanyYearlyBudget::all());
+    }
+
+    /** @test */
+    public function when_editing_a_company_it_can_change_yearly_budgets()
+    {
+        $this->withoutExceptionHandling();
+
+        $company = factory(Company::class)->state('with-2-yearly-budgets')->create();
+
+        $response = $this->patch("/companies/{$company->id}", array_merge(
+            $company->toArray(),
+            [
+                'budgets' => factory(CompanyYearlyBudget::class, 4)->make()->toArray(),
+            ]
+        ));
+
+        $response->assertOk();
+        $this->assertCount(4, CompanyYearlyBudget::all());
     }
 }

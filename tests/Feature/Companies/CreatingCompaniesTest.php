@@ -3,6 +3,7 @@
 namespace Tests\Feature\Companies;
 
 use App\Company;
+use App\CompanyYearlyBudget;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -34,6 +35,17 @@ class CreatingCompaniesTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_cannot_create_a_company()
+    {
+        $company = factory(Company::class)->make()->toArray();
+
+        $this->be(new User())->post('/companies', $company);
+
+        $this->assertDatabaseMissing('companies', $company);
+        $this->assertCount(0, Company::all());
+    }
+
+    /** @test */
     public function a_name_is_required_for_a_company()
     {
         $company = factory(Company::class)->make([
@@ -58,13 +70,15 @@ class CreatingCompaniesTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_cannot_create_a_company()
+    public function when_creating_a_company_it_can_add_yearly_budgets()
     {
-        $company = factory(Company::class)->make()->toArray();
+        $this->withoutExceptionHandling();
 
-        $this->be(new User())->post('/companies', $company);
+        $company = factory(Company::class)->state('with-2-yearly-budgets')->make()->toArray();
 
-        $this->assertDatabaseMissing('companies', $company);
-        $this->assertCount(0, Company::all());
+        $response = $this->post('/companies', $company);
+
+        $response->assertOk();
+        $this->assertCount(2, CompanyYearlyBudget::all());
     }
 }

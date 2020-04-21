@@ -155,7 +155,7 @@
                   <v-datetime-picker label="Início intervalo" v-model="schedule.interval_start" timeFormat="HH:mm"></v-datetime-picker>
                 </div>
                 <div class="tw-w-20/100 tw-ml-2">
-                  <v-text-field label="Duranção intervalo" v-model="schedule.interval_minutes"></v-text-field>
+                  <v-text-field label="Duração intervalo" v-model="schedule.interval_minutes"></v-text-field>
                 </div>
                 <div class="tw-w-5/100 tw-ml-2 tw-flex tw-items-center">
                   <v-btn

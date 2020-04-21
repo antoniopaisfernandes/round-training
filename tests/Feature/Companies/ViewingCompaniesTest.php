@@ -39,8 +39,10 @@ class ViewingCompaniesTest extends TestCase
 
         $response->assertViewHas('companies');
         $this->assertEquals(
-            $companies->fresh()->all(),
-            collect($response->viewData('companies'))->sortBy('id')->values()->all()
+            $companies->map(function ($company) {
+                return $company->with('budgets')->find($company->id);
+            })->sortBy('id')->values()->toArray(),
+            collect($response->viewData('companies'))->sortBy('id')->values()->toArray()
         );
     }
 

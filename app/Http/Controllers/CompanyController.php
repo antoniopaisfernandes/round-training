@@ -17,8 +17,9 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = QueryBuilder::for(Company::class)
+            ->with(['budgets'])
             ->allowedFilters(['id', 'name', 'vat_number'])
-            ->allowedIncludes(['programs'])
+            ->allowedIncludes(['programs', 'budgets'])
             ->defaultSort('name')
             ->allowedSorts(['id', 'vat_number'])
             ->get();
@@ -88,9 +89,9 @@ class CompanyController extends Controller
             'name' => 'required',
             'vat_number' => 'required',
             'budgets' => 'sometimes|array',
-            'budgets.*.company_id' => 'required',
+            'budgets.*.company_id' => 'nullable|integer',
             'budgets.*.year' => 'required|integer|min:1990|max:2100',
-            'budgets.*.budget' => 'required|integer|min:0',
+            'budgets.*.budget' => 'required|numeric|min:0',
         ]);
 
         $company = DB::transaction(function () use ($request, $company) {

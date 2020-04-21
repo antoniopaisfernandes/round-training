@@ -19,6 +19,8 @@ class CreateCompanyYearlyBudgetsTable extends Migration
             $table->unsignedSmallInteger('year');
             $table->decimal('budget', 10, 2)->default(0);
             $table->timestamps();
+
+            $table->unique(['company_id', 'year']);
         });
     }
 

@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 
     Route::apiResource('/programs', ProgramController::class)->names('programs');
 
-    Route::apiResource('/program-editions.students', ProgramEditionStudentController::class);
+    Route::apiResource('/program-editions.students', ProgramEditionStudentController::class)->only(['index', 'show']);
     Route::get('/program-editions/{programEdition}/export', ProgramEditionExportController::class);
     Route::apiResource('/program-editions', ProgramEditionController::class);
 

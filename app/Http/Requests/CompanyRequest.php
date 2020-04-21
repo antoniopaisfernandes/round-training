@@ -28,7 +28,7 @@ class CompanyRequest extends FormRequest
             'vat_number' => 'required',
             'budgets' => 'sometimes|array',
             'budgets.*.company_id' => 'nullable|integer',
-            'budgets.*.year' => 'required|integer|min:1990|max:2100',
+            'budgets.*.year' => 'required|integer|min:1990|max:2100|distinct',
             'budgets.*.budget' => 'required|numeric|min:0',
         ];
     }

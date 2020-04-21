@@ -81,4 +81,16 @@ class CreatingCompaniesTest extends TestCase
         $response->assertOk();
         $this->assertCount(2, CompanyYearlyBudget::all());
     }
+
+    /** @test */
+    public function the_yearly_budgets_cannot_refer_to_the_same_year()
+    {
+        $company = factory(Company::class)->state('with-2-yearly-budgets')->make()->toArray();
+        $company['budgets'][0]['year'] = 2020;
+        $company['budgets'][1]['year'] = 2020;
+
+        $response = $this->post('/companies', $company)->assertRedirect();
+
+        $response->assertSessionHasErrors(['budgets.0.year']);
+    }
 }

@@ -16,6 +16,7 @@
                 autofocus
                 v-model="dataUser.name"
                 label="Nome"
+                id="name"
                 prepend-icon="mdi-account-edit-outline"
                 required
                 :rules="rules.name"
@@ -23,6 +24,7 @@
               <v-text-field
                 v-model="dataUser.email"
                 label="E-mail"
+                id="email"
                 type="email"
                 prepend-icon="mdi-email-outline"
                 required
@@ -31,6 +33,7 @@
               <v-text-field
                 v-model="dataUser.password"
                 label="Password"
+                id="password"
                 type="password"
                 prepend-icon="mdi-lastpass"
                 required
@@ -39,6 +42,7 @@
               <v-text-field
                 v-model="dataUser.password_confirmation"
                 label="Repetir password"
+                id="password_confirmation"
                 type="password"
                 prepend-icon="mdi-lastpass"
                 required
@@ -53,6 +57,7 @@
                 chips
                 :deletable-chips="true"
                 label="Perfis"
+                id="roles"
                 multiple
                 prepend-icon="mdi-dolly"
               ></v-select>

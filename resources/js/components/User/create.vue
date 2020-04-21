@@ -161,7 +161,10 @@ export default {
 
   watch: {
     user: function(value) {
-      this.dataUser = value
+      this.dataUser = new User({
+        roles: [],
+        ...value,
+      })
     },
     visible: function(value) {
       this.dataVisible = value

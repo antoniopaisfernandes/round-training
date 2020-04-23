@@ -93,6 +93,27 @@ class EditingCompaniesTest extends TestCase
     }
 
     /** @test */
+    public function the_short_name_can_be_edited()
+    {
+        $this->withoutExceptionHandling();
+
+        $company = factory(Company::class)->create([
+            'short_name' => 'OLD',
+        ]);
+
+        $this->patch("/companies/{$company->id}", array_merge(
+            $company->toArray(),
+            [
+                'short_name' => 'NEW',
+            ]
+        ));
+
+        $this->assertDatabaseHas('companies', [
+            'short_name' => 'NEW',
+        ]);
+    }
+
+    /** @test */
     public function when_editing_a_company_it_can_add_yearly_budgets()
     {
         $this->withoutExceptionHandling();

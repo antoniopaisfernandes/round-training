@@ -12,13 +12,22 @@
           required
           :rules="rules.name"
         ></v-text-field>
-        <v-text-field
-          v-model="dataCompany.vat_number"
-          label="Contribuinte"
-          required
-          :rules="rules.vat_number"
-        ></v-text-field>
-
+        <div class="tw-flex">
+          <v-text-field
+            v-model="dataCompany.short_name"
+            label="Abreviatura"
+            required
+            :rules="rules.short_name"
+            class="tw-w-1/2"
+          ></v-text-field>
+          <v-text-field
+            v-model="dataCompany.vat_number"
+            label="Contribuinte"
+            required
+            :rules="rules.vat_number"
+            class="tw-w-1/2 tw-ml-2"
+          ></v-text-field>
+        </div>
         <div class="mt-2">
           <span class="subtitle-1">Orçamentos</span>
           <v-btn

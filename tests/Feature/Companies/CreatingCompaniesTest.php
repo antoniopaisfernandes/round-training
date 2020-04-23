@@ -70,6 +70,18 @@ class CreatingCompaniesTest extends TestCase
     }
 
     /** @test */
+    public function a_company_can_have_a_short_name()
+    {
+        $company = factory(Company::class)->make([
+            'short_name' => 'SHORT',
+        ])->toArray();
+
+        $this->post('/companies', $company)->assertOk();
+
+        $this->assertDatabaseHas('companies', $company);
+    }
+
+    /** @test */
     public function when_creating_a_company_it_can_add_yearly_budgets()
     {
         $this->withoutExceptionHandling();

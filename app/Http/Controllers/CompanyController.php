@@ -44,7 +44,7 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $company = DB::transaction(function () use ($request) {
-            $company = Company::create($request->only('name', 'vat_number'));
+            $company = Company::create($request->only('name', 'short_name', 'vat_number'));
             $company->budgets()->createMany($request->get('budgets') ?: []);
             return $company;
         });
@@ -74,7 +74,7 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company)
     {
         $company = DB::transaction(function () use ($request, $company) {
-            $company->update($request->only('name', 'vat_number'));
+            $company->update($request->only('name', 'short_name', 'vat_number'));
             $company->budgets()->sync($request->get('budgets') ?: []);
             return $company;
         });

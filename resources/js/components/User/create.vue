@@ -134,7 +134,10 @@ export default {
         ],
         email: [
           v => !!v || 'É obrigatória a indicação de um valor para o campo.'
-        ]
+        ],
+        password_confirmation: [
+          v => (!!v && v) === this.dataUser.password || 'Password não coincidem.'
+        ],
       }
     },
   },

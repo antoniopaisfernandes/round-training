@@ -25,14 +25,14 @@ class ReportsController extends Controller
 
         abort_unless($report = $this->reportAvailable($report), 404);
 
-        // try {
+        try {
             $resolved = app()->makeWith(
                 "\\App\Exports\\Reports\\{$report}\\{$report}Export",
                 ['options' => $validated]
             );
-        // } catch (Exception $e) {
-        //     abort(404, 'Cannot instantiate report');
-        // }
+        } catch (Exception $e) {
+            abort(404, 'Cannot instantiate report');
+        }
 
         return Excel::download($resolved, "{$report}.xlsx");
     }

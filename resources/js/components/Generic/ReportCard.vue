@@ -124,7 +124,9 @@ export default {
     async submit() {
       try {
         this.loading = true;
-        let response = await axios.post(`/reports/${this.report}`, this.form);
+        let response = await axios.post(`/reports/${this.report}`, this.form, {
+          responseType: 'arraybuffer'
+        });
         jsFileDownload(response.data, `${this.report}.xlsx`)
       } catch (error) {
         alert.error(error)

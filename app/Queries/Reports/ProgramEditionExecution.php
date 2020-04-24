@@ -4,16 +4,30 @@ namespace App\Queries\Reports;
 
 use App\Company;
 use App\ProgramEdition;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class ProgramEditionExecution
 {
+    protected $filters;
+
+    public function __construct($filters)
+    {
+        $this->filters = $filters;
+    }
+
     /**
      * @return Collection
      */
-    public static function collection()
+    public function collection()
     {
         $programEditions = ProgramEdition::with('enrollments')
+            ->when($this->filters['begin_date'] ?? false, function (Builder $query) {
+                $query->where('starts_at', '>=', $this->filters['begin_date']);
+            })
+            ->when($this->filters['end_date'] ?? false, function (Builder $query) {
+                $query->where('starts_at', '<=', $this->filters['end_date']);
+            })
             ->get();
 
         $purchasingMatrix = $programEditions->map
@@ -25,7 +39,7 @@ class ProgramEditionExecution
             ->map(fn() => 0)
             ->toArray();
 
-        $headers = self::headers(array_keys($purchasingMatrix));
+        $headers = $this->headers(array_keys($purchasingMatrix));
         $data = $programEditions->map(function (ProgramEdition $programEdition) use ($purchasingMatrix) {
             $programEdition->splited_costs->each(function (Company $company) use (&$purchasingMatrix) {
                 $purchasingMatrix[$company->id] = $company->cost;
@@ -45,7 +59,7 @@ class ProgramEditionExecution
         return $headers->merge($data);
     }
 
-    private static function headers($companyIds)
+    private function headers($companyIds)
     {
         return collect([[
             'Formação',

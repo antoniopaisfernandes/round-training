@@ -36,8 +36,8 @@ const menuRoutes = [
     {
         type: 'v-list-item',
         icon: 'mdi-microsoft-excel',
-        text: 'Exportar',
-        link: '',
+        text: 'Relatórios',
+        link: '/reports',
     },
 ]
 

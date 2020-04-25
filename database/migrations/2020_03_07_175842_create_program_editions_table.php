@@ -23,6 +23,7 @@ class CreateProgramEditionsTable extends Migration
             $table->string('teacher_name');
             $table->date('starts_at')->nullable()->index();
             $table->date('ends_at')->nullable()->index();
+            $table->string('location', 100)->nullable();
             $table->foreignId('created_by');
             $table->softDeletes();
             $table->timestamps();

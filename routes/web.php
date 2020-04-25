@@ -11,6 +11,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProgramEditionController;
 use App\Http\Controllers\ProgramEditionExportController;
 use App\Http\Controllers\ProgramEditionStudentController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentExportController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/students/{student}/export', StudentExportController::class);
     Route::resource('/students', StudentController::class);
+
+    Route::prefix('reports')->group(function () {
+        Route::post('/{report}', [ReportsController::class, 'show'])->name('reports.show');
+        Route::get('/', [ReportsController::class, 'index'])->name('reports.index');
+    });
 
     Route::prefix('admin')->middleware('admin')->group(function () {
         Route::apiResource('users', UserController::class)->names('users');

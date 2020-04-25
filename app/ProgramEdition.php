@@ -18,6 +18,9 @@ class ProgramEdition extends Model
         'manager',
         'schedules',
     ];
+    protected $casts = [
+        'cost' => 'double'
+    ];
     protected $withCount = [
         'students',
     ];
@@ -61,6 +64,40 @@ class ProgramEdition extends Model
     public function getFullNameAttribute()
     {
         return $this->program->name . ' - ' . $this->name;
+    }
+
+    /**
+     * Get the splitted costs by company weighted by the number of students
+     * If there are no students enrolled, the cost is assumed by the buying
+     * company (defined by the company_id field in this model)
+     *
+     * @return Collection<Company>
+     */
+    public function getSplitedCostsAttribute()
+    {
+        if (($students = $this->students)->isEmpty()) {
+            return collect([$this->company->setAttribute('cost', $this->cost)]);
+        }
+
+        return $students->groupBy(function ($student) {
+                return $student->pivot->company_id ?: $this->id;
+            })
+            ->map(function ($companyStudents, $company_id) use ($students) {
+                return Company::find($company_id)
+                    ->setAttribute('cost', round($companyStudents->count() / $students->count() * $this->cost, 2));
+            })
+            ->values();
+    }
+
+    /**
+     * The companies eligible to assume the cost of the program edition are
+     * all in the enrollments with the one that purchased from the supplier
+     *
+     * @return Collection
+     */
+    public function getEligiblePurchasingCompanyIdsAttribute()
+    {
+        return $this->enrollments->pluck('company_id')->push($this->company_id)->unique()->values();
     }
 
     public function scopeStatus($query, $status)

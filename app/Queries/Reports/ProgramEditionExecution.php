@@ -4,7 +4,6 @@ namespace App\Queries\Reports;
 
 use App\Company;
 use App\ProgramEdition;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class ProgramEditionExecution
@@ -22,12 +21,8 @@ class ProgramEditionExecution
     public function collection()
     {
         $programEditions = ProgramEdition::with('enrollments')
-            ->when($this->filters['begin_date'] ?? false, function (Builder $query) {
-                $query->where('starts_at', '>=', $this->filters['begin_date']);
-            })
-            ->when($this->filters['end_date'] ?? false, function (Builder $query) {
-                $query->where('starts_at', '<=', $this->filters['end_date']);
-            })
+            ->where('starts_at', '>=', $this->filters['year'] . '-01-01')
+            ->where('starts_at', '<=', $this->filters['year'] . '-12-31')
             ->get();
 
         $purchasingMatrix = $programEditions->map
@@ -48,9 +43,10 @@ class ProgramEditionExecution
             return [
                 $programEdition->full_name,
                 $programEdition->students_count,
-                '', // interno
+                $programEdition->supplier,
                 $programEdition->schedules->sum('working_hours'),
-                $programEdition->starts_at . ' a ' . $programEdition->ends_at,
+                $programEdition->starts_at,
+                $programEdition->ends_at,
                 $programEdition->location ?: '',
                 ...$purchasingMatrix,
             ];
@@ -59,16 +55,43 @@ class ProgramEditionExecution
         return $headers->merge($data);
     }
 
-    private function headers($companyIds)
+    public function headers($companyIds)
     {
-        return collect([[
-            'Formação',
-            'Formandos',
-            'Interno',
-            'Carga horária',
-            'Data',
-            'Local',
-            ...Company::whereIn('id', $companyIds)->get()->pluck('short_name')->flatten()->toArray(),
-        ]]);
+        $companies = Company::whereIn('id', $companyIds)->with([
+            'budgets' => fn($query) => $query->where('year', $this->filters['year'])
+        ])->get();
+
+        return collect([
+            [
+                ...array_fill(0, 7, ''),
+                ...$companies->pluck('short_name')->flatten()->toArray(),
+            ],
+            [
+                ...array_fill(0, 6, ''),
+                'Orçamento',
+                ...$companies->pluck('budgets')
+                    ->map(fn ($budgets) => $budgets->first())
+                    ->map(fn ($budget) => optional($budget)->budget)
+                    ->toArray(),
+            ],
+            [
+                ...array_fill(0, 6, ''),
+                'Execução',
+                ...$companies->pluck('budgets')
+                    ->map(fn ($budgets) => $budgets->first())
+                    ->map(fn ($budget) => optional($budget)->execution)
+                    ->toArray(),
+            ],
+            [
+                'Formação',
+                'Formandos',
+                'Fornecedor',
+                'Carga horária',
+                'Data início',
+                'Data fim',
+                'Local',
+                // ...,
+            ]
+        ]);
     }
 }

@@ -3,21 +3,37 @@
 namespace App\Exports\Reports\Execution;
 
 use App\Queries\Reports\ProgramEditionExecution;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\BeforeWriting;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ExecutionExport implements FromCollection, WithEvents, WithTitle, ShouldAutoSize
 {
-    protected $options;
+    protected $query;
 
     public function __construct($options)
     {
-        $this->options = $options;
+        /** @var \Illuminate\Validation\Validator $validator */
+        $validator = Validator::make($options, [
+            'begin_date' => 'required|date|date_format:Y-m-d',
+        ]);
+
+        throw_unless(
+            $validator->passes(),
+            new ValidationException($validator)
+        );
+
+        $this->query = new ProgramEditionExecution([
+            'year' => Carbon::create($validator->validated()['begin_date'])->format('Y'),
+        ]);
     }
 
     public function title(): string
@@ -27,7 +43,7 @@ class ExecutionExport implements FromCollection, WithEvents, WithTitle, ShouldAu
 
     public function collection()
     {
-        return (new ProgramEditionExecution($this->options))->collection();
+        return $this->query->collection();
     }
 
     public function registerEvents(): array
@@ -55,7 +71,7 @@ class ExecutionExport implements FromCollection, WithEvents, WithTitle, ShouldAu
 
     private function applyStyle($spreadsheet)
     {
-        $spreadsheet->getStyle('A:Z')->applyFromArray([
+        $spreadsheet->getParent()->getDefaultStyle()->applyFromArray([
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
                 'color' => [
@@ -63,7 +79,7 @@ class ExecutionExport implements FromCollection, WithEvents, WithTitle, ShouldAu
                 ],
             ],
         ]);
-        $spreadsheet->getStyle('5:5')->applyFromArray([
+        $spreadsheet->getStyle('4:7')->applyFromArray([
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
                 'color' => [

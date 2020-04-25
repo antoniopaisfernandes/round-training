@@ -13,6 +13,7 @@
                 title="Acompanhamento de execução"
                 description="Execução face ao orçamento das ações de formação com detalhe por formação e empresa"
                 report="execution"
+                date-format="year"
             ></report-card>
         </v-col>
     </v-row>

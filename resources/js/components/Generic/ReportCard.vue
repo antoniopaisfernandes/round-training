@@ -8,51 +8,64 @@
     >
       <div class="px-2 tw-text-xl tw-text-center primary tw-text-white" v-text="title"></div>
       <div class="container py-0">
-        <v-menu
-          v-model="startsAtActive"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          min-width="none"
-          offset-y
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
+
+        <div v-if="dateFormat == 'date-range'">
+          <v-menu
+            v-model="startsAtActive"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            min-width="none"
+            offset-y
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="startsAt"
+                label="Desde"
+                prepend-inner-icon="mdi-calendar"
+                readonly
+                v-on="on"
+                :dense="true"
+                class="mt-4"
+              ></v-text-field>
+            </template>
+            <v-date-picker
               v-model="startsAt"
-              label="Desde"
-              prepend-inner-icon="mdi-calendar"
-              readonly
-              v-on="on"
-              :dense="true"
-              class="mt-4"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="startsAt"
-            @input="startsAtActive = false"
-          ></v-date-picker>
-        </v-menu>
-        <v-menu
-          v-model="endsAtActive"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          min-width="none"
-          offset-y
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
+              @input="startsAtActive = false"
+            ></v-date-picker>
+          </v-menu>
+          <v-menu
+            v-model="endsAtActive"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            min-width="none"
+            offset-y
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="endsAt"
+                label="Até"
+                prepend-inner-icon="mdi-calendar"
+                readonly
+                v-on="on"
+                :dense="true"
+              ></v-text-field>
+            </template>
+            <v-date-picker
               v-model="endsAt"
-              label="Até"
-              prepend-inner-icon="mdi-calendar"
-              readonly
-              v-on="on"
-              :dense="true"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="endsAt"
-            @input="endsAtActive = false"
-          ></v-date-picker>
-        </v-menu>
+              @input="endsAtActive = false"
+            ></v-date-picker>
+          </v-menu>
+        </div>
+
+        <div v-if="dateFormat == 'year'">
+          <v-select
+            prepend-inner-icon="mdi-calendar"
+            :items="years"
+            label="Ano"
+            class="mt-4"
+            v-model="year"
+          ></v-select>
+        </div>
       </div>
       <div class="container tw-text-xs">{{ description }}</div>
       <v-card-actions>
@@ -90,6 +103,10 @@ export default {
       type: String,
       default: null
     },
+    dateFormat: {
+      type: String,
+      default: 'date-range'
+    },
     beginDate: {
       type: [Date, null],
       default: null
@@ -103,6 +120,7 @@ export default {
   data: () => {
     return {
       loading: false,
+      year: null,
       startsAtActive: false,
       startsAt: null,
       endsAtActive: false,
@@ -111,9 +129,15 @@ export default {
   },
 
   computed: {
+    years: function () {
+      const currentYear = new Date().getFullYear();
+      const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+      return range(currentYear, currentYear - 20, -1);
+    },
     form: function () {
       return {
         'name': this.report,
+        'year': this.year,
         'begin_date': this.startsAt,
         'end_date': this.endsAt,
       }
@@ -127,7 +151,7 @@ export default {
         let response = await axios.post(`/reports/${this.report}`, this.form, {
           responseType: 'arraybuffer'
         });
-        jsFileDownload(response.data, `${this.report}.xlsx`)
+        jsFileDownload(response.data, `${this.report}.xlsx`);
       } catch (error) {
         alert.error(error)
       } finally {

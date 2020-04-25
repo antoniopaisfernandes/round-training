@@ -23,7 +23,7 @@ class ExecutionExport implements FromCollection, WithEvents, WithTitle, ShouldAu
     {
         /** @var \Illuminate\Validation\Validator $validator */
         $validator = Validator::make($options, [
-            'begin_date' => 'required|date|date_format:Y-m-d',
+            'year' => 'required|numeric',
         ]);
 
         throw_unless(
@@ -31,9 +31,7 @@ class ExecutionExport implements FromCollection, WithEvents, WithTitle, ShouldAu
             new ValidationException($validator)
         );
 
-        $this->query = new ProgramEditionExecution([
-            'year' => Carbon::create($validator->validated()['begin_date'])->format('Y'),
-        ]);
+        $this->query = new ProgramEditionExecution($validator->validated());
     }
 
     public function title(): string

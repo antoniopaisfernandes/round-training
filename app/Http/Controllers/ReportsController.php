@@ -19,8 +19,9 @@ class ReportsController extends Controller
     {
         $validated = request()->validate([
             'name' => 'required',
-            'begin_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
+            'year' => 'sometimes|nullable|numeric',
+            'begin_date' => 'sometimes|nullable|date',
+            'end_date' => 'sometimes|nullable|date',
         ]);
 
         abort_unless($report = $this->reportAvailable($report), 404);

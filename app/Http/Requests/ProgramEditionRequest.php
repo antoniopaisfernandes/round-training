@@ -63,6 +63,11 @@ class ProgramEditionRequest extends FormRequest
                 'date',
                 'after_or_equal:starts_at',
             ],
+            'evaluation_notification_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:ends_at',
+            ],
             'schedules' => 'sometimes|array',
             'schedules.*.starts_at' => [
                 'required_with:schedules',

@@ -155,6 +155,25 @@ class EditingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_the_evaluation_notification_date()
+    {
+        $programEdition = factory(ProgramEdition::class)->create([
+            'evaluation_notification_date' => today()->addMonths(3),
+        ]);
+
+        $this->patch("/program-editions/{$programEdition->id}", array_merge(
+            $programEdition->toArray(),
+            [
+                'evaluation_notification_date' => today()->addMonths(6),
+            ]
+        ));
+
+        $this->assertDatabaseHas('program_editions', [
+            'evaluation_notification_date' => today()->addMonths(6),
+        ]);
+    }
+
+    /** @test */
     public function when_adding_schedules_to_a_program_edition_they_must_have_a_starts_at_date()
     {
         $this->withoutExceptionHandling();

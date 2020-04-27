@@ -94,6 +94,7 @@
                   <v-date-picker
                     v-model="dataProgramEdition.ends_at"
                     @input="endsAtActive = false"
+                    v-on:input="updateEvaluationNotificationDate($event)"
                   ></v-date-picker>
                 </v-menu>
                 <v-select
@@ -137,7 +138,33 @@
                 ></v-text-field>
               </div>
 
-              <div class="mt-2">
+              <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
+                <v-menu
+                  v-model="evaluationNotificationDateActive"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="dataProgramEdition.evaluation_notification_date"
+                      label="Notificar avaliação a"
+                      prepend-inner-icon="mdi-calendar"
+                      readonly
+                      v-on="on"
+                      :rules="rules.evaluation_notification_date"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="dataProgramEdition.evaluation_notification_date"
+                    @input="evaluationNotificationDateActive = false"
+                  ></v-date-picker>
+                </v-menu>
+                <span class="tw-w-3/4 tw-text-sm tw-text-center">Notificação a ser enviada para chefia de cada aluno.</span>
+              </div>
+
+              <div class="tw-mt-2">
                 <span class="subtitle-1">Agendamentos</span>
                 <v-btn
                   fab
@@ -221,6 +248,7 @@ import ProgramEditionSchedule from '../../models/ProgramEditionSchedule'
 import Model from '../../models/Model'
 import alert from '../../plugins/toast'
 import map from 'lodash-es/map'
+import { addMonths, parseISO, format } from 'date-fns'
 
 export default {
   name: 'program-edition-create',
@@ -258,6 +286,7 @@ export default {
     startsAtActive: false,
     endsAtActive: false,
     addProgramDialogVisible: false,
+    evaluationNotificationDateActive: false,
 
     tab: null,
   }),
@@ -340,6 +369,17 @@ export default {
     },
     deleteSchedule(index) {
       this.dataProgramEdition.schedules.splice(index, 1)
+    },
+
+    updateEvaluationNotificationDate(event) {
+      if (! this.dataProgramEdition.evaluation_notification_date
+        || ! this.dataProgramEdition.id
+      ) {
+        this.dataProgramEdition.evaluation_notification_date = format(
+          addMonths(parseISO(this.dataProgramEdition.ends_at), 6),
+          'yyyy-LL-dd'
+        );
+      }
     },
 
     async getStudents() {

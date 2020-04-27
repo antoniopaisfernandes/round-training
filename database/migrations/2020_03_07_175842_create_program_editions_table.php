@@ -25,6 +25,7 @@ class CreateProgramEditionsTable extends Migration
             $table->date('starts_at')->nullable()->index();
             $table->date('ends_at')->nullable()->index();
             $table->string('location', 100)->nullable();
+            $table->date('evaluation_notification_date')->nullable();
             $table->foreignId('created_by');
             $table->softDeletes();
             $table->timestamps();

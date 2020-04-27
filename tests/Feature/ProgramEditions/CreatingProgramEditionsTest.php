@@ -106,6 +106,19 @@ class CreatingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_with_the_evaluation_notification_date()
+    {
+        $programEdition = $this->makeValidProgramEdition([
+            'evaluation_notification_date' => today()->addMonths(3),
+        ])->setAppends([])->toArray();
+
+        $response = $this->post('/program-editions', $programEdition);
+
+        $response->assertOk();
+        $this->assertDatabaseHas('program_editions', $programEdition);
+    }
+
+    /** @test */
     public function it_creates_program_edition_with_schedules()
     {
         $programEdition = factory(ProgramEdition::class)->states('with-3-schedules')->make()->toArray();

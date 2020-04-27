@@ -16,6 +16,7 @@ class Student extends Model
     protected $casts = [
         'phone' => 'string',
         'current_company_id' => 'int',
+        'leader_id' => 'int',
     ];
     public $rgpdFields = [
         'citizen_id',
@@ -41,6 +42,11 @@ class Student extends Model
     public function company()
     {
         return $this->belongsTo(Company::class, 'current_company_id');
+    }
+
+    public function leader()
+    {
+        return $this->belongsTo(User::class, 'leader_id');
     }
 
     public function enroll(ProgramEdition $programEdition)

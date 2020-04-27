@@ -27,6 +27,7 @@ class CreateStudentsTable extends Migration
             $table->string('nationality')->nullable();
             $table->string('current_job_title')->nullable();
             $table->foreignId('current_company_id')->nullable();
+            $table->foreignId('leader_id')->constrained('users')->onUpdate('cascade')->onDelete('set null')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

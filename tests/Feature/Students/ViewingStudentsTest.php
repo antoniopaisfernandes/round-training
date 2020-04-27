@@ -166,7 +166,6 @@ class ViewingStudentsTest extends TestCase
             'name' => $notEnrolledStudent->name,
         ]);
         $response->assertJsonMissing([
-            'id' => $enrolledStudent->fresh()->id,
             'name' => $enrolledStudent->name,
         ]);
     }

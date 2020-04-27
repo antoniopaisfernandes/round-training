@@ -80,6 +80,7 @@ class StudentController extends Controller
             'nationality' => 'nullable',
             'current_job_title' => 'nullable',
             'current_company_id' => 'nullable',
+            'leader_id' => 'nullable|exists:App\User,id',
         ]);
 
         $student = Student::create($validated);
@@ -123,6 +124,7 @@ class StudentController extends Controller
             'nationality' => 'nullable',
             'current_job_title' => 'nullable',
             'current_company_id' => 'nullable',
+            'leader_id' => 'nullable|exists:App\User,id',
         ]);
 
         $student->update(

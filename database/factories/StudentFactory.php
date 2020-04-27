@@ -6,6 +6,7 @@ use App\Company;
 use App\Enrollment;
 use App\ProgramEdition;
 use App\Student;
+use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Collection;
 
@@ -21,6 +22,7 @@ $factory->define(Student::class, function (Faker $faker) {
         'nationality' => 'PORTUGAL',
         'current_job_title' => $faker->jobTitle,
         'current_company_id' => factory(Company::class),
+        'leader_id' => factory(User::class),
     ];
 });
 

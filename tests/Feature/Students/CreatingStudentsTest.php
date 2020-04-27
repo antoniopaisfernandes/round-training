@@ -15,9 +15,7 @@ class CreatingStudentsTest extends TestCase
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = $this->createAdminUser()
-        );
+        $this->be($this->createAdminUser());
     }
 
     /** @test */
@@ -30,6 +28,29 @@ class CreatingStudentsTest extends TestCase
         $response = $this->post('/students', $student);
 
         $response->assertCreated();
+        $this->assertDatabaseHas('students', $student);
+    }
+
+    /** @test */
+    public function a_guest_cannot_create_a_student()
+    {
+        $student = factory(Student::class)->make()->toArray();
+
+        $this->be(new User())->post('/students', $student);
+
+        $this->assertDatabaseMissing('students', $student);
+        $this->assertCount(0, student::all());
+    }
+
+    /** @test */
+    public function it_creates_students_with_user_leader()
+    {
+        $student = factory(Student::class)->make([
+            'leader_id' => auth()->user()->id,
+        ])->toArray();
+
+        $this->post('/students', $student)->assertCreated();
+
         $this->assertDatabaseHas('students', $student);
     }
 
@@ -76,16 +97,5 @@ class CreatingStudentsTest extends TestCase
         $response = $this->post('/students', $student);
         $response->assertCreated();
         $response->assertSessionHasNoErrors();
-    }
-
-    /** @test */
-    public function a_guest_cannot_create_a_student()
-    {
-        $student = factory(Student::class)->make()->toArray();
-
-        $this->be(new User())->post('/students', $student);
-
-        $this->assertDatabaseMissing('students', $student);
-        $this->assertCount(0, student::all());
     }
 }

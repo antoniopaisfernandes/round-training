@@ -161,7 +161,13 @@
                     @input="evaluationNotificationDateActive = false"
                   ></v-date-picker>
                 </v-menu>
-                <span class="tw-w-3/4 tw-text-sm tw-text-center">Notificação a ser enviada para chefia de cada aluno.</span>
+                <v-text-field
+                  v-model="dataProgramEdition.goals"
+                  label="Objectivos da formação"
+                  required
+                  :rules="rules.goals"
+                  class="tw-ml-2 tw-w-3/4"
+                ></v-text-field>
               </div>
 
               <div class="tw-mt-2">

@@ -174,6 +174,25 @@ class EditingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_the_goals()
+    {
+        $programEdition = factory(ProgramEdition::class)->create([
+            'goals' => 'The students must be great!',
+        ]);
+
+        $this->patch("/program-editions/{$programEdition->id}", array_merge(
+            $programEdition->toArray(),
+            [
+                'goals' => 'They will be great!',
+            ]
+        ));
+
+        $this->assertDatabaseHas('program_editions', [
+            'goals' => 'They will be great!',
+        ]);
+    }
+
+    /** @test */
     public function when_adding_schedules_to_a_program_edition_they_must_have_a_starts_at_date()
     {
         $this->withoutExceptionHandling();

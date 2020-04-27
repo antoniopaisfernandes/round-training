@@ -52,6 +52,7 @@ class ProgramEditionRequest extends FormRequest
             'company_id' => 'required|exists:companies,id',
             'cost' => 'required|min:0|max:999999',
             'supplier' => 'required',
+            'supplier_certifications' => 'nullable|string',
             'teacher_name' => 'required',
             'starts_at' => [
                 'nullable',

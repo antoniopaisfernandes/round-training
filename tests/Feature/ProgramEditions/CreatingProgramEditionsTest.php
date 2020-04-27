@@ -93,6 +93,19 @@ class CreatingProgramEditionsTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_with_the_supplier_certifications()
+    {
+        $programEdition = $this->makeValidProgramEdition([
+            'supplier_certifications' => 'HiTec Management Certification',
+        ])->setAppends([])->toArray();
+
+        $response = $this->post('/program-editions', $programEdition);
+
+        $response->assertOk();
+        $this->assertDatabaseHas('program_editions', $programEdition);
+    }
+
+    /** @test */
     public function it_creates_program_edition_with_schedules()
     {
         $programEdition = factory(ProgramEdition::class)->states('with-3-schedules')->make()->toArray();

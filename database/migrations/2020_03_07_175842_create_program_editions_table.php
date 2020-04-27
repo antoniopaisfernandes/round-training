@@ -20,6 +20,7 @@ class CreateProgramEditionsTable extends Migration
             $table->foreignId('company_id');
             $table->decimal('cost')->default(0);
             $table->string('supplier');
+            $table->text('supplier_certifications')->nullable();
             $table->string('teacher_name');
             $table->date('starts_at')->nullable()->index();
             $table->date('ends_at')->nullable()->index();

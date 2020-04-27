@@ -103,8 +103,16 @@
                   required
                   :rules="rules.company_id"
                   @input="dataProgramEdition.company_id = $event"
-                  class="tw-ml-2 tw-w-8/12"
+                  class="tw-ml-2 tw-w-6/12"
                 ></v-select>
+                <v-text-field
+                  v-model="dataProgramEdition.cost"
+                  label="Valor"
+                  required
+                  :rules="rules.cost"
+                  class="tw-ml-2 tw-w-1/6 money"
+                  prefix="€"
+                ></v-text-field>
               </div>
               <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
                 <v-text-field
@@ -114,19 +122,18 @@
                   :rules="rules.supplier"
                 ></v-text-field>
                 <v-text-field
+                  v-model="dataProgramEdition.supplier_certifications"
+                  label="Certificações"
+                  required
+                  :rules="rules.supplier_certifications"
+                  class="ml-2"
+                ></v-text-field>
+                <v-text-field
                   v-model="dataProgramEdition.teacher_name"
                   label="Formador"
                   required
                   :rules="rules.teacher_name"
                   class="ml-2"
-                ></v-text-field>
-                <v-text-field
-                  v-model="dataProgramEdition.cost"
-                  label="Valor"
-                  required
-                  :rules="rules.cost"
-                  class="ml-2 tw-w-4 money"
-                  prefix="€"
                 ></v-text-field>
               </div>
 

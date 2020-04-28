@@ -49,12 +49,15 @@ class Student extends Model
         return $this->belongsTo(User::class, 'leader_id');
     }
 
-    public function enroll(ProgramEdition $programEdition)
+    public function enroll(ProgramEdition $programEdition, array $attributes = [])
     {
-        return $this->enrollments()->firstOrCreate([
-            'program_edition_id' => $programEdition->id,
-            'company_id' => $this->current_company_id,
-        ]);
+        return $this->enrollments()->firstOrCreate(array_merge(
+            [
+                'program_edition_id' => $programEdition->id,
+                'company_id' => $this->current_company_id,
+            ],
+            $attributes
+        ));
     }
 
     public function scopeNotEnrolled(Builder $query, ...$programEditionIds)

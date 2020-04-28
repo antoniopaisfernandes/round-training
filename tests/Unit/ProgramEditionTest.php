@@ -81,4 +81,19 @@ class ProgramEditionTest extends TestCase
 
         $this->assertCount(1, ProgramEdition::dueToEvaluate()->get());
     }
+
+    /** @test */
+    public function when_the_evaluation_are_filled_they_are_not_due()
+    {
+        $programEditionWithEvaluations = factory(ProgramEdition::class)->state('with-2-evaluations')->create([
+            'evaluation_notification_date' => today()->subDay(),
+        ]);
+        $programEditionWithoutEvaluations = factory(ProgramEdition::class)->state('with-3-students')->create([
+            'evaluation_notification_date' => today()->subDay(),
+        ]);
+
+        $due = ProgramEdition::dueToEvaluate()->get();
+        $this->assertCount(1, $due);
+        $this->assertTrue($programEditionWithoutEvaluations->is($due->first()));
+    }
 }

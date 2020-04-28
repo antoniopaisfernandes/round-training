@@ -65,3 +65,28 @@ Collection::times(5)->each(function ($num) use ($factory) {
         });
 });
 $factory->state(ProgramEdition::class, 'without-students', []);
+
+// Make 5 different states for student enrollments
+Collection::times(5)->each(function ($num) use ($factory) {
+    $factory->state(ProgramEdition::class, "with-{$num}-evaluations", [])
+        ->afterCreatingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {
+            factory(Student::class, $num)->create([
+                'current_company_id' => $programEdition->company_id,
+            ])->each->enroll($programEdition, [
+                'global_evaluation' => 'Eficaz',
+            ]);
+        })
+        ->afterMakingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {
+            $programEdition->setRelation('students', $students = factory(Student::class, $num)->create([
+                'current_company_id' => $programEdition->company_id,
+            ]));
+            $programEdition->setRelation('enrollments', $students->map(function (Student $student) {
+                return new Enrollment([
+                    'student_id' => $student->id,
+                    'company_id' => $student->current_company_id,
+                    'global_evaluation' => 'Eficaz',
+                ]);
+            }));
+        });
+});
+$factory->state(ProgramEdition::class, 'without-evaluations', []);

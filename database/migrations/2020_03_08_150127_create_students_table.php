@@ -26,12 +26,10 @@ class CreateStudentsTable extends Migration
             $table->string('birth_place')->nullable();
             $table->string('nationality')->nullable();
             $table->string('current_job_title')->nullable();
-            $table->foreignId('current_company_id')->nullable();
-            $table->foreignId('leader_id')->constrained('users')->onUpdate('cascade')->onDelete('set null')->nullable();
+            $table->foreignId('current_company_id')->nullable()->constrained('companies')->onUpdate('cascade');
+            $table->foreignId('leader_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('current_company_id')->references('id')->on('companies')->onUpdate('cascade');
         });
     }
 

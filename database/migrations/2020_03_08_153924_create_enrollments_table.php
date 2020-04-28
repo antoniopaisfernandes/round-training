@@ -16,8 +16,12 @@ class CreateEnrollmentsTable extends Migration
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('program_edition_id');
-            $table->foreignId('student_id');
-            $table->foreignId('company_id');
+            $table->foreignId('student_id')->constrained('students')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained('companies')->onUpdate('cascade')->onDelete('restrict');
+            $table->string('global_evaluation', 20)->nullable();
+            $table->string('evaluation_comments')->nullable();
+            $table->boolean('program_should_be_repeated')->nullable();
+            $table->unsignedTinyInteger('should_be_repeated_in_months')->nullable();
             $table->timestamps();
 
             $table->unique(['program_edition_id', 'student_id']);

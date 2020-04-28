@@ -29,7 +29,7 @@ class NotifyDueProgramEditionEvaluations extends Command
      */
     public function handle()
     {
-        ProgramEdition::dueToEvaluate()
+        ProgramEdition::dueToEvaluate('=', today())
             ->with('enrollments')
             ->get()
             ->each(function (ProgramEdition $programEdition) {

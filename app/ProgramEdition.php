@@ -114,9 +114,9 @@ class ProgramEdition extends Model
         }
     }
 
-    public function scopeDueToEvaluate(Builder $query, Carbon $date = null)
+    public function scopeDueToEvaluate(Builder $query, string $operator = '<', Carbon $date = null)
     {
-        $query->where('evaluation_notification_date', '<', $date ?: today())
+        $query->where('evaluation_notification_date', $operator, $date ?: today())
             ->whereHas('enrollments', fn($builder) => $builder->whereNull('global_evaluation'));
     }
 

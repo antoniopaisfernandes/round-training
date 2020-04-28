@@ -28,7 +28,7 @@ class EvaluationNotificationTest extends TestCase
         Mail::fake();
 
         $programEdition = factory(ProgramEdition::class)->create([
-            'evaluation_notification_date' => today()->subDay(),
+            'evaluation_notification_date' => today(),
         ]);
         $student1 = factory(Student::class)->create([
             'leader_id' => auth()->user()->id,
@@ -45,5 +45,19 @@ class EvaluationNotificationTest extends TestCase
             return $mail->hasTo($student1->leader->email)
                 && $mail->hasTo($student2->leader->email);
         });
+    }
+
+    /** @test */
+    public function the_notification_is_only_triggered_on_the_due_date()
+    {
+        Mail::fake();
+
+        factory(ProgramEdition::class)->state('with-1-students')->create([
+            'evaluation_notification_date' => today()->subDay(),
+        ]);
+
+        $this->artisan(NotifyDueProgramEditionEvaluations::class);
+
+        Mail::assertNothingSent();
     }
 }

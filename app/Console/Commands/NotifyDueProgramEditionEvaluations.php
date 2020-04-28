@@ -32,13 +32,6 @@ class NotifyDueProgramEditionEvaluations extends Command
         ProgramEdition::dueToEvaluate()
             ->with('enrollments')
             ->get()
-            ->map(function (ProgramEdition $programEdition) {
-                $programEdition->setAttribute(
-                    'emails_to_notify_of_due_evaluation',
-                    $programEdition->emailsToNotify('dueToEvaluate')
-                );
-                return $programEdition;
-            })
             ->each(function (ProgramEdition $programEdition) {
                 Mail::to($programEdition->emails_to_notify_of_due_evaluation)
                     ->send(new DuedProgramEditionEvaluation($programEdition));

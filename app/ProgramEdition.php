@@ -133,6 +133,11 @@ class ProgramEdition extends Model
             ->unique();
     }
 
+    public function getEmailsToNotifyOfDueEvaluationAttribute()
+    {
+        return $this->emailsToNotify('dueToEvaluate');
+    }
+
     /**
      * Enroll students in current program edition
      *

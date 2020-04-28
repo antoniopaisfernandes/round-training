@@ -22,4 +22,9 @@ class Enrollment extends Model
     {
         return $this->belongsTo(ProgramEdition::class);
     }
+
+    public function getDueToEvaluateAttribute()
+    {
+        return $this->global_evaluation === null;
+    }
 }

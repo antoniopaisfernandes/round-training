@@ -17,9 +17,7 @@ class EditingProgramEditionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = $this->createAdminUser()
-        );
+        $this->be($this->createAdminUser());
     }
 
     /** @test */

@@ -120,6 +120,19 @@ class ProgramEdition extends Model
             ->whereHas('enrollments', fn($builder) => $builder->whereNull('global_evaluation'));
     }
 
+    public function emailsToNotify($scope = 'dueToEvaluate') : Collection
+    {
+        return $this->enrollments
+            ->filter
+            ->{$scope}
+            ->map
+            ->student
+            ->map
+            ->leader
+            ->pluck('email')
+            ->unique();
+    }
+
     /**
      * Enroll students in current program edition
      *

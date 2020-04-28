@@ -68,4 +68,17 @@ class ProgramEditionTest extends TestCase
         $this->assertTrue($splitedCosts->last()->is($company2));
         $this->assertEquals(round(105.33 * 3 / 5, 2), $splitedCosts->last()->cost);
     }
+
+    /** @test */
+    public function it_can_fetch_editions_that_are_due_to_evaluate()
+    {
+        factory(ProgramEdition::class)->create([
+            'evaluation_notification_date' => today()->subDay(),
+        ]);
+        factory(ProgramEdition::class)->create([
+            'evaluation_notification_date' => today()->addDay(),
+        ]);
+
+        $this->assertCount(1, ProgramEdition::dueToEvaluate()->get());
+    }
 }

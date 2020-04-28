@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -100,7 +102,7 @@ class ProgramEdition extends Model
         return $this->enrollments->pluck('company_id')->push($this->company_id)->unique()->values();
     }
 
-    public function scopeStatus($query, $status)
+    public function scopeStatus(Builder $query, string $status)
     {
         if ($status == 'active') {
             $query->where('starts_at', '<=', today())
@@ -110,6 +112,11 @@ class ProgramEdition extends Model
         } elseif ($status == 'future') {
             $query->where('starts_at', '>', today());
         }
+    }
+
+    public function scopeDueToEvaluate(Builder $query, Carbon $date = null)
+    {
+        $query->whereDate('evaluation_notification_date', '<', $date ?: today());
     }
 
     /**

@@ -7,8 +7,12 @@ use App\Mail\DuedProgramEditionEvaluation;
 use App\ProgramEdition;
 use App\Student;
 use App\User;
+use Cron\CronExpression;
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class EvaluationNotificationTest extends TestCase
@@ -59,5 +63,17 @@ class EvaluationNotificationTest extends TestCase
         $this->artisan(NotifyDueProgramEditionEvaluations::class);
 
         Mail::assertNothingSent();
+    }
+
+    /** @test */
+    public function the_notification_is_scheduled_to_run_daily()
+    {
+        $cronExpression = collect(resolve(Schedule::class)
+                ->events())
+                ->first(fn (Event $event) => Str::contains($event->command, ['program_editions:notify_evaluations']))
+                ->expression;
+
+        $this->assertTrue(CronExpression::isValidExpression($cronExpression));
+        $this->assertTrue(Str::endsWith($cronExpression, [' * * *']));
     }
 }

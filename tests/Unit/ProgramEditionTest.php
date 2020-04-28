@@ -72,7 +72,7 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function it_can_fetch_editions_that_are_due_to_evaluate()
     {
-        factory(ProgramEdition::class)->create([
+        factory(ProgramEdition::class)->state('with-2-students')->create([
             'evaluation_notification_date' => today()->subDay(),
         ]);
         factory(ProgramEdition::class)->create([
@@ -80,6 +80,16 @@ class ProgramEditionTest extends TestCase
         ]);
 
         $this->assertCount(1, ProgramEdition::dueToEvaluate()->get());
+    }
+
+    /** @test */
+    public function when_no_students_are_enrolled_its_not_due()
+    {
+        factory(ProgramEdition::class)->state('without-students')->create([
+            'evaluation_notification_date' => today()->subDay(),
+        ]);
+
+        $this->assertCount(0, ProgramEdition::dueToEvaluate()->get());
     }
 
     /** @test */

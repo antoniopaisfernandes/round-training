@@ -18,6 +18,10 @@ class EnrollmentResource extends JsonResource
             'id' => $this->id,
             'company' => $this->company,
             'student' => $this->student,
+            'global_evaluation' => $this->global_evaluation,
+            'evaluation_comments' => $this->evaluation_comments,
+            'program_should_be_repeated' => $this->program_should_be_repeated,
+            'should_be_repeated_in_months' => $this->should_be_repeated_in_months,
         ];
     }
 }

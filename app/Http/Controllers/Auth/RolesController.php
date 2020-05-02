@@ -10,7 +10,7 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Database\Eloquent\Collection|Role[]
      */
     public function __invoke()
     {

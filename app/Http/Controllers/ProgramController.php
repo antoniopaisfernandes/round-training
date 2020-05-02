@@ -11,7 +11,7 @@ class ProgramController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {

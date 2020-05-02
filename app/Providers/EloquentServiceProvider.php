@@ -13,6 +13,7 @@ class EloquentServiceProvider extends ServiceProvider
     public function boot() : void
     {
         HasMany::macro('sync', function (array $data, $deleting = true) {
+            /** @var HasMany $this */
             $changes = [
                 'created' => [], 'deleted' => [], 'updated' => [],
             ];

@@ -13,7 +13,7 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -39,7 +39,6 @@ class CompanyController extends Controller
      *
      * @param  StoreCompanyRequest  $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(StoreCompanyRequest $request)
     {
@@ -68,8 +67,7 @@ class CompanyController extends Controller
      *
      * @param  UpdateCompanyRequest  $request
      * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {

@@ -34,6 +34,7 @@ class NotifyDueProgramEditionEvaluations extends Command
             ->get()
             ->each(function (ProgramEdition $programEdition) {
                 Mail::to($programEdition->emails_to_notify_of_due_evaluation)
+                    ->cc('carla.lima@esferasaude.pt')
                     ->send(new DuedProgramEditionEvaluation($programEdition));
             });
     }

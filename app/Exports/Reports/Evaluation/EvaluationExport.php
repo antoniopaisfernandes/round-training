@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class EvaluationExport implements FromCollection, WithEvents, WithTitle, ShouldAutoSize
 {
@@ -52,12 +53,13 @@ class EvaluationExport implements FromCollection, WithEvents, WithTitle, ShouldA
                 $spreadsheet->insertNewRowBefore(1, 11);
 
                 $this->addLogo($spreadsheet);
+                $this->addHeader($spreadsheet);
                 // $this->applyStyle($spreadsheet);
             },
         ];
     }
 
-    private function addLogo($spreadsheet)
+    private function addLogo(Worksheet $spreadsheet)
     {
         $drawing = new Drawing();
         $drawing->setName('Logo');
@@ -65,6 +67,16 @@ class EvaluationExport implements FromCollection, WithEvents, WithTitle, ShouldA
         $drawing->setPath(public_path('images/logo.png'));
         $drawing->setHeight(56);
         $drawing->setWorksheet($spreadsheet);
+    }
+
+    private function addHeader(Worksheet $spreadsheet)
+    {
+        $spreadsheet->setCellValue('B2', 'Avaliação da Eficácia da Formação');
+        $spreadsheet->setCellValue('A5', "Ação de Formação: {$this->programEdition->full_name}");
+        $spreadsheet->setCellValue('A6', "Objectivos da ação de Formação: {$this->programEdition->goals}");
+        $spreadsheet->setCellValue('D5', "Duração: {$this->programEdition->schedules->sum('working_hours')} horas");
+        $spreadsheet->setCellValue('E5', "Data: {$this->programEdition->starts_at}");
+
     }
 
     private function applyStyle($spreadsheet)

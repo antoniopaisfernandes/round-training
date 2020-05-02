@@ -22,6 +22,7 @@ class ReportsController extends Controller
             'year' => 'sometimes|nullable|numeric',
             'begin_date' => 'sometimes|nullable|date',
             'end_date' => 'sometimes|nullable|date',
+            'program_edition_id' => 'sometimes|numeric',
         ]);
 
         abort_unless($report = $this->reportAvailable($report), 404);

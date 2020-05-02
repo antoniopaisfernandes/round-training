@@ -32,12 +32,13 @@ class ProgramEditionResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'students_count' => $this->students_count,
             'program' => $this->whenLoaded('program', $this->program),
             'company' => $this->whenLoaded('company', $this->company),
             'schedules' => $this->whenLoaded('schedules', $this->schedules),
-            'manager' => $this->whenLoaded('manager', $this->manager),
-            'enrollments' => $this->whenLoaded('enrollments', new EnrollmentCollectionResource($this->enrollments)),
-            'students' => $this->whenLoaded('students', new StudentCollectionResource($this->students)),
+            'manager' => new UserResource($this->whenLoaded('manager')),
+            'enrollments' => new EnrollmentCollectionResource($this->whenLoaded('enrollments')),
+            'students' => new StudentCollectionResource($this->whenLoaded('students')),
         ];
     }
 }

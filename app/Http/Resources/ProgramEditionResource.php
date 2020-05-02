@@ -36,8 +36,8 @@ class ProgramEditionResource extends JsonResource
             'company' => $this->whenLoaded('company', $this->company),
             'schedules' => $this->whenLoaded('schedules', $this->schedules),
             'manager' => $this->whenLoaded('manager', $this->manager),
-            'enrollments' => $this->whenLoaded('enrollments', EnrollmentResource::collection($this->enrollments)),
-            'students' => $this->whenLoaded('students', StudentResource::collection($this->students)),
+            'enrollments' => $this->whenLoaded('enrollments', new EnrollmentCollectionResource($this->enrollments)),
+            'students' => $this->whenLoaded('students', new StudentCollectionResource($this->students)),
         ];
     }
 }

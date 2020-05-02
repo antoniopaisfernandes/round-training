@@ -13,8 +13,8 @@ abstract class TestCase extends BaseTestCase
 
     protected function createAdminUser($overrides = []) : User
     {
-        $role = Role::create(['name' => 'admin']);
-        $permission = Permission::create(['name' => '*']);
+        $role = Role::updateOrCreate(['name' => 'admin']);
+        $permission = Permission::updateOrCreate(['name' => '*']);
         $role->givePermissionTo($permission);
 
         return factory(User::class)->create($overrides)->assignRole($role);

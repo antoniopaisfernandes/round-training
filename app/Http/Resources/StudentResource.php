@@ -20,7 +20,7 @@ class StudentResource extends JsonResource
             'address' => $this->address,
             'postal_code' => $this->postal_code,
             'city' => $this->city,
-            $this->mergeWhen(auth()->user()->can('rgpd'), [
+            $this->mergeWhen($request->user()->can('rgpd'), [
                 'citizen_id' => $this->citizen_id,
                 'citizen_id_validity' => $this->citizen_id_validity,
             ]),

@@ -1,5 +1,6 @@
 module.exports = {
   prefix: 'tw-',
+  purge: [],
   theme: {
     extend: {
       width: {

@@ -287,4 +287,23 @@ class EditingProgramEditionsTest extends TestCase
 
         $this->assertCount(3, Enrollment::all());
     }
+
+    /** @test */
+    public function when_updating_a_program_edition_with_enrollments_do_not_destroy_data()
+    {
+        $enrollmentAttributes = [
+            'global_evaluation' => 'Very good',
+            'evaluation_comments' => 'I liked',
+            'program_should_be_repeated' => true,
+            'should_be_repeated_in_months' => 6,
+        ];
+        $programEdition = factory(ProgramEdition::class)->states('with-1-students')->create();
+        Enrollment::first()->fill($enrollmentAttributes)->save();
+        $this->assertDatabaseHas('enrollments', $enrollmentAttributes);
+
+        $updatedProgramEdition = $programEdition->with('enrollments')->first()->toArray();
+        $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
+
+        $this->assertDatabaseHas('enrollments', $enrollmentAttributes);
+    }
 }

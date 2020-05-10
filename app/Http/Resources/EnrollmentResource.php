@@ -18,6 +18,7 @@ class EnrollmentResource extends JsonResource
             'id' => $this->id,
             'company' => $this->company,
             'student' => $this->student,
+            'hours_attended' => $this->hours_attended,
             'global_evaluation' => $this->global_evaluation,
             'evaluation_comments' => $this->evaluation_comments,
             'program_should_be_repeated' => $this->program_should_be_repeated,

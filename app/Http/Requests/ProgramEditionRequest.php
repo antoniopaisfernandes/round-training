@@ -37,6 +37,21 @@ class ProgramEditionRequest extends FormRequest
             })->toArray());
             $this->offsetUnset('students');
         }
+
+        if ($this->has('enrollments')) {
+            $this->offsetSet('enrollments', collect($this->get('enrollments'))->map(function ($enrollment) {
+                unset($enrollment['program_edition']);
+                if (array_key_exists('hours_attended', $enrollment)) {
+                    if (is_null($enrollment['hours_attended'])) {
+                        $enrollment['minutes_attended'] = null;
+                    } else {
+                        $enrollment['minutes_attended'] = $enrollment['hours_attended'] * 60;
+                    }
+                    unset($enrollment['hours_attended']);
+                }
+                return $enrollment;
+            })->toArray());
+        }
     }
 
     /**
@@ -156,11 +171,6 @@ class ProgramEditionRequest extends FormRequest
      */
     public function validatedRelationship(string $relationship)
     {
-        return collect(parent::validated()[$relationship])
-            ->map(function ($item) {
-                unset($item['program_edition']);
-                return $item;
-            })
-            ->toArray();
+        return parent::validated()[$relationship];
     }
 }

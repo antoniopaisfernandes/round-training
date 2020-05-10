@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Enrollment;
+use App\Exceptions\CannotEnrollStudentException;
 use App\ProgramEdition;
 use App\ProgramEditionSchedule;
 use App\Student;
@@ -95,5 +96,25 @@ class EnrollmentTest extends TestCase
         ]);
 
         $this->assertEquals(30, Enrollment::first()->minutes_attended);
+    }
+
+    /** @test */
+    public function it_cannot_enroll_for_more_than_the_number_of_minutes_of_the_edition()
+    {
+        $student = factory(Student::class)->create();
+        $programEdition = factory(ProgramEditionSchedule::class)->create([
+            'program_edition_id' => factory(ProgramEdition::class)->create([
+                'starts_at' => '2020-05-10',
+                'ends_at' => '2020-05-10',
+            ])->id,
+            'starts_at' => '2020-05-10 09:00:00',
+            'ends_at' => '2020-05-10 10:00:00',
+        ])->programEdition;
+
+        $this->expectException(CannotEnrollStudentException::class);
+
+        $student->enroll($programEdition, [
+            'minutes_attended' => 999,
+        ]);
     }
 }

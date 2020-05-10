@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\CannotEnrollStudentException;
 use App\ProgramEdition;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -51,6 +52,11 @@ class Student extends Model
 
     public function enroll(ProgramEdition $programEdition, array $attributes = [])
     {
+        throw_if(
+            ($attributes['minutes_attended'] ?? 0) > $programEdition->schedules->sum('working_minutes'),
+            new CannotEnrollStudentException("You are trying to enroll for more minutes than the scheduled lectures")
+        );
+
         return $this->enrollments()->firstOrCreate(array_merge(
             [
                 'program_edition_id' => $programEdition->id,

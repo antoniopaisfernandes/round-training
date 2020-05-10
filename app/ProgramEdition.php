@@ -152,9 +152,7 @@ class ProgramEdition extends Model
         }
 
         elseif ($students instanceof Collection) {
-            DB::transaction(function () use ($students) {
-                $students->each->enroll($this);
-            });
+            DB::transaction(fn () => $students->each->enroll($this));
         }
 
         else {

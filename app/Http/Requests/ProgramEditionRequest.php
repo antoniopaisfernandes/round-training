@@ -93,14 +93,40 @@ class ProgramEditionRequest extends FormRequest
                 'gt:0',
             ],
             'enrollments' => 'sometimes|array',
+            'enrollments.*.program_edition_id' => [
+                'nullable',
+                'same:id',
+            ],
             'enrollments.*.student_id' => [
                 'required_with:enrollments',
                 'distinct',
-                'exists:students,id'
+                'exists:students,id',
             ],
             'enrollments.*.company_id' => [
                 'required_with:enrollments',
-                'exists:companies,id'
+                'exists:companies,id',
+            ],
+            'enrollments.*.global_evaluation' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+            'enrollments.*.evaluation_comments' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'enrollments.*.program_should_be_repeated' => [
+                'nullable',
+                'bool',
+            ],
+            'enrollments.*.should_be_repeated_in_months' => [
+                'nullable',
+                'int',
+            ],
+            'enrollments.*.minutes_attended' => [
+                'nullable',
+                'int',
             ],
         ];
     }

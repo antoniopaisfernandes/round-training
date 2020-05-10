@@ -39,4 +39,14 @@ class Enrollment extends Model
             ? $this->attributes['minutes_attended']
             : ($this->programEdition->schedules->sum('working_minutes') ?: null);
     }
+
+    public function getHoursAttendedAttribute()
+    {
+        return round($this->minutes_attended / 60, 2);
+    }
+
+    public function setHoursAttendedAttribute($hours)
+    {
+        $this->attributes['minutes_attended'] = (int) ($hours * 60);
+    }
 }

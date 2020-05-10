@@ -117,4 +117,24 @@ class EnrollmentTest extends TestCase
             'minutes_attended' => 999,
         ]);
     }
+
+    /** @test */
+    public function it_can_set_hours_attended_and_have_them_converted_to_minutes()
+    {
+        $enrollment = Enrollment::make([
+            'hours_attended' => 1,
+        ]);
+
+        $this->assertEquals(60, $enrollment->minutes_attended);
+    }
+
+    /** @test */
+    public function it_can_get_hours_attended_attribute()
+    {
+        $enrollment = Enrollment::make([
+            'minutes_attended' => 60,
+        ]);
+
+        $this->assertEquals(1, $enrollment->hours_attended);
+    }
 }

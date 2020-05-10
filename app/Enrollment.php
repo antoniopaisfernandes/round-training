@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Enrollment extends Model
 {
     protected $guarded = [];
+    protected $casts = [
+        'program_edition_id' => 'int',
+        'student_id' => 'int',
+        'company_id' => 'int',
+    ];
 
     public function company()
     {

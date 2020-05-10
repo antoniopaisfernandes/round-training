@@ -21,7 +21,9 @@ class ProgramEdition extends Model
         'schedules',
     ];
     protected $casts = [
-        'cost' => 'double'
+        'cost' => 'double',
+        'program_id' => 'int',
+        'company_id' => 'int',
     ];
     protected $withCount = [
         'students',

@@ -122,4 +122,19 @@ class ProgramEditionRequest extends FormRequest
             ['schedules', 'enrollments']
         );
     }
+
+    /**
+     * Get the validated data for a relationship from the request.
+     *
+     * @return array
+     */
+    public function validatedRelationship(string $relationship)
+    {
+        return collect(parent::validated()[$relationship])
+            ->map(function ($item) {
+                unset($item['program_edition']);
+                return $item;
+            })
+            ->toArray();
+    }
 }

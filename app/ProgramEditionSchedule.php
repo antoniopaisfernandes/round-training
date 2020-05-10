@@ -14,6 +14,11 @@ class ProgramEditionSchedule extends Model
 
     protected $guarded = [];
 
+    public function programEdition()
+    {
+        return $this->belongsTo(ProgramEdition::class);
+    }
+
     /**
      * Calculates the working minutes for a schedule
      *

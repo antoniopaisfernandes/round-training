@@ -27,4 +27,11 @@ class Enrollment extends Model
     {
         return $this->global_evaluation === null;
     }
+
+    public function getMinutesAttendedAttribute()
+    {
+        return $this->attributes['minutes_attended'] !== null
+            ? $this->attributes['minutes_attended']
+            : $this->programEdition->schedules->sum('working_minutes');
+    }
 }

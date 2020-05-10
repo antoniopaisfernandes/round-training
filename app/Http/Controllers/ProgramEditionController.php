@@ -102,10 +102,10 @@ class ProgramEditionController extends Controller
             $programEdition->update($request->validated());
 
             if ($request->has('schedules')) {
-                $programEdition->schedules()->sync($request->get('schedules') ?: []);
+                $programEdition->schedules()->sync($request->validatedRelationship('schedules') ?: []);
             }
             if ($request->has('enrollments')) {
-                $programEdition->enrollments()->sync($request->get('enrollments'));
+                $programEdition->enrollments()->sync($request->validatedRelationship('enrollments'));
             }
 
             return $programEdition;

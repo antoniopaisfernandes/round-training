@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Enrollment;
 use App\ProgramEdition;
+use App\ProgramEditionSchedule;
 use App\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -56,5 +57,43 @@ class EnrollmentTest extends TestCase
         $student->enroll($secondProgramEdition);
 
         $this->assertCount(2, Enrollment::all());
+    }
+
+    /** @test */
+    public function an_enrollment_has_minutes_attended()
+    {
+        $student = factory(Student::class)->create();
+        $programEdition = factory(ProgramEditionSchedule::class)->create([
+            'program_edition_id' => factory(ProgramEdition::class)->create([
+                'starts_at' => '2020-05-10',
+                'ends_at' => '2020-05-10',
+            ])->id,
+            'starts_at' => '2020-05-10 09:00:00',
+            'ends_at' => '2020-05-10 10:00:00',
+        ])->programEdition;
+
+        $student->enroll($programEdition);
+
+        $this->assertEquals(60, Enrollment::first()->minutes_attended);
+    }
+
+    /** @test */
+    public function an_enrollment_has_specificiy_of_minutes_attendance_other_than_the_program_edition()
+    {
+        $student = factory(Student::class)->create();
+        $programEdition = factory(ProgramEditionSchedule::class)->create([
+            'program_edition_id' => factory(ProgramEdition::class)->create([
+                'starts_at' => '2020-05-10',
+                'ends_at' => '2020-05-10',
+            ])->id,
+            'starts_at' => '2020-05-10 09:00:00',
+            'ends_at' => '2020-05-10 10:00:00',
+        ])->programEdition;
+
+        $student->enroll($programEdition, [
+            'minutes_attended' => 30,
+        ]);
+
+        $this->assertEquals(30, Enrollment::first()->minutes_attended);
     }
 }

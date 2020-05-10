@@ -18,6 +18,7 @@ class CreateEnrollmentsTable extends Migration
             $table->foreignId('program_edition_id');
             $table->foreignId('student_id')->constrained('students')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('company_id')->constrained('companies')->onUpdate('cascade')->onDelete('restrict');
+            $table->unsignedSmallInteger('minutes_attended')->nullable();
             $table->string('global_evaluation', 20)->nullable();
             $table->string('evaluation_comments')->nullable();
             $table->boolean('program_should_be_repeated')->nullable();

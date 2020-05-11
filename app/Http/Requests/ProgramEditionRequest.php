@@ -142,6 +142,8 @@ class ProgramEditionRequest extends FormRequest
             'enrollments.*.minutes_attended' => [
                 'nullable',
                 'int',
+                'min:0',
+                'max:30000',
             ],
         ];
     }

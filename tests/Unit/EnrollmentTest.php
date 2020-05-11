@@ -137,15 +137,4 @@ class EnrollmentTest extends TestCase
 
         $this->assertEquals(1, $enrollment->hours_attended);
     }
-
-    /** @test */
-    public function the_array_representation_of_the_enrollment_has_both_the_hours_and_minutes_attribute()
-    {
-        $enrollment = Enrollment::make([
-            'minutes_attended' => 60,
-        ]);
-
-        $this->assertArrayHasKey('minutes_attended', $enrollment->toArray());
-        $this->assertArrayHasKey('hours_attended', $enrollment->toArray());
-    }
 }

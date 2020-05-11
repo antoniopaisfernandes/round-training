@@ -12,9 +12,6 @@ class Enrollment extends Model
         'student_id' => 'int',
         'company_id' => 'int',
     ];
-    protected $appends = [
-        'hours_attended',
-    ];
 
     public function company()
     {
@@ -38,18 +35,16 @@ class Enrollment extends Model
 
     public function getMinutesAttendedAttribute()
     {
-        return $this->attributes['minutes_attended'] !== null
+        return ($this->attributes['minutes_attended'] ?? null) !== null
             ? $this->attributes['minutes_attended']
             : ($this->programEdition->schedules->sum('working_minutes') ?: null);
     }
 
     public function getHoursAttendedAttribute()
     {
-        if (!isset($this->attributes['minutes_attended']) || $this->attributes['minutes_attended'] === null) {
-            return null;
-        }
-
-        return round($this->attributes['minutes_attended'] / 60, 2);
+        return ($this->attributes['hours_attended'] ?? null) !== null
+            ?  $this->attributes['hours_attended']
+            :  round($this->getMinutesAttendedAttribute() / 60, 2);
     }
 
     public function setHoursAttendedAttribute($hours)

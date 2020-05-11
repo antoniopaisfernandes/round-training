@@ -64,6 +64,7 @@ class ProgramEdition extends Model
                     ->withPivot([
                         'company_id',
                         'minutes_attended',
+                        'hours_attended',
                         'global_evaluation',
                         'evaluation_comments',
                         'program_should_be_repeated',

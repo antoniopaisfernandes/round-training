@@ -34,11 +34,11 @@ class ProgramEditionResource extends JsonResource
             'updated_at' => $this->updated_at,
             'students_count' => $this->students_count,
             'program' => $this->whenLoaded('program', $this->program),
-            'company' => $this->whenLoaded('company', $this->company),
+            'company' => CompanyResource::make($this->whenLoaded('company')),
             'schedules' => $this->whenLoaded('schedules', $this->schedules),
-            'manager' => new UserResource($this->whenLoaded('manager')),
-            'enrollments' => new EnrollmentCollectionResource($this->whenLoaded('enrollments')),
-            'students' => new StudentCollectionResource($this->whenLoaded('students')),
+            'manager' => UserResource::make($this->whenLoaded('manager')),
+            'enrollments' => EnrollmentCollectionResource::make($this->whenLoaded('enrollments')),
+            'students' => StudentCollectionResource::make($this->whenLoaded('students')),
         ];
     }
 }

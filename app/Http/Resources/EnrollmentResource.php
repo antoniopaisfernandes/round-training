@@ -16,8 +16,12 @@ class EnrollmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'company' => $this->company,
-            'student' => $this->student,
+            'program_edition_id' => $this->program_edition_id,
+            'program_edition' => ProgramEditionResource::make($this->whenLoaded('programEdition')),
+            'student_id' => $this->student_id,
+            'student' => StudentResource::make($this->whenLoaded('student')),
+            'company_id' => $this->company_id,
+            'company' => CompanyResource::make($this->whenLoaded('company')),
             'hours_attended' => $this->hours_attended,
             'global_evaluation' => $this->global_evaluation,
             'evaluation_comments' => $this->evaluation_comments,

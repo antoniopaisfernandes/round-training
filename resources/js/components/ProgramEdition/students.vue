@@ -35,12 +35,22 @@
           <thead>
             <tr>
               <th class="text-left">Nome</th>
+              <th class="text-left">Horas</th>
               <th class="text-left">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(student, i) in students" :key="i">
               <td>{{ student.name }}</td>
+              <td>
+                <v-text-field
+                  v-model="student.pivot.hours_attended"
+                  :rules="rules.hours_attended"
+                  dense
+                  placeholder="Só necessita preencher se diferente das horas do curso"
+                  class="hours_attended"
+                ></v-text-field>
+              </td>
               <td>
                 <v-btn
                   fab
@@ -91,6 +101,16 @@ export default {
     student: null,
   }),
 
+  computed: {
+    rules() {
+      return {
+        hours_attended: [
+          v => v >= 0 || 'O valor deve numérico e positivo'
+        ],
+      }
+    },
+  },
+
   methods: {
     addStudent() {
       this.$emit('add', new Student(this.student))
@@ -134,3 +154,9 @@ export default {
 
 }
 </script>
+
+<style>
+  .hours_attended input::placeholder {
+    font-size: xx-small;
+  }
+</style>

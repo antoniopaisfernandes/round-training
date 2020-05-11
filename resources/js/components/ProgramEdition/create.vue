@@ -342,6 +342,7 @@ export default {
             'student_id': student.id,
             'program_edition_id': this.dataProgramEdition.id,
             'company_id': student.current_company_id,
+            'hours_attended': student.pivot.hours_attended
           })
         }) || []
         let programEdition = await this.dataProgramEdition.save()

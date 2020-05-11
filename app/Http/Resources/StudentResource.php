@@ -32,12 +32,12 @@ class StudentResource extends JsonResource
             'current_company_id' => $this->current_company_id,
             'company' => $this->company,
             'leader_id' => $this->leader_id,
-            'leader' => $this->whenLoaded('leader', $this->leader),
+            'leader' => UserResource::make($this->whenLoaded('leader')),
             'deleted_at' => $this->deleted_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'enrollments' => $this->whenLoaded('enrollments', $this->enrollments),
-            'enrolled_program_editions' => $this->whenLoaded('enrolledProgramEditions', $this->enrolledProgramEditions),
+            'enrollments' => EnrollmentCollectionResource::make($this->whenLoaded('enrollments')),
+            'enrolled_program_editions' => ProgramEditionCollectionResource::make($this->whenLoaded('enrolledProgramEditions')),
         ];
     }
 }

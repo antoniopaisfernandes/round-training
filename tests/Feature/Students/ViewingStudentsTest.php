@@ -181,7 +181,7 @@ class ViewingStudentsTest extends TestCase
         $enrolledStudent->enroll($firstProgramEdition);
         $enrolledStudent->enroll($secondProgramEdition);
 
-        $response = $this->getJson("/students?include=enrollments");
+        $response = $this->getJson("/students?include=enrollments,enrolled_program_editions");
 
         $firstStudentData = $response->json()['data'][0];
         $this->assertEquals(

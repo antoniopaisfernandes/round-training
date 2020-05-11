@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enrollment;
-use App\Http\Resources\StudentResource;
+use App\Http\Resources\StudentCollectionResource;
 use App\ProgramEdition;
 use App\Student;
 
@@ -16,7 +16,7 @@ class ProgramEditionStudentController extends Controller
      */
     public function index(ProgramEdition $programEdition)
     {
-        return StudentResource::collection($programEdition->students);
+        return StudentCollectionResource::make($programEdition->students);
     }
 
     /**

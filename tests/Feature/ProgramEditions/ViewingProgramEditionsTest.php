@@ -17,9 +17,7 @@ class ViewingProgramEditionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = factory(User::class)->create()
-        );
+        $this->be($this->createAdminUser());
     }
 
     /** @test */
@@ -121,6 +119,8 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function a_user_without_rgpd_cannot_see_some_data_in_students_list()
     {
+        $this->be(factory(User::class)->create());
+
         if (! $rgpdFields = auth()->user()->can('rgpd') ? [] : (new Student)->rgpdFields) {
             $this->markTestSkipped('There are no RGPD fields to filter');
         }

@@ -339,6 +339,7 @@ export default {
       try {
         this.dataProgramEdition.enrollments = this.students.map((student) => {
           return new Enrollment({
+            'id': student.pivot.id,
             'student_id': student.id,
             'program_edition_id': this.dataProgramEdition.id,
             'company_id': student.current_company_id,

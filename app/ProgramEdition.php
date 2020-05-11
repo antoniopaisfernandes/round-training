@@ -61,7 +61,14 @@ class ProgramEdition extends Model
     public function students()
     {
         return $this->belongsToMany(Student::class, 'enrollments')
-                    ->withPivot('company_id')
+                    ->withPivot([
+                        'company_id',
+                        'minutes_attended',
+                        'global_evaluation',
+                        'evaluation_comments',
+                        'program_should_be_repeated',
+                        'should_be_repeated_in_months',
+                    ])
                     ->withTimestamps();
     }
 

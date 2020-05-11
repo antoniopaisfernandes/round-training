@@ -38,6 +38,7 @@ class StudentResource extends JsonResource
             'updated_at' => $this->updated_at,
             'enrollments' => EnrollmentCollectionResource::make($this->whenLoaded('enrollments')),
             'enrolled_program_editions' => ProgramEditionCollectionResource::make($this->whenLoaded('enrolledProgramEditions')),
+            'pivot' => $this->when($this->pivot, $this->pivot),
         ];
     }
 }

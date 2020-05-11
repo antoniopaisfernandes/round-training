@@ -77,6 +77,7 @@ import Model from '../../models/Model'
 import alert from '../../plugins/toast'
 import findIndex from 'lodash-es/findIndex'
 import filter from 'lodash-es/filter'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 export default {
   name: 'program-edition-create-students',
@@ -113,7 +114,11 @@ export default {
 
   methods: {
     addStudent() {
-      this.$emit('add', new Student(this.student))
+      let student = cloneDeep(this.student)
+      student.pivot = {
+        'hours_attended': null
+      }
+      this.$emit('add', new Student(student))
       this.search = null
       this.studentsFromQuery = []
       this.student = null

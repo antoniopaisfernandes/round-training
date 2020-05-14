@@ -6,6 +6,7 @@ use App\Enrollment;
 use App\ProgramEdition;
 use App\ProgramEditionSchedule;
 use App\Student;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -56,6 +57,44 @@ class EditingProgramEditionsTest extends TestCase
         $this->assertDatabaseHas('program_editions', [
             'teacher_name' => 'Old teacher_name',
         ]);
+    }
+
+    /** @test */
+    public function the_owner_can_edit_the_program_edition()
+    {
+        $this->withoutExceptionHandling();
+
+        $owner = factory(User::class)->create();
+        $programEdition = factory(ProgramEdition::class)->create([
+            'name' => 'original',
+            'created_by' => $owner->id,
+        ]);
+
+        $programEdition->name = 'new name';
+        $this->actingAs($owner)
+            ->patch(
+                "/program-editions/{$programEdition->id}",
+                $programEdition->getAttributes()
+            )
+            ->assertOk();
+
+        $this->assertDatabaseHas('program_editions', ['name' => 'new name']);
+    }
+
+    /** @test */
+    public function other_users_besides_admin_and_owner_cannot_edit_a_program_edition()
+    {
+        $otherUser = factory(User::class)->create();
+        $programEdition = factory(ProgramEdition::class)->create([
+            'name' => 'original',
+        ]);
+
+        $response = $this->actingAs($otherUser)->patch("/program-editions/{$programEdition->id}", [
+            'name' => 'new name',
+        ]);
+
+        $response->assertForbidden();
+        $this->assertDatabaseHas('program_editions', ['name' => 'original']);
     }
 
     /** @test */

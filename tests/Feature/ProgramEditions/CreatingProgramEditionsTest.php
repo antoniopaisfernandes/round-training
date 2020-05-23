@@ -23,7 +23,7 @@ class CreatingProgramEditionsTest extends TestCase
     /** @test */
     public function it_can_create_a_program_edition()
     {
-        $programEdition = $this->makeValidProgramEdition()->setAppends([])->toArray();
+        $programEdition = $this->makeValidProgramEdition()->getAttributes();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -84,7 +84,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'cost' => 100,
-        ])->setAppends([])->toArray();
+        ])->getAttributes();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -97,7 +97,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'supplier_certifications' => 'HiTec Management Certification',
-        ])->setAppends([])->toArray();
+        ])->getAttributes();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -110,7 +110,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'evaluation_notification_date' => today()->addMonths(3),
-        ])->setAppends([])->toArray();
+        ])->getAttributes();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -123,7 +123,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $programEdition = $this->makeValidProgramEdition([
             'goals' => 'The students must be great!',
-        ])->setAppends([])->toArray();
+        ])->getAttributes();
 
         $response = $this->post('/program-editions', $programEdition);
 

@@ -67,7 +67,7 @@ class CreateEnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function a_coordinator_cannot_enroll_other_coordinator_students()
+    public function only_admins_and_coordinators_can_enroll_students()
     {
         [$student, $programEdition, $coordinator_id] = $this->createStudentAndProgramEdition();
 
@@ -83,15 +83,26 @@ class CreateEnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function only_admins_and_coordinators_can_enroll_students()
-    {
-        //
-    }
-
-    /** @test */
     public function after_a_program_edition_starts_only_admins_can_enroll_students()
     {
-        //
+        [$student, $programEdition, $coordinator_id] = $this->createStudentAndProgramEdition();
+
+        /** @var ProgramEdition $programEdition */
+        $programEdition->fill([
+            'starts_at' => today()->subDay(),
+        ])->save();
+
+        $attributes = [
+            'student_id' => $student->id,
+            'program_edition_id' => $programEdition->id,
+            'company_id' => $student->current_company_id,
+        ];
+
+        $this->actingAs(User::find($coordinator_id))->post('/enrollments', $attributes)->assertStatus(403);
+        $this->assertCount(0, Enrollment::all());
+
+        $this->actingAs($this->createAdminUser())->post('/enrollments', $attributes)->assertOk();
+        $this->assertCount(1, Enrollment::all());
     }
 
     private function createStudentAndProgramEdition() : array

@@ -24,6 +24,8 @@ class ProgramEdition extends Model
         'cost' => 'double',
         'program_id' => 'int',
         'company_id' => 'int',
+        'starts_at' => 'date',
+        'ends_at' => 'date',
     ];
     protected $withCount = [
         'students',

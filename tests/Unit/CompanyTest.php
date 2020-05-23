@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Company;
 use App\ProgramEdition;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -49,5 +50,15 @@ class CompanyTest extends TestCase
             105.33 + 94.43,
             $company->executedCostsInYear(2020)
         );
+    }
+
+    /** @test */
+    public function it_has_a_coordinator()
+    {
+        $company = factory(Company::class)->create([
+            'coordinator_id' => $user_id = factory(User::class)->create()->id,
+        ])->fresh();
+
+        $this->assertTrue(User::find($user_id)->is($company->coordinator));
     }
 }

@@ -24,6 +24,11 @@ class Company extends Model
         return $this->hasMany(CompanyYearlyBudget::class);
     }
 
+    public function coordinator()
+    {
+        return $this->belongsTo(User::class, 'coordinator_id');
+    }
+
     public function executedCostsInYear($year)
     {
         return $this->with([

@@ -14,6 +14,7 @@ const menuRoutes = [
         icon: 'mdi-domain',
         text: 'Empresas',
         link: '/companies',
+        admin: true,
     },
     {
         type: 'v-list-item',

@@ -28,6 +28,15 @@
             class="tw-w-1/2 tw-ml-2"
           ></v-text-field>
         </div>
+        <div>
+          <v-select
+            :items="users"
+            v-model="dataCompany.coordinator_id"
+            label="Coordenador local"
+            required
+            @input="dataCompany.coordinator_id = $event"
+          ></v-select>
+        </div>
         <div class="mt-2">
           <span class="subtitle-1">Orçamentos</span>
           <v-btn
@@ -76,7 +85,9 @@
 import Company from '../../models/Company'
 import CompanyYearlyBudget from '../../models/CompanyYearlyBudget'
 import Model from '../../models/Model'
+import User from '../../models/User'
 import alert from '../../plugins/toast'
+import map from 'lodash-es/map'
 
 export default {
   name: 'company-create',
@@ -101,6 +112,7 @@ export default {
   data: () => ({
     dataCompany: new Company(),
     isSaving: false,
+    users: [],
   }),
 
   computed: {
@@ -158,6 +170,21 @@ export default {
         alert.error(error)
       }
     },
+
+    async getUsers() {
+      try {
+        let data = await User.limit(999).$get()
+
+        this.users = map(data, (v) => {
+          return {
+            'text': v.name,
+            'value': v.id,
+          }
+        })
+      } catch (error) {
+        alert.error(error)
+      }
+    },
   },
 
   watch: {
@@ -170,6 +197,10 @@ export default {
     visible: function(value) {
       this.dataVisible = value
     },
+  },
+
+  mounted: async function () {
+    this.getUsers()
   },
 }
 </script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\RolesController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProgramEditionController;
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('/program-editions.students', ProgramEditionStudentController::class)->only(['index', 'show']);
     Route::get('/program-editions/{programEdition}/export', ProgramEditionExportController::class);
     Route::apiResource('/program-editions', ProgramEditionController::class);
+
+    Route::apiResource('/enrollments', EnrollmentController::class)->only(['store', 'show']);
 
     Route::apiResource('/companies', CompanyController::class);
 

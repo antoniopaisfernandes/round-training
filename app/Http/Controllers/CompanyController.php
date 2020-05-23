@@ -18,9 +18,9 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = QueryBuilder::for(Company::class)
-            ->with(['budgets'])
+            ->with(['budgets', 'coordinator'])
             ->allowedFilters(['id', 'name', 'vat_number'])
-            ->allowedIncludes(['programs', 'budgets'])
+            ->allowedIncludes(['programs', 'budgets', 'coordinator'])
             ->defaultSort('name')
             ->allowedSorts(['id', 'vat_number'])
             ->get();
@@ -59,7 +59,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return response()->json($company->load(['budgets']));
+        return response()->json($company->load(['budgets','coordinator']));
     }
 
     /**

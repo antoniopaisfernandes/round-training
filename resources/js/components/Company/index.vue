@@ -65,6 +65,12 @@ export default {
         value: 'name',
       },
       {
+        text: 'Coordenador',
+        align: 'start',
+        sortable: true,
+        value: 'coordinator.name',
+      },
+      {
         text: 'Contribuinte',
         align: 'start',
         sortable: true,

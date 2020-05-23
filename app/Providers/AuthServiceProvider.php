@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Enrollment;
+use App\Policies\EnrollmentPolicy;
 use App\Policies\ProgramEditionPolicy;
 use App\Policies\ProgramPolicy;
 use App\Program;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Program::class => ProgramPolicy::class,
         ProgramEdition::class => ProgramEditionPolicy::class,
+        Enrollment::class => EnrollmentPolicy::class,
     ];
 
     /**
@@ -30,6 +33,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(fn ($user, $ability) => $user->hasRole('admin') ? true : null);
     }
 }

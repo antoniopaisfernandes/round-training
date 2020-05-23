@@ -77,7 +77,7 @@ class ProgramEditionPolicy
      */
     public function restore(User $user, ProgramEdition $programEdition)
     {
-        return $user->can('delete_program_edition');
+        return $this->delete($user, $programEdition);
     }
 
     /**
@@ -89,6 +89,6 @@ class ProgramEditionPolicy
      */
     public function forceDelete(User $user, ProgramEdition $programEdition)
     {
-        return $user->can('delete_program_edition');
+        return $this->delete($user, $programEdition);
     }
 }

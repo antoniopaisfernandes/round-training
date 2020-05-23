@@ -32,4 +32,20 @@ class EnrollmentController extends Controller
 
         return $this->show($enrollment);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Enrollment $enrollment
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(Enrollment $enrollment)
+    {
+        $this->authorize('delete', $enrollment);
+
+        $enrollment->delete();
+
+        return response()->json();
+    }
 }

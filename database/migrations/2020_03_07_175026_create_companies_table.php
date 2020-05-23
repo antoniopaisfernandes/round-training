@@ -18,6 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name', 50)->unique();
             $table->string('short_name', 10)->nullable()->unique();
             $table->string('vat_number', 10)->nullable()->unique();
+            $table->foreignId('coordinator_id')->nullable()->constrained()->references('id')->on('users');
             $table->timestamps();
         });
     }

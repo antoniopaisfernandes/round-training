@@ -16,9 +16,7 @@ class CreatingCompaniesTest extends TestCase
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = $this->createAdminUser()
-        );
+        $this->be($this->createAdminUser());
     }
 
     /** @test */
@@ -74,6 +72,20 @@ class CreatingCompaniesTest extends TestCase
     {
         $company = factory(Company::class)->make([
             'short_name' => 'SHORT',
+        ])->toArray();
+
+        $this->post('/companies', $company)->assertOk();
+
+        $this->assertDatabaseHas('companies', $company);
+    }
+
+    /** @test */
+    public function a_company_can_have_a_coordinator()
+    {
+        $this->withoutExceptionHandling();
+
+        $company = factory(Company::class)->make([
+            'coordinator_id' => factory(User::class),
         ])->toArray();
 
         $this->post('/companies', $company)->assertOk();

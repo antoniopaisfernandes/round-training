@@ -26,6 +26,7 @@ class CompanyRequest extends FormRequest
         return [
             'name' => 'required',
             'short_name' => 'nullable|string|max:10',
+            'coordinator_id' => 'nullable|exists:users,id',
             'vat_number' => 'required',
             'budgets' => 'sometimes|array',
             'budgets.*.company_id' => 'nullable|integer',

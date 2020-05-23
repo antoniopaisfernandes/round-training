@@ -114,6 +114,27 @@ class EditingCompaniesTest extends TestCase
     }
 
     /** @test */
+    public function the_coordinator_can_be_changed()
+    {
+        $this->withoutExceptionHandling();
+
+        $company = factory(Company::class)->create([
+            'coordinator_id' => factory(User::class),
+        ]);
+
+        $this->patch("/companies/{$company->id}", array_merge(
+            $company->toArray(),
+            [
+                'coordinator_id' => $user_id = factory(User::class)->create()->id,
+            ]
+        ));
+
+        $this->assertDatabaseHas('companies', [
+            'coordinator_id' => $user_id,
+        ]);
+    }
+
+    /** @test */
     public function when_editing_a_company_it_can_add_yearly_budgets()
     {
         $this->withoutExceptionHandling();

@@ -123,6 +123,8 @@ class ProgramEdition extends Model
             $query->where('ends_at', '<', today());
         } elseif ($status == 'future') {
             $query->where('starts_at', '>', today());
+        } elseif ($status == 'enrollable') {
+            $query->where('starts_at', '>=', today());
         }
     }
 

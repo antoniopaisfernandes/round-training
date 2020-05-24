@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/program-editions/{programEdition}/export', ProgramEditionExportController::class);
     Route::apiResource('/program-editions', ProgramEditionController::class);
 
-    Route::apiResource('/enrollments', EnrollmentController::class)->only(['store', 'show', 'destroy']);
+    Route::apiResource('/enrollments', EnrollmentController::class)->only(['index', 'show', 'store',  'destroy']);
 
     Route::apiResource('/companies', CompanyController::class);
 

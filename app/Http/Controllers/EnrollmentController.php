@@ -4,10 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Enrollment;
 use App\Http\Requests\StoreEnrollmentRequest;
+use App\Http\Resources\StudentCollectionResource;
+use App\Student;
 use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        $data = [
+            'studentsAbleToEnroll' => StudentCollectionResource::make(Student::canBeEnrolled()->get()),
+            'enrollmentsAbleToEdit' => Enrollment::status('enrollable')->get(),
+        ];
+
+        return request()->expectsJson() ? $data : view('enrollment.index', $data);
+    }
+
     /**
      * Display the specified resource.
      *

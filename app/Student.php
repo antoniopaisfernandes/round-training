@@ -74,4 +74,16 @@ class Student extends Model
                 ->whereIn('enrollments.program_edition_id', Arr::wrap($programEditionIds));
         });
     }
+
+    public function scopeCanBeEnrolled(Builder $query)
+    {
+        $enrollableProgramEditionsIds = ProgramEdition::setEagerLoads([])
+                                                ->status('enrollable')
+                                                ->select('id')
+                                                ->get('id')
+                                                ->pluck('id')
+                                                ->toArray();
+
+        $query->notEnrolled(...$enrollableProgramEditionsIds);
+    }
 }

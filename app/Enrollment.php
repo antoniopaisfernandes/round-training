@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Enrollment extends Model
@@ -54,5 +55,10 @@ class Enrollment extends Model
         } else {
             $this->attributes['minutes_attended'] = (int) ($hours * 60);
         }
+    }
+
+    public function scopeStatus(Builder $query, string $status)
+    {
+        $query->whereHas('programEdition', fn ($q) => $q->status($status));
     }
 }

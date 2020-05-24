@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProgramEditionRequest;
 use App\Http\Requests\UpdateProgramEditionRequest;
+use App\Http\Resources\ProgramEditionCollectionResource;
 use App\Http\Resources\ProgramEditionResource;
 use App\ProgramEdition;
 use App\Queries\Sorts\ProgramNameSort;
@@ -86,7 +87,7 @@ class ProgramEditionController extends Controller
      */
     public function show(ProgramEdition $programEdition)
     {
-        return response()->json($programEdition);
+        return ProgramEditionResource::make($programEdition);
     }
 
     /**

@@ -21,11 +21,10 @@ class ProgramEdition extends Model
         'schedules',
     ];
     protected $casts = [
-        'cost' => 'double',
         'program_id' => 'int',
         'company_id' => 'int',
-        'starts_at' => 'date',
-        'ends_at' => 'date',
+        'starts_at' => 'date:Y-m-d',
+        'ends_at' => 'date:Y-m-d',
     ];
     protected $withCount = [
         'students',

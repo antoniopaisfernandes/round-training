@@ -18,6 +18,7 @@ class ProgramEditionResource extends JsonResource
             'id' => $this->id,
             'program_id' => $this->program_id,
             'name' => $this->name,
+            'full_name' => $this->full_name,
             'company_id' => $this->company_id,
             'cost' => $this->cost,
             'supplier' => $this->supplier,

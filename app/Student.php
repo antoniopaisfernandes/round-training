@@ -92,7 +92,7 @@ class Student extends Model
     {
         $query->canBeEnrolled()
             ->where(function ($q) use ($user) {
-                $q->where(DB::raw(true), DB::raw($user->can('enroll') ?: 0))
+                $q->where(DB::raw(true), DB::raw($user->can('store_enrollment') ?: 0))
                     ->orWhere('leader_id', $user->id)
                     ->orWhereHas('company', function ($company) use ($user) {
                         $company->where('coordinator_id', $user->id);

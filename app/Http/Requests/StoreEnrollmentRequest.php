@@ -16,8 +16,8 @@ class StoreEnrollmentRequest extends EnrollmentRequest
     {
         return $this->user()->can('store_enrollment')
             || (
-                ProgramEdition::findOrFail($this->input('program_edition_id'))->starts_at >= today()
-                && $this->user()->is(Student::with(['company.coordinator'])->findOrFail($this->input('student_id'))->company->coordinator)
+                ProgramEdition::findOrFail($this->input('program_edition_id'))->status('enrollable')->exists()
+                && Student::findOrFail($this->input('student_id'))->canBeEnrolledBy($this->user())->exists()
             );
     }
 }

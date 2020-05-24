@@ -48,9 +48,12 @@ $factory->state(ProgramEdition::class, 'without-schedules', []);
 Collection::times(5)->each(function ($num) use ($factory) {
     $factory->state(ProgramEdition::class, "with-{$num}-students", [])
         ->afterCreatingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
-            factory(Student::class, $num)->create([
-                'current_company_id' => $programEdition->company_id,
-            ])->each->enroll($programEdition);
+            $programEdition->students
+                ->each(fn ($student) => $student->forceFill(['current_company_id' => $programEdition->company_id])->save())
+                ->each
+                ->fresh()
+                ->each
+                ->enroll($programEdition);
         })
         ->afterMakingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
             $programEdition->setRelation('students', $students = factory(Student::class, $num)->create([
@@ -70,11 +73,14 @@ $factory->state(ProgramEdition::class, 'without-students', []);
 Collection::times(5)->each(function ($num) use ($factory) {
     $factory->state(ProgramEdition::class, "with-{$num}-evaluations", [])
         ->afterCreatingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {
-            factory(Student::class, $num)->create([
-                'current_company_id' => $programEdition->company_id,
-            ])->each->enroll($programEdition, [
-                'global_evaluation' => 'Eficaz',
-            ]);
+            $programEdition->students
+                ->each(fn ($student) => $student->forceFill(['current_company_id' => $programEdition->company_id])->save())
+                ->each
+                ->fresh()
+                ->each
+                ->enroll($programEdition, [
+                    'global_evaluation' => 'Eficaz',
+                ]);
         })
         ->afterMakingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {
             $programEdition->setRelation('students', $students = factory(Student::class, $num)->create([

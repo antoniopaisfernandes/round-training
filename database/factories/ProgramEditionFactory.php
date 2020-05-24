@@ -69,7 +69,7 @@ Collection::times(5)->each(function ($num) use ($factory) {
 });
 $factory->state(ProgramEdition::class, 'without-students', []);
 
-// Make 5 different states for student enrollments
+// Make 5 different states for student evaluations
 Collection::times(5)->each(function ($num) use ($factory) {
     $factory->state(ProgramEdition::class, "with-{$num}-evaluations", [])
         ->afterCreatingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {

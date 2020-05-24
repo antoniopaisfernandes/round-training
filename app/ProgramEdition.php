@@ -156,7 +156,7 @@ class ProgramEdition extends Model
      * Enroll students in current program edition
      *
      * @param Collection|Student $students
-     * @return void
+     * @return $this
      * @throws \Exception
      */
     public function enroll($students)
@@ -172,5 +172,7 @@ class ProgramEdition extends Model
         else {
             throw new InvalidArgumentException("Parameter must be either a collection or a student");
         }
+
+        return $this;
     }
 }

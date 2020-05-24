@@ -15,10 +15,10 @@ class EnrollmentController extends Controller
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [
-            'studentsAbleToEnroll' => StudentCollectionResource::make(Student::canBeEnrolled()->get()),
+            'studentsAbleToEnroll' => StudentCollectionResource::make(Student::canBeEnrolledBy($request->user())->get()),
             'enrollmentsAbleToEdit' => Enrollment::status('enrollable')->get(),
         ];
 

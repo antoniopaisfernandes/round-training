@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Enrollment;
 
+use App\Company;
 use App\Enrollment;
 use App\ProgramEdition;
 use App\Student;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -44,5 +46,57 @@ class ViewingEnrollmentsTest extends TestCase
         $response->assertViewHas('enrollmentsAbleToEdit');
         $this->assertCount(1, $response->viewData('enrollmentsAbleToEdit'));
         $this->assertTrue($response->viewData('enrollmentsAbleToEdit')->first()->student->is($studentEnrolledInCurrentProgramEdition));
+    }
+
+    /** @test */
+    public function it_shows_a_list_of_students_able_to_enroll_filtered_by_access_using_the_leader_of_the_student()
+    {
+        $this->withoutExceptionHandling();
+
+        // Arrange
+        factory(ProgramEdition::class)->create();
+        $leader = factory(User::class)->create();
+
+        $studentFromCompanyA = factory(Student::class)->create();
+        $studentFromCompanyB = factory(Student::class)->create([
+            'leader_id' => $leader->id,
+        ]);
+
+        // Act
+        $response = $this->actingAs($leader)
+                        ->get(route('enrollments.index'))
+                        ->assertOk();
+
+        // Assert
+        $response->assertViewHas('studentsAbleToEnroll');
+        $this->assertCount(1, $response->viewData('studentsAbleToEnroll'));
+        $this->assertTrue($response->viewData('studentsAbleToEnroll')->first()->is($studentFromCompanyB));
+    }
+
+    /** @test */
+    public function it_shows_a_list_of_students_able_to_enroll_filtered_by_access_using_the_company_coordinator()
+    {
+        $this->withoutExceptionHandling();
+
+        // Arrange
+        factory(ProgramEdition::class)->create();
+        $coordinator = factory(User::class)->create();
+
+        $studentFromCompanyA = factory(Student::class)->create();
+        $studentFromCompanyB = factory(Student::class)->create([
+            'current_company_id' => factory(Company::class)->create([
+                'coordinator_id' => $coordinator->id,
+            ])->id,
+        ]);
+
+        // Act
+        $response = $this->actingAs($coordinator)
+            ->get(route('enrollments.index'))
+            ->assertOk();
+
+        // Assert
+        $response->assertViewHas('studentsAbleToEnroll');
+        $this->assertCount(1, $response->viewData('studentsAbleToEnroll'));
+        $this->assertTrue($response->viewData('studentsAbleToEnroll')->first()->is($studentFromCompanyB));
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Student extends Model
 {
@@ -80,10 +81,22 @@ class Student extends Model
         $enrollableProgramEditionsIds = ProgramEdition::setEagerLoads([])
                                                 ->status('enrollable')
                                                 ->select('id')
-                                                ->get('id')
+                                                ->get()
                                                 ->pluck('id')
                                                 ->toArray();
 
         $query->notEnrolled(...$enrollableProgramEditionsIds);
+    }
+
+    public function scopeCanBeEnrolledBy(Builder $query, User $user)
+    {
+        $query->canBeEnrolled()
+            ->where(function ($q) use ($user) {
+                $q->where(DB::raw(true), DB::raw($user->can('enroll') ?: 0))
+                    ->orWhere('leader_id', $user->id)
+                    ->orWhereHas('company', function ($company) use ($user) {
+                        $company->where('coordinator_id', $user->id);
+                    });
+            });
     }
 }

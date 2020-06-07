@@ -15,7 +15,7 @@
         "cypress:test": "npm run cypress:prep && (((concurrently \"npx wait-on tcp:8000 && npm run cypress:run\" --kill-others \"php artisan serve\" --success first) && npm run cypress:teardown) || (npm run cypress:teardown && bash -c 'false'))"
     },
     "dependencies": {
-        "@mdi/font": "^5.2.45",
+        "@mdi/font": "^5.3.45",
         "axios": "^0.19",
         "date-fns": "^2.14.0",
         "file-saver": "^2.0.2",
@@ -24,10 +24,10 @@
         "tailwindcss": "^1.4.6",
         "vue": "^2.5.17",
         "vue-api-query": "^1.5.2",
-        "vuetify": "^2.2.29"
+        "vuetify": "^2.2.32"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-proposal-class-properties": "^7.10.1",
         "browser-sync": "^2.26.7",
         "browser-sync-webpack-plugin": "^2.2.2",
         "concurrently": "^5.2.0",
@@ -36,10 +36,10 @@
         "laravel-mix": "^5.0.4",
         "laravel-mix-purgecss": "^5.0.0",
         "resolve-url-loader": "^3.1.1",
-        "sass": "^1.26.5",
+        "sass": "^1.26.8",
         "sass-loader": "^8.0.0",
         "vue-template-compiler": "^2.6.10",
-        "vuetify-loader": "^1.4.3",
+        "vuetify-loader": "^1.4.4",
         "wait-on": "^4.0.2"
     }
 }

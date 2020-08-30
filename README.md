@@ -23,16 +23,3 @@ Goto the project folder:
 * run `npm install`
 * run `npm run prod` to build the frontend assets
 * bootstrap server with `php artisan serve`
-
-
-
-
-## Packages to check (delete this section afterwards)
-
-https://github.com/spatie/period
-https://github.com/lukeraymonddowning/poser
-https://github.com/spatie/laravel-activitylog
-https://github.com/fico7489/laravel-eloquent-join
-https://github.com/spatie/laravel-schemaless-attributes
-
-https://github.com/LinusBorg/portal-vue

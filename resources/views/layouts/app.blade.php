@@ -7,8 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>EsferaSaúde - Gestão de Formação</title>
-    <link rel="shortcut icon" href="/images/esferafavicon.png" type="image/x-icon" />
+    <title>RoundTraining - Gestão de Formação</title>
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>

@@ -83,7 +83,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@esferasaude.pt'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@roundtraining.pt'),
         'name' => env('MAIL_FROM_NAME', 'Gestão de Formação'),
     ],
 

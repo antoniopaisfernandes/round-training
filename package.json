@@ -15,31 +15,31 @@
         "cypress:test": "npm run cypress:prep && (((concurrently \"npx wait-on tcp:8000 && npm run cypress:run\" --kill-others \"php artisan serve\" --success first) && npm run cypress:teardown) || (npm run cypress:teardown && bash -c 'false'))"
     },
     "dependencies": {
-        "@mdi/font": "^5.3.45",
+        "@mdi/font": "^5.5.55",
         "axios": "^0.19",
-        "date-fns": "^2.14.0",
+        "date-fns": "^2.16.0",
         "file-saver": "^2.0.2",
         "js-file-download": "^0.4.12",
         "lodash-es": "^4.17.13",
-        "tailwindcss": "^1.4.6",
-        "vue": "^2.5.17",
+        "tailwindcss": "^1.7.6",
+        "vue": "^2.6.12",
         "vue-api-query": "^1.5.2",
-        "vuetify": "^2.2.32"
+        "vuetify": "^2.3.10"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-class-properties": "^7.10.1",
-        "browser-sync": "^2.26.7",
+        "@babel/plugin-proposal-class-properties": "^7.10.4",
+        "browser-sync": "^2.26.12",
         "browser-sync-webpack-plugin": "^2.2.2",
-        "concurrently": "^5.2.0",
+        "concurrently": "^5.3.0",
         "cross-env": "^7.0",
         "cypress": "3.4.1",
-        "laravel-mix": "^5.0.4",
+        "laravel-mix": "^5.0.5",
         "laravel-mix-purgecss": "^5.0.0",
         "resolve-url-loader": "^3.1.1",
-        "sass": "^1.26.8",
+        "sass": "^1.26.10",
         "sass-loader": "^8.0.0",
-        "vue-template-compiler": "^2.6.10",
-        "vuetify-loader": "^1.4.4",
+        "vue-template-compiler": "^2.6.12",
+        "vuetify-loader": "^1.6.0",
         "wait-on": "^4.0.2"
     }
 }

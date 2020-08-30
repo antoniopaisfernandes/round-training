@@ -51,6 +51,6 @@ class EnsureAtLeastOneAdmin implements Rule
      */
     public function message()
     {
-        return 'Cannot remote admin role to the only admin in the system.';
+        return 'Cannot remove admin role to the only admin in the system.';
     }
 }

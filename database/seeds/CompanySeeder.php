@@ -13,7 +13,7 @@ class CompanySeeder extends Seeder
     public function run()
     {
         Company::create([
-            'name' => 'Esfera Saude',
+            'name' => 'RoundTraining',
             'vat_number' => '123456789',
         ]);
     }

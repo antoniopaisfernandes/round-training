@@ -21,9 +21,9 @@
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-content class="grey lighten-5">
+    <v-main class="grey lighten-5">
       <slot></slot>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

@@ -1,8 +1,5 @@
 module.exports = {
   prefix: 'tw-',
-  future: {
-    removeDeprecatedGapUtilities: true,
-  },
   purge: {
     enabled: false,
   },

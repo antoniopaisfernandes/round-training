@@ -14,6 +14,7 @@ return [
     */
 
     'failed'   => 'O seu utilizador ou password estão incorrectos.',
+    'password' => 'O seu utilizador ou password estão incorrectos.',
     'throttle' => 'O número limite de tentativas de login foi atingido. Por favor tente novamente em :seconds segundos.',
 
 ];

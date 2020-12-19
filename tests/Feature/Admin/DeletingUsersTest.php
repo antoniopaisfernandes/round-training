@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class DeletingUsersTest extends TestCase
@@ -26,6 +27,20 @@ class DeletingUsersTest extends TestCase
 
         $this->assertCount(2, User::all());
 
+        $this->delete("/admin/users/{$user->id}");
+
+        $this->assertCount(1, User::all());
+    }
+
+    /** @test */
+    public function a_guest_cannot_delete_a_user()
+    {
+        $this->withExceptionHandling();
+
+        $this->assertCount(1, User::all());
+        $user = User::first();
+
+        Auth::logout();
         $this->delete("/admin/users/{$user->id}");
 
         $this->assertCount(1, User::all());

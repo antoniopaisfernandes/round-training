@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -73,7 +74,7 @@ class CreatingUsersTest extends TestCase
         $this->assertCount(1, User::all());
         $user = $this->validUser();
 
-        auth()->logout();
+        Auth::logout();
         $this->post('/admin/users', $user);
 
         $this->assertDatabaseMissing('users', $user);

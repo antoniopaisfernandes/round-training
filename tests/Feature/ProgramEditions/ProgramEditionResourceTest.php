@@ -18,8 +18,6 @@ class ProgramEditionResourceTest extends TestCase
     /** @test */
     public function when_getting_a_program_edition_resource_with_students_hide_rgpd_data()
     {
-        $this->markTestSkipped('Todo');
-
         $programEditionId = factory(ProgramEdition::class)->create()->enroll(
             factory(Student::class)->create([
                 'citizen_id' => '11111111',
@@ -28,10 +26,12 @@ class ProgramEditionResourceTest extends TestCase
         )->id;
         $programEdition = ProgramEdition::with('students')->findOrFail($programEditionId);
 
-        $request = request()->setUserResolver(fn () => new User);
-        $studentFromResource = ProgramEditionResource::make($programEdition)->toArray($request)['students'][0];
+        $resource = ProgramEditionResource::make($programEdition);
+        $studentFromResource = $resource->response()->getData(true)['students'][0];
+
         $this->assertFalse(isset($studentFromResource['citizen_id']));
         $this->assertFalse(isset($studentFromResource['citizen_id_validity']));
+        $this->assertTrue(isset($studentFromResource['name']));
     }
 
     /** @test */

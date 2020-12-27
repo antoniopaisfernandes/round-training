@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { Model } from 'vue-api-query'
 
 require('./bootstrap')

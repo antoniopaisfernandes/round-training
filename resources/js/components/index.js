@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import appLayout from './Layout'
 import toast from './Generic/Toast'
 import reportCard from './Generic/ReportCard.vue'

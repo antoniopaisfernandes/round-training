@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.8.55",
-        "axios": "^0.19",
+        "axios": "^0.21",
         "date-fns": "^2.16.1",
         "file-saver": "^2.0.5",
         "js-file-download": "^0.4.12",

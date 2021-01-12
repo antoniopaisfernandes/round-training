@@ -1,18 +1,24 @@
 name: Laravel
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [ push ]
 
 jobs:
   laravel-tests:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        php-version: [ 7.4, 8.0 ]
+      fail-fast: false
+
     steps:
     - uses: actions/checkout@v2
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        tools: composer:v2
     - name: PHP version
       run: php --version
     - name: Copy .env

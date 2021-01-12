@@ -19,10 +19,6 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
         tools: composer:v2
-    - name: PHP version
-      run: php --version
-    - name: PHP information
-      run: php -i
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies

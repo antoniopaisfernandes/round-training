@@ -4,9 +4,9 @@ namespace Tests\Feature\ProgramEditions;
 
 use App\Console\Commands\NotifyDueProgramEditionEvaluations;
 use App\Mail\DuedProgramEditionEvaluation;
-use App\ProgramEdition;
-use App\Student;
-use App\User;
+use App\Models\ProgramEdition;
+use App\Models\Student;
+use App\Models\User;
 use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;

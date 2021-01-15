@@ -3,7 +3,7 @@
 namespace App\Exports\Student;
 
 use App\Exports\Student\ProgramEditionsExport;
-use App\Student;
+use App\Models\Student;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 

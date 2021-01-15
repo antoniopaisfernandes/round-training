@@ -2,8 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Company;
-use App\CompanyYearlyBudget;
+use App\Models\Company;
+use App\Models\CompanyYearlyBudget;
 use Faker\Generator as Faker;
 
 $factory->define(CompanyYearlyBudget::class, function (Faker $faker) {

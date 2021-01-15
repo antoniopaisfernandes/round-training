@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Students;
 
-use App\Company;
+use App\Models\Company;
 use App\Http\Resources\StudentResource;
-use App\ProgramEdition;
-use App\Student;
-use App\User;
+use App\Models\ProgramEdition;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Tests\TestCase;

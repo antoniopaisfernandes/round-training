@@ -2,8 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\ProgramEdition;
-use App\ProgramEditionSchedule;
+use App\Models\ProgramEdition;
+use App\Models\ProgramEditionSchedule;
 use Faker\Generator as Faker;
 
 $factory->define(ProgramEditionSchedule::class, function (Faker $faker) {

@@ -2,8 +2,8 @@
 
 namespace App\Queries\Reports;
 
-use App\Company;
-use App\ProgramEdition;
+use App\Models\Company;
+use App\Models\ProgramEdition;
 use Illuminate\Support\Collection;
 
 class ProgramEditionExecution

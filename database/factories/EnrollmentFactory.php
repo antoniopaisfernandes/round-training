@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Company;
-use App\Enrollment;
-use App\ProgramEdition;
-use App\Student;
+use App\Models\Company;
+use App\Models\Enrollment;
+use App\Models\ProgramEdition;
+use App\Models\Student;
 use Faker\Generator as Faker;
 
 $factory->define(Enrollment::class, function (Faker $faker) {

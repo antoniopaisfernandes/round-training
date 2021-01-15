@@ -13,6 +13,8 @@ class HomeControllerTest extends TestCase
     /** @test */
     public function it_shows_the_home_dashboard()
     {
+        $this->withoutExceptionHandling();
+
         $response = $this->actingAs($this->createAdminUser())->get('/');
 
         $response->assertOk();

@@ -2,7 +2,7 @@
 
 namespace App\Exports\ProgramEdition;
 
-use App\ProgramEdition;
+use App\Models\ProgramEdition;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 

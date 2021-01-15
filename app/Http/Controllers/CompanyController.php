@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
+use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +54,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Company  $company
+     * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Company $company)
@@ -66,7 +66,7 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateCompanyRequest  $request
-     * @param  \App\Company  $company
+     * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateCompanyRequest $request, Company $company)
@@ -83,7 +83,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Company  $company
+     * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

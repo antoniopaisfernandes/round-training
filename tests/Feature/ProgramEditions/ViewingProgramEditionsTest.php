@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\ProgramEditions;
 
-use App\Enrollment;
-use App\ProgramEdition;
-use App\Student;
-use App\User;
+use App\Models\Enrollment;
+use App\Models\ProgramEdition;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

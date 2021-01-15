@@ -5,7 +5,7 @@ namespace Tests\Feature\Students;
 use App\Exports\Student\CoverPageExport;
 use App\Exports\Student\ProgramEditionsExport;
 use App\Exports\Student\StudentExport;
-use App\Student;
+use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;

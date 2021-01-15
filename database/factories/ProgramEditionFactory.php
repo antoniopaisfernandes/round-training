@@ -2,13 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Company;
-use App\Enrollment;
-use App\Program;
-use App\ProgramEdition;
-use App\ProgramEditionSchedule;
-use App\Student;
-use App\User;
+use App\Models\Company;
+use App\Models\Enrollment;
+use App\Models\Program;
+use App\Models\ProgramEdition;
+use App\Models\ProgramEditionSchedule;
+use App\Models\Student;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Collection;
 

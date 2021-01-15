@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\DuedProgramEditionEvaluation;
-use App\ProgramEdition;
+use App\Models\ProgramEdition;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 

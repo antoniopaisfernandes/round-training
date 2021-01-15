@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Exceptions\CannotEnrollStudentException;
-use App\ProgramEdition;
-use App\ProgramEditionSchedule;
-use App\Student;
+use App\Models\ProgramEdition;
+use App\Models\ProgramEditionSchedule;
+use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

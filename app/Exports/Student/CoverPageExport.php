@@ -2,7 +2,7 @@
 
 namespace App\Exports\Student;
 
-use App\Student;
+use App\Models\Student;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;

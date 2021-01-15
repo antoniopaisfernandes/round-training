@@ -3,7 +3,7 @@
 namespace App\Exports\Student;
 
 use App\Http\Resources\EnrollmentResource;
-use App\Student;
+use App\Models\Student;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;

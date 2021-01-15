@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Http\Resources\StudentCollectionResource;
-use App\Student;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
@@ -28,7 +28,7 @@ class EnrollmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Enrollment  $enrollment
+     * @param  \App\Models\Enrollment  $enrollment
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Enrollment $enrollment)
@@ -53,7 +53,7 @@ class EnrollmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Enrollment $enrollment
+     * @param \App\Models\Enrollment $enrollment
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Http\Resources\StudentCollectionResource;
-use App\ProgramEdition;
-use App\Student;
+use App\Models\ProgramEdition;
+use App\Models\Student;
 
 class ProgramEditionStudentController extends Controller
 {

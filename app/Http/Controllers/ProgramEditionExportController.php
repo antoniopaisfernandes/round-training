@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ProgramEdition\ProgramEditionExport;
 use App\Http\Middleware\ConvertsToBoolean;
-use App\ProgramEdition;
+use App\Models\ProgramEdition;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 

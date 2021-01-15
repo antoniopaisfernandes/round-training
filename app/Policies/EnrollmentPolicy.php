@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Enrollment;
-use App\User;
+use App\Models\Enrollment;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EnrollmentPolicy
@@ -13,7 +13,7 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,8 +24,8 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Enrollment  $enrollment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Enrollment  $enrollment
      * @return mixed
      */
     public function view(User $user, Enrollment $enrollment)
@@ -36,7 +36,7 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +47,8 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Enrollment  $enrollment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Enrollment  $enrollment
      * @return mixed
      */
     public function update(User $user, Enrollment $enrollment)
@@ -59,8 +59,8 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Enrollment  $enrollment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Enrollment  $enrollment
      * @return mixed
      */
     public function delete(User $user, Enrollment $enrollment)
@@ -75,8 +75,8 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Enrollment  $enrollment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Enrollment  $enrollment
      * @return mixed
      */
     public function restore(User $user, Enrollment $enrollment)
@@ -87,8 +87,8 @@ class EnrollmentPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Enrollment  $enrollment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Enrollment  $enrollment
      * @return mixed
      */
     public function forceDelete(User $user, Enrollment $enrollment)

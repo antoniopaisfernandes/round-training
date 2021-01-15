@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Student;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model

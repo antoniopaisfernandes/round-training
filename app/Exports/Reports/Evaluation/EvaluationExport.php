@@ -2,8 +2,8 @@
 
 namespace App\Exports\Reports\Evaluation;
 
-use App\Enrollment;
-use App\ProgramEdition;
+use App\Models\Enrollment;
+use App\Models\ProgramEdition;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithEvents;

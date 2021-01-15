@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\ProgramEditions;
 
-use App\Program;
-use App\ProgramEdition;
-use App\User;
+use App\Models\Program;
+use App\Models\ProgramEdition;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

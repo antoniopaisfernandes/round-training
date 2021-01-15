@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Program;
+use App\Models\Program;
 use Faker\Generator as Faker;
 
 $courseNames = [

@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Enrollment;
+use App\Models\Enrollment;
 use App\Policies\EnrollmentPolicy;
 use App\Policies\ProgramEditionPolicy;
 use App\Policies\ProgramPolicy;
-use App\Program;
-use App\ProgramEdition;
+use App\Models\Program;
+use App\Models\ProgramEdition;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 

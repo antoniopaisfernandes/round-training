@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Company;
-use App\Program;
-use App\ProgramEdition;
-use App\Student;
+use App\Models\Company;
+use App\Models\Program;
+use App\Models\ProgramEdition;
+use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

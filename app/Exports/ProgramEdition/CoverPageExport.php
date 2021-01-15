@@ -2,7 +2,7 @@
 
 namespace App\Exports\ProgramEdition;
 
-use App\ProgramEdition;
+use App\Models\ProgramEdition;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;

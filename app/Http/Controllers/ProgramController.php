@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Program;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -46,7 +46,7 @@ class ProgramController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Program  $program
+     * @param  \App\Models\Program  $program
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Program $program)
@@ -58,7 +58,7 @@ class ProgramController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Program  $program
+     * @param  \App\Models\Program  $program
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -80,7 +80,7 @@ class ProgramController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Program $program
+     * @param \App\Models\Program $program
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

@@ -6,7 +6,7 @@ use App\Http\Requests\StoreProgramEditionRequest;
 use App\Http\Requests\UpdateProgramEditionRequest;
 use App\Http\Resources\ProgramEditionCollectionResource;
 use App\Http\Resources\ProgramEditionResource;
-use App\ProgramEdition;
+use App\Models\ProgramEdition;
 use App\Queries\Sorts\ProgramNameSort;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;

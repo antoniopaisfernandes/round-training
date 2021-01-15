@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\StudentResource;
 use App\Queries\Sorts\CompanyNameSort;
-use App\Student;
+use App\Models\Student;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -80,7 +80,7 @@ class StudentController extends Controller
             'nationality' => 'nullable',
             'current_job_title' => 'nullable',
             'current_company_id' => 'nullable',
-            'leader_id' => 'nullable|exists:App\User,id',
+            'leader_id' => 'nullable|exists:App\Models\User,id',
         ]);
 
         $student = Student::create($validated);
@@ -91,7 +91,7 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return JsonResponse|JsonResource
      */
     public function show(Student $student)
@@ -103,7 +103,7 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return JsonResponse
      * @throws \Exception
      */
@@ -124,7 +124,7 @@ class StudentController extends Controller
             'nationality' => 'nullable',
             'current_job_title' => 'nullable',
             'current_company_id' => 'nullable',
-            'leader_id' => 'nullable|exists:App\User,id',
+            'leader_id' => 'nullable|exists:App\Models\User,id',
         ]);
 
         $student->update(
@@ -137,7 +137,7 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return JsonResponse
      * @throws \Exception
      */

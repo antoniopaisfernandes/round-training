@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\ProgramEditions;
 
-use App\Company;
-use App\Program;
-use App\ProgramEdition;
-use App\ProgramEditionSchedule;
+use App\Models\Company;
+use App\Models\Program;
+use App\Models\ProgramEdition;
+use App\Models\ProgramEditionSchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

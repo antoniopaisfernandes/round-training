@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\ProgramEdition;
-use App\User;
+use App\Models\ProgramEdition;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProgramEditionPolicy
@@ -13,7 +13,7 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can view any programs.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,8 +24,8 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can view the program.
      *
-     * @param  \App\User  $user
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ProgramEdition  $programEdition
      * @return mixed
      */
     public function view(User $user, ProgramEdition $programEdition)
@@ -36,7 +36,7 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can create programs.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +47,8 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can update the program.
      *
-     * @param  \App\User  $user
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ProgramEdition  $programEdition
      * @return mixed
      */
     public function update(User $user, ProgramEdition $programEdition)
@@ -59,8 +59,8 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can delete the program.
      *
-     * @param  \App\User  $user
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ProgramEdition  $programEdition
      * @return mixed
      */
     public function delete(User $user, ProgramEdition $programEdition)
@@ -71,8 +71,8 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can restore the program.
      *
-     * @param  \App\User  $user
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ProgramEdition  $programEdition
      * @return mixed
      */
     public function restore(User $user, ProgramEdition $programEdition)
@@ -83,8 +83,8 @@ class ProgramEditionPolicy
     /**
      * Determine whether the user can permanently delete the program.
      *
-     * @param  \App\User  $user
-     * @param  \App\ProgramEdition  $programEdition
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\ProgramEdition  $programEdition
      * @return mixed
      */
     public function forceDelete(User $user, ProgramEdition $programEdition)

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\ProgramEdition;
-use App\Student;
+use App\Models\ProgramEdition;
+use App\Models\Student;
 
 class StoreEnrollmentRequest extends EnrollmentRequest
 {

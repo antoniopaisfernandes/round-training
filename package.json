@@ -15,7 +15,7 @@
         "cypress:test": "npm run cypress:prep && (((concurrently \"npx wait-on tcp:8000 && npm run cypress:run\" --kill-others \"php artisan serve\" --success first) && npm run cypress:teardown) || (npm run cypress:teardown && bash -c 'false'))"
     },
     "dependencies": {
-        "@mdi/font": "^5.8.55",
+        "@mdi/font": "^5.9.55",
         "axios": "^0.21",
         "date-fns": "^2.16.1",
         "file-saver": "^2.0.5",
@@ -23,22 +23,22 @@
         "lodash-es": "^4.17.13",
         "tailwindcss": "^2.0.2",
         "vue": "^2.6.12",
-        "vue-api-query": "^1.8.2",
-        "vuetify": "^2.4.2"
+        "vue-api-query": "^1.9.0",
+        "vuetify": "^2.4.3"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.1",
-        "autoprefixer": "^10.2.1",
-        "browser-sync": "^2.26.13",
+        "autoprefixer": "^10.2.4",
+        "browser-sync": "^2.26.14",
         "browser-sync-webpack-plugin": "^2.3.0",
         "concurrently": "^5.3.0",
         "cross-env": "^7.0.3",
-        "cypress": "^6.2.1",
+        "cypress": "^6.4.0",
         "laravel-mix": "6.0.0",
         "laravel-mix-purgecss": "^6.0.0",
         "postcss": "^8.2.4",
         "resolve-url-loader": "^3.1.2",
-        "sass": "^1.32.4",
+        "sass": "^1.32.6",
         "sass-loader": "^10.1.1",
         "vue-loader": "^15.9.6",
         "vue-template-compiler": "^2.6.12",

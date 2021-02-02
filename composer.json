@@ -23,12 +23,13 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
+        "brianium/paratest": "^6.1",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/legacy-factories": "^1.1",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "nunomaduro/collision": "^5.3",
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "optimize-autoloader": true,

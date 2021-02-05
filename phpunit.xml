@@ -15,6 +15,9 @@
         <include>
             <directory suffix=".php">./app</directory>
         </include>
+        <exclude>
+            <directory suffix=".blade.php">./app</directory>
+        </exclude>
         <report>
             <text outputFile="php://stdout" showUncoveredFiles="true"/>
         </report>

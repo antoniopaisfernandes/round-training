@@ -1,8 +1,8 @@
-# GESTÃO DE FORMAÇÃO
+# TRAINING MANAGEMENT
 
 ## Requirements
 
-* PHP >= 7.2 [https://www.php.net/]
+* PHP >= 7.4 [https://www.php.net/]
 * MariaDB/MySQL [https://downloads.mariadb.org/]
 * Composer [https://getcomposer.org/]
 * Node [https://nodejs.org/]

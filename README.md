@@ -19,7 +19,7 @@ Goto the project folder:
 
 * run `composer create-project`
 * edit your `.env` file with correct database settings
-* run `php artisan migrate --seed` (default credentials are u: `admin@roundtraining.pt` p: `password`)
+* run `php artisan migrate --seed` (default credentials are u: `admin@roundtraining.com` p: `password`)
 * run `npm install`
 * run `npm run prod` to build the frontend assets
 * bootstrap server with `php artisan serve`

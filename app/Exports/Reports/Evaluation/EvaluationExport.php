@@ -36,9 +36,9 @@ class EvaluationExport implements FromView, WithEvents
                         ->values();
     }
 
-    public function view() : View
+    public function view(): View
     {
-        return view('Exports::evaluation.main', [
+        return view('Exports::Evaluation.main', [
             'programEdition' => $this->programEdition,
             'logo' => public_path('images/logo.png'),
             'rows' => $this->rows,

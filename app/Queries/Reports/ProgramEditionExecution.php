@@ -68,7 +68,7 @@ class ProgramEditionExecution
             ],
             [
                 ...array_fill(0, 6, ''),
-                'Orçamento',
+                __('app.budget'),
                 ...$companies->pluck('budgets')
                     ->map(fn ($budgets) => $budgets->first())
                     ->map(fn ($budget) => optional($budget)->budget)
@@ -76,20 +76,20 @@ class ProgramEditionExecution
             ],
             [
                 ...array_fill(0, 6, ''),
-                'Execução',
+                __('app.execution'),
                 ...$companies->pluck('budgets')
                     ->map(fn ($budgets) => $budgets->first())
                     ->map(fn ($budget) => optional($budget)->execution)
                     ->toArray(),
             ],
             [
-                'Formação',
-                'Formandos',
-                'Fornecedor',
-                'Carga horária',
-                'Data início',
-                'Data fim',
-                'Local',
+                __('app.training'),
+                __('app.students'),
+                __('app.supplier'),
+                __('app.time'),
+                __('app.start_date'),
+                __('app.end_date'),
+                __('app.location'),
                 // ...,
             ]
         ]);

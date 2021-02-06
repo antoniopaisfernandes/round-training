@@ -2,7 +2,7 @@ describe('User.Create', () => {
 
     it('can add roles to new users', () => {
         cy.visit('/admin/users')
-        cy.get('#email').type('admin@roundtraining.pt')
+        cy.get('#email').type('admin@roundtraining.com')
         cy.get('#password').type('password')
         cy.get('button').contains('Login').click()
 

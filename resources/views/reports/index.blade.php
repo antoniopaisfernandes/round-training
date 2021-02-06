@@ -4,7 +4,7 @@
 <v-container fluid>
     <v-row align="center" justify="center">
         <v-col>
-            Relatórios
+            {{ __('app.reports') }}
         </v-col>
     </v-row>
     <v-row>

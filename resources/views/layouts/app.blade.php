@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>RoundTraining - Gestão de Formação</title>
+    <title>RoundTraining</title>
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 
     <script src="{{ mix('js/manifest.js') }}"></script>

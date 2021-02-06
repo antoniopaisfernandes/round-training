@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@roundtraining.pt'),
-        'name' => env('MAIL_FROM_NAME', 'Gestão de Formação'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@roundtraining.com'),
+        'name' => env('MAIL_FROM_NAME', 'RoundTraining'),
     ],
 
     /*

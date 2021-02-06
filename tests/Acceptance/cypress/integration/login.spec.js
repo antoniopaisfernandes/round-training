@@ -7,7 +7,7 @@ describe('Login', () => {
     it('displays an error when using invalid credentials', () => {
         cy.visit('/login');
 
-        cy.get('#email').type('error@roundtraining.pt');
+        cy.get('#email').type('error@roundtraining.com');
         cy.get('#password').type('wrong_password');
         cy.get('button').contains('Login').click();
 
@@ -18,7 +18,7 @@ describe('Login', () => {
     it('can login using seed credentials', () => {
         cy.visit('/login');
 
-        cy.get('#email').type('admin@roundtraining.pt');
+        cy.get('#email').type('admin@roundtraining.com');
         cy.get('#password').type('password');
         cy.get('button').contains('Login').click();
 

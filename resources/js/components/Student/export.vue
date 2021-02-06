@@ -2,12 +2,12 @@
   <div>
     <h2
       class="mt-10 warning tw-text-center tw-text-white tw-font-mono tw-rounded"
-    >A exportação ocorre sempre baseado nos dados do servidor pelo que necessitará gravar quaisquer alterações que tenha efectuado.</h2>
+    >The export is based on the server data. You need to save before exporting.</h2>
 
     <div class="mt-10 container tw-flex tw-justify-between tw-items-end">
       <div>
-        <v-switch v-model="cover" label="Dados globais"></v-switch>
-        <v-switch v-model="programEditions" label="Informação dos cursos"></v-switch>
+        <v-switch v-model="cover" label="Global data"></v-switch>
+        <v-switch v-model="programEditions" label="Program edition informations"></v-switch>
       </div>
       <div>
         <v-btn
@@ -15,7 +15,7 @@
           :loading="isExporting"
           :disabled="!cover && !programEditions"
           @click="exportExcel"
-        >Exportar</v-btn>
+        >Export</v-btn>
       </div>
     </div>
   </div>
@@ -58,7 +58,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>

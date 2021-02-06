@@ -18,8 +18,8 @@ class HomeControllerTest extends TestCase
         $response = $this->actingAs($this->createAdminUser())->get('/');
 
         $response->assertOk();
-        $response->assertSee('Cursos terminados');
-        $response->assertSee('Cursos a decorrer');
-        $response->assertSee('Cursos futuros');
+        $response->assertSee('Ended');
+        $response->assertSee('Active');
+        $response->assertSee('In the future');
     }
 }

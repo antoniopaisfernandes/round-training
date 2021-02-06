@@ -21,7 +21,7 @@ class StudentsExport implements FromCollection, ShouldAutoSize, WithHeadings, Wi
 
     public function title(): string
     {
-        return 'Alunos';
+        return 'Students';
     }
 
     public function headings(): array

@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Nova Empresa</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">New Company</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -35,8 +35,8 @@
     </v-data-table>
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
-      <h1 class="tw-font-bold tw-text-lg">Ainda não existem empresas.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Nova Empresa</v-btn>
+      <h1 class="tw-font-bold tw-text-lg">No companies yet.</h1>
+      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">New Company</v-btn>
     </div>
 
   </c-data-table>
@@ -59,24 +59,24 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Nome',
+        text: 'Name',
         align: 'start',
         sortable: true,
         value: 'name',
       },
       {
-        text: 'Coordenador',
+        text: 'Coordinator',
         align: 'start',
         sortable: true,
         value: 'coordinator.name',
       },
       {
-        text: 'Contribuinte',
+        text: 'VAT Number',
         align: 'start',
         sortable: true,
         value: 'vat_number',
       },
-      { text: 'Acções', value: 'actions', sortable: false },
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
     defaultItem: new Company(),
     editedItem: new Company(),

@@ -40,7 +40,7 @@ export default {
     async deleteItem(item) {
       const index = this.list.indexOf(item)
 
-      if (! confirm('Tem a certeza que pretende remover este registo?')) {
+      if (! confirm('Are you sure?')) {
         return
       }
 

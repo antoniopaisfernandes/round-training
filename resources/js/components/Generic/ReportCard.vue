@@ -20,7 +20,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="startsAt"
-                label="Desde"
+                label="From"
                 prepend-inner-icon="mdi-calendar"
                 readonly
                 v-on="on"
@@ -43,7 +43,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="endsAt"
-                label="Até"
+                label="To"
                 prepend-inner-icon="mdi-calendar"
                 readonly
                 v-on="on"
@@ -61,7 +61,7 @@
           <v-select
             prepend-inner-icon="mdi-calendar"
             :items="years"
-            label="Ano"
+            label="Year"
             class="mt-4"
             v-model="year"
           ></v-select>
@@ -74,7 +74,7 @@
           icon
           class="primary"
           :loading="loading"
-          :disabled="loading"
+          :disabled="loading || ! valid"
           @click="submit"
         >
           <v-icon>mdi-microsoft-excel</v-icon>
@@ -141,7 +141,10 @@ export default {
         'begin_date': this.startsAt,
         'end_date': this.endsAt,
       }
-    }
+    },
+    valid: function () {
+      return this.year || this.startsAt;
+    },
   },
 
   methods: {

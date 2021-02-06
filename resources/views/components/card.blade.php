@@ -25,7 +25,7 @@
                 text
                 href="{{ $link }}"
             >
-                Ver
+                {{ __('app.details') }}
             </v-btn>
         </v-card-actions>
     @endif

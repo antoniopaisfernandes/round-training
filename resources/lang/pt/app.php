@@ -23,5 +23,6 @@ return [
     'end_date' => 'Data fim',
     'location' => 'Local',
     'reports' => 'Relatórios',
+    'details' => 'Detalhes',
 
 ];

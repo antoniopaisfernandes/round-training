@@ -6,7 +6,7 @@ describe('User.Create', () => {
         cy.get('#password').type('password')
         cy.get('button').contains('Login').click()
 
-        cy.get('button').contains('Adicionar utilizador').click()
+        cy.get('button').contains('Add user').click()
         cy.get('#name').type('JohnDoe')
         cy.get('#email').type('johndoe@example.com')
         cy.get('#password').type('its_a_password')

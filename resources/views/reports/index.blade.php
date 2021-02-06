@@ -10,8 +10,8 @@
     <v-row>
         <v-col>
             <report-card
-                title="Acompanhamento de execução"
-                description="Execução face ao orçamento das ações de formação com detalhe por formação e empresa"
+                title="Budget execution"
+                description="Execution and budget with program editions and companies details"
                 report="execution"
                 date-format="year"
             ></report-card>

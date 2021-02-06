@@ -62,8 +62,8 @@ class ExportingProgramEditionsTest extends TestCase
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($file);
 
-        $this->assertTrue($spreadsheet->sheetNameExists('Curso'));
-        $this->assertTrue($spreadsheet->sheetNameExists('Alunos'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Program Edition'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Students'));
     }
 
     /** @test */
@@ -80,22 +80,22 @@ class ExportingProgramEditionsTest extends TestCase
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($file);
 
-        $this->assertTrue($spreadsheet->sheetNameExists('Curso'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Program Edition'));
         $contents = $spreadsheet->getSheet(0)->rangeToArray("A1:C8");
 
-        $this->assertEquals('Curso', $contents[0][0]);
+        $this->assertEquals('Program Edition', $contents[0][0]);
         $this->assertEquals($programEdition->full_name, $contents[0][1]);
-        $this->assertEquals('Empresa', $contents[1][0]);
+        $this->assertEquals('Company', $contents[1][0]);
         $this->assertEquals($programEdition->company->name, $contents[1][1]);
-        $this->assertEquals('Fornecedor', $contents[2][0]);
+        $this->assertEquals('Supplier', $contents[2][0]);
         $this->assertEquals($programEdition->supplier, $contents[2][1]);
-        $this->assertEquals('Formador', $contents[3][0]);
+        $this->assertEquals('Teacher name', $contents[3][0]);
         $this->assertEquals($programEdition->teacher_name, $contents[3][1]);
-        $this->assertEquals('Custo', $contents[4][0]);
+        $this->assertEquals('Price', $contents[4][0]);
         $this->assertEquals($programEdition->cost, str_replace(',', '', $contents[4][1]));
-        $this->assertEquals('Data início', $contents[5][0]);
+        $this->assertEquals('Starts at', $contents[5][0]);
         $this->assertEquals($programEdition->starts_at, $contents[5][1]);
-        $this->assertEquals('Data fim', $contents[6][0]);
+        $this->assertEquals('Ends at', $contents[6][0]);
         $this->assertEquals($programEdition->ends_at, $contents[6][1]);
         $this->assertNull($contents[7][0]); // No more data
     }
@@ -146,7 +146,7 @@ class ExportingProgramEditionsTest extends TestCase
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($file);
 
-        $this->assertTrue($spreadsheet->sheetNameExists('Curso'));
-        $this->assertFalse($spreadsheet->sheetNameExists('Alunos'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Program Edition'));
+        $this->assertFalse($spreadsheet->sheetNameExists('Students'));
     }
 }

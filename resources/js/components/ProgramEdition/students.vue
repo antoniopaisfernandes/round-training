@@ -12,8 +12,8 @@
             hide-selected
             item-text="name"
             item-value="id"
-            label="Alunos"
-            placeholder="Nome do aluno"
+            label="Students"
+            placeholder="Student name"
             prepend-icon="mdi-database-search"
             return-object
           ></v-autocomplete>
@@ -34,8 +34,8 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">Nome</th>
-              <th class="text-left">Horas</th>
+              <th class="text-left">Name</th>
+              <th class="text-left">Hours</th>
               <th class="text-left">&nbsp;</th>
             </tr>
           </thead>
@@ -47,7 +47,7 @@
                   v-model="student.pivot.hours_attended"
                   :rules="rules.hours_attended"
                   dense
-                  placeholder="Só necessita preencher se diferente das horas do curso"
+                  placeholder="You only need to fill if the number of hours is different from the program edition"
                   class="hours_attended"
                 ></v-text-field>
               </td>

@@ -5,9 +5,9 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="student">Aluno</v-tab>
-        <!-- <v-tab key="programEditions">Cursos</v-tab> -->
-        <v-tab key="export" v-if="student.id">Exportar</v-tab>
+        <v-tab key="student">Student</v-tab>
+        <!-- <v-tab key="programEditions">Program editions</v-tab> -->
+        <v-tab key="export" v-if="student.id">Export</v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab">
@@ -17,14 +17,14 @@
               <v-text-field
                 autofocus
                 v-model="dataStudent.name"
-                label="Nome"
+                label="Name"
                 prepend-icon="mdi-account-edit-outline"
                 required
                 :rules="rules.name"
               ></v-text-field>
               <v-text-field
                 v-model="dataStudent.address"
-                label="Morada"
+                label="Address"
                 prepend-icon="mdi-map-marker"
                 required
                 :rules="rules.address"
@@ -32,7 +32,7 @@
               <div class="tw-flex">
                 <v-text-field
                   v-model="dataStudent.postal_code"
-                  label="C.Postal"
+                  label="Postal C."
                   prepend-icon="mdi-city"
                   required
                   class="tw-w-1/4"
@@ -40,7 +40,7 @@
                 ></v-text-field>
                 <v-text-field
                   v-model="dataStudent.city"
-                  label="Localidade"
+                  label="City"
                   prepend-icon="mdi-city"
                   required
                   class="tw-w-3/4 tw-ml-2"
@@ -50,7 +50,7 @@
               <div v-if="rgpd" class="tw-flex">
                 <v-text-field
                   v-model="dataStudent.citizen_id"
-                  label="Cartão de cidadão"
+                  label="Citizen card"
                   prepend-icon="mdi-card-account-details-outline"
                   required
                   class="tw-w-3/4"
@@ -67,7 +67,7 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="dataStudent.citizen_id_validity"
-                      label="Validade"
+                      label="Validity"
                       prepend-icon="mdi-calendar"
                       readonly
                       v-on="on"
@@ -92,14 +92,14 @@
               <div v-if="rgpd" class="tw-flex">
                 <v-text-field
                   v-model="dataStudent.birth_place"
-                  label="Naturalidade"
+                  label="Birth place"
                   prepend-icon="mdi-map-marker"
                   required
                   :rules="rules.birth_place"
                 ></v-text-field>
                 <v-text-field
                   v-model="dataStudent.nationality"
-                  label="Nacionalidade"
+                  label="Birth country"
                   prepend-icon="mdi-map-marker"
                   required
                   class="tw-ml-2"
@@ -113,7 +113,7 @@
               <v-select
                 :items="companies"
                 v-model="dataStudent.current_company_id"
-                label="Empresa"
+                label="Company"
                 prepend-icon="mdi-factory"
                 required
                 :rules="rules.company"
@@ -121,7 +121,7 @@
               ></v-select>
               <v-text-field
                 v-model="dataStudent.current_job_title"
-                label="Função"
+                label="Job title"
                 prepend-icon="mdi-barcode-scan"
                 required
                 :rules="rules.current_job_title"
@@ -138,8 +138,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -205,10 +205,10 @@ export default {
     rules() {
       return {
         name: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field should have a value.'
         ],
         vat_number: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field should have a value.'
         ]
       }
     },

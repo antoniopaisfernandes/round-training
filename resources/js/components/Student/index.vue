@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Adicionar aluno</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Add student</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -38,8 +38,8 @@
     </v-data-table>
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
-      <h1 class="tw-font-bold tw-text-lg">Ainda não existem alunos.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Adicionar aluno</v-btn>
+      <h1 class="tw-font-bold tw-text-lg">No students yet.</h1>
+      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Add student</v-btn>
     </div>
 
   </c-data-table>
@@ -63,18 +63,18 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Nome',
+        text: 'Name',
         align: 'start',
         sortable: true,
         value: 'name',
       },
       {
-        text: 'Empresa',
+        text: 'Company',
         align: 'start',
         sortable: true,
         value: 'company.name',
       },
-      { text: 'Acções', value: 'actions', sortable: false },
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
     editedItem: new Student(),
     defaultItem: new Student(),

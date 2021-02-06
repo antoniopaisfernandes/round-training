@@ -12,20 +12,20 @@ const menuRoutes = [
     {
         type: 'v-list-item',
         icon: 'mdi-domain',
-        text: 'Empresas',
+        text: 'Companies',
         link: '/companies',
         admin: true,
     },
     {
         type: 'v-list-item',
         icon: 'mdi-account-edit-outline',
-        text: 'Alunos',
+        text: 'Students',
         link: '/students',
     },
     {
         type: 'v-list-item',
         icon: 'mdi-brain',
-        text: 'Cursos',
+        text: 'Program editions',
         link: '/program-editions',
     },
     // {
@@ -37,7 +37,7 @@ const menuRoutes = [
     {
         type: 'v-list-item',
         icon: 'mdi-microsoft-excel',
-        text: 'Relatórios',
+        text: 'Reports',
         link: '/reports',
     },
 ]
@@ -46,7 +46,7 @@ const footerRoutes = [
     {
         type: 'v-list-item',
         icon: 'mdi-account-key-outline',
-        text: 'Gestão de utilizadores',
+        text: 'User management',
         link: '/admin/users',
         admin: true,
     },

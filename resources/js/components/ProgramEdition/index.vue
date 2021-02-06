@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newProgramEdition">Novo Curso</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newProgramEdition">New Program Edition</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -38,8 +38,8 @@
     </v-data-table>
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
-      <h1 class="tw-font-bold tw-text-lg">Ainda não existem edições de cursos.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible = true">Novo Curso</v-btn>
+      <h1 class="tw-font-bold tw-text-lg">No program editions yet.</h1>
+      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible = true">New Program Edition</v-btn>
     </div>
 
   </c-data-table>
@@ -62,37 +62,37 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Curso',
+        text: 'Program',
         align: 'start',
         sortable: true,
         value: 'program.name',
       },
       {
-        text: 'Edição',
+        text: 'Edition',
         align: 'start',
         sortable: true,
         value: 'name',
       },
       {
-        text: 'Data início',
+        text: 'Start date',
         align: 'start',
         sortable: true,
         value: 'starts_at',
       },
       {
-        text: 'Data fim',
+        text: 'End date',
         align: 'start',
         sortable: true,
         value: 'ends_at',
       },
       {
-        text: 'Inscritos',
+        text: 'Students',
         align: 'start',
         sortable: true,
         value: 'students_count',
       },
       {
-        text: 'Acções',
+        text: 'Actions',
         value: 'actions',
         sortable: false,
       },

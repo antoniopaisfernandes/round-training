@@ -70,8 +70,8 @@ class ExportingStudentsTest extends TestCase
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($file);
 
-        $this->assertTrue($spreadsheet->sheetNameExists('Aluno'));
-        $this->assertTrue($spreadsheet->sheetNameExists('Cursos'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Student'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Program Editions'));
     }
 
     /** @test */
@@ -90,20 +90,20 @@ class ExportingStudentsTest extends TestCase
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($file);
 
-        $this->assertTrue($spreadsheet->sheetNameExists('Aluno'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Student'));
         $contents = $spreadsheet->getSheet(0)->rangeToArray("A1:C8");
 
-        $this->assertEquals('Nome', $contents[0][0]);
+        $this->assertEquals('Name', $contents[0][0]);
         $this->assertEquals($student->name, $contents[0][1]);
-        $this->assertEquals('Morada', $contents[1][0]);
+        $this->assertEquals('Address', $contents[1][0]);
         $this->assertEquals($student->address, $contents[1][1]);
-        $this->assertEquals('Código postal', $contents[2][0]);
+        $this->assertEquals('Postal code', $contents[2][0]);
         $this->assertEquals($student->postal_code, $contents[2][1]);
-        $this->assertEquals('Localidade', $contents[3][0]);
+        $this->assertEquals('City', $contents[3][0]);
         $this->assertEquals($student->city, $contents[3][1]);
-        $this->assertEquals('Empresa', $contents[4][0]);
+        $this->assertEquals('Company', $contents[4][0]);
         $this->assertEquals($student->company->name, $contents[4][1]);
-        $this->assertEquals('Função', $contents[5][0]);
+        $this->assertEquals('Job title', $contents[5][0]);
         $this->assertEquals($student->current_job_title, $contents[5][1]);
         $this->assertNull($contents[6][0]); // No more data
     }
@@ -157,7 +157,7 @@ class ExportingStudentsTest extends TestCase
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($file);
 
-        $this->assertTrue($spreadsheet->sheetNameExists('Aluno'));
-        $this->assertFalse($spreadsheet->sheetNameExists('Cursos'));
+        $this->assertTrue($spreadsheet->sheetNameExists('Student'));
+        $this->assertFalse($spreadsheet->sheetNameExists((new ProgramEditionsExport($student))->title()));
     }
 }

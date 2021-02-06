@@ -5,7 +5,7 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="user">Utilizador</v-tab>
+        <v-tab key="user">User</v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab">
@@ -15,7 +15,7 @@
               <v-text-field
                 autofocus
                 v-model="dataUser.name"
-                label="Nome"
+                label="Name"
                 id="name"
                 prepend-icon="mdi-account-edit-outline"
                 required
@@ -41,7 +41,7 @@
               ></v-text-field>
               <v-text-field
                 v-model="dataUser.password_confirmation"
-                label="Repetir password"
+                label="Password confirmation"
                 id="password_confirmation"
                 type="password"
                 prepend-icon="mdi-lastpass"
@@ -56,7 +56,7 @@
                 attach
                 chips
                 :deletable-chips="true"
-                label="Perfis"
+                label="Roles"
                 id="roles"
                 multiple
                 prepend-icon="mdi-dolly"
@@ -68,8 +68,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Guardar</v-btn>
+        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -130,10 +130,10 @@ export default {
     rules() {
       return {
         name: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field should have a value.'
         ],
         email: [
-          v => !!v || 'É obrigatória a indicação de um valor para o campo.'
+          v => !!v || 'The field should have a value.'
         ],
         password_confirmation: [
           v => (!!v && v) === this.dataUser.password || 'Password não coincidem.'

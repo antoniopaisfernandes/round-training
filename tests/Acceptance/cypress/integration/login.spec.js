@@ -22,7 +22,7 @@ describe('Login', () => {
         cy.get('#password').type('password');
         cy.get('button').contains('Login').click();
 
-        cy.contains('Cursos terminados');
+        cy.contains('Ended')
         cy.location().should((location) => {
             expect(location.pathname).to.eq('/')
         })

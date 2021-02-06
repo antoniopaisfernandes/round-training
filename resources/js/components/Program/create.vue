@@ -6,7 +6,7 @@
     <v-card :loading="isSaving">
 
       <v-card-title>
-        Adicionar nome de curso
+        Add program name
       </v-card-title>
 
       <v-card-text>
@@ -18,7 +18,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="cancel">Cancelar</v-btn>
+        <v-btn color="blue darken-1" text @click="cancel">Cancel</v-btn>
         <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">{{ commitButton }}</v-btn>
       </v-card-actions>
 
@@ -72,7 +72,7 @@ export default {
       return this.selectedProgram === null || this.selectedProgram == ''
     },
     commitButton() {
-      return isObject(this.selectedProgram) ? 'Ok' : 'Guardar'
+      return isObject(this.selectedProgram) ? 'Ok' : 'Save'
     }
   },
 

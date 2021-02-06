@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Adicionar utilizador</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Add user</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -39,7 +39,7 @@
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">Ainda não existem alunos.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Adicionar utilizador</v-btn>
+      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Add user</v-btn>
     </div>
 
   </c-data-table>
@@ -63,7 +63,7 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Nome',
+        text: 'Name',
         align: 'start',
         sortable: true,
         value: 'name',
@@ -74,7 +74,7 @@ export default {
         sortable: true,
         value: 'email',
       },
-      { text: 'Acções', value: 'actions', sortable: false },
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
     editedItem: new User(),
     defaultItem: new User(),

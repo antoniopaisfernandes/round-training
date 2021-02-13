@@ -11,6 +11,6 @@ class UpdateCompanyRequest extends CompanyRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update');
+        return $this->user()->can('update');
     }
 }

@@ -11,6 +11,6 @@ class StoreProgramEditionRequest extends ProgramEditionRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('store');
+        return $this->user()->can('store');
     }
 }

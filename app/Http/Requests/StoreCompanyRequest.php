@@ -11,6 +11,6 @@ class StoreCompanyRequest extends CompanyRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('store');
+        return $this->user()->can('store');
     }
 }

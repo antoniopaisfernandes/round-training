@@ -11,6 +11,6 @@ class UpdateProgramEditionRequest extends ProgramEditionRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update', $this->route('program_edition'));
+        return $this->user()->can('update', $this->route('program_edition'));
     }
 }

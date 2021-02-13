@@ -89,16 +89,16 @@ class ProgramEdition extends Model
      */
     public function getSplitedCostsAttribute()
     {
-        if (($students = $this->students)->isEmpty()) {
+        if ($this->students->isEmpty()) {
             return collect([$this->company->setAttribute('cost', $this->cost)]);
         }
 
-        return $students->groupBy(function ($student) {
+        return $this->students->groupBy(function ($student) {
                 return $student->pivot->company_id ?: $this->id;
             })
-            ->map(function ($companyStudents, $company_id) use ($students) {
+            ->map(function ($companyStudents, $company_id) {
                 return Company::find($company_id)
-                    ->setAttribute('cost', round($companyStudents->count() / $students->count() * $this->cost, 2));
+                    ->setAttribute('cost', round($companyStudents->count() / $this->students->count() * $this->cost, 2));
             })
             ->values();
     }

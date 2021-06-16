@@ -11,7 +11,7 @@ describe('Login', () => {
         cy.get('#password').type('wrong_password');
         cy.get('button').contains('Login').click();
 
-        cy.contains('O seu utilizador ou password estão incorrectos.')
+        cy.contains('These credentials do not match our records')
     });
 
 

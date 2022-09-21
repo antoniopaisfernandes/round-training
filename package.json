@@ -25,7 +25,7 @@
         "vue": "^2.6.12",
         "vue-api-query": "^1.9.0",
         "vue-i18n": "^8.22.4",
-        "vuetify": "^2.5.4"
+        "vuetify": "^2.6.10"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.13",

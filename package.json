@@ -23,7 +23,7 @@
         "lodash-es": "^4.17.13",
         "tailwindcss": "^2.1.0",
         "vue": "^2.6.12",
-        "vue-api-query": "^1.9.0",
+        "vue-api-query": "^1.10.0",
         "vue-i18n": "^8.22.4",
         "vuetify": "^2.6.10"
     },

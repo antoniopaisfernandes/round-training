@@ -38,6 +38,4 @@ mix.options({
 
 if (mix.inProduction()) {
    mix.version();
-} else {
-   mix.browserSync('localhost:8000');
 }

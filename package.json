@@ -21,11 +21,12 @@
         "file-saver": "^2.0.5",
         "js-file-download": "^0.4.12",
         "lodash-es": "^4.17.13",
+        "mitt": "^3.0.1",
         "tailwindcss": "^3.4.10",
-        "vue": "^2.7.16",
+        "vue": "^3.5.0",
         "vue-api-query": "^1.11.0",
         "vue-i18n": "^8.22.4",
-        "vuetify": "^2.7.2"
+        "vuetify": "^3.0.0"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.13",
@@ -33,13 +34,14 @@
         "concurrently": "^6.2.0",
         "cross-env": "^7.0.3",
         "cypress": "^13.3.1",
+        "eslint": "^9.9.0",
+        "eslint-plugin-vue": "^9.27.0",
         "laravel-mix": "^6.0.49",
         "postcss": "^8.4.31",
-        "resolve-url-loader": "^4.0.0",
-        "sass": "^1.78.0",
-        "sass-loader": "^12.1.0",
-        "vue-loader": "^15.9.8",
-        "vue-template-compiler": "^2.7.16",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.50.0",
+        "sass-loader": "^16.0.0",
+        "vue-loader": "^17.4.0",
         "wait-on": "^8.0.0"
     }
 }

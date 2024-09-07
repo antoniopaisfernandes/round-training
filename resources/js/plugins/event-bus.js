@@ -1,21 +1,11 @@
-import Vue from 'vue'
+import mitt from 'mitt'
 
-window.Event = new class {
-  constructor() {
-    this.vue = new Vue();
-  }
+const bus = mitt()
 
-  fire(event, ...args) {
-    this.vue.$emit(event, ...args)
-  }
-
-  listen(event, callback) {
-    this.vue.$on(event, callback)
-  }
+export default {
+    install: (app) => {
+        app.config.globalProperties.$bus = bus
+    },
 }
 
-window.event = function (event, ...args) {
-  Event.fire(event, ...args)
-}
-
-export default window.Event
+export { bus }

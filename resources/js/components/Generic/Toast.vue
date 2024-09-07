@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  import { bus } from '../../plugins/event-bus'
   import colors from '../../colors'
 
   export default {
@@ -28,7 +29,7 @@
       right: true
     }),
     mounted() {
-      Event.listen('toast', ({
+      bus.on('toast', ({
         type = 'info',
         message = ''
       } = {}) => {

@@ -1,15 +1,26 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Company;
-use App\Models\CompanyYearlyBudget;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(CompanyYearlyBudget::class, function (Faker $faker) {
-    return [
-        'company_id' => factory(Company::class),
-        'year' => $faker->unique()->numberBetween(1990, 2100),
-        'budget' => $faker->numberBetween(0, 100000),
-    ];
-});
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CompanyYearlyBudget>
+ */
+class CompanyYearlyBudgetFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'company_id' => Company::factory(),
+            'year' => $this->faker->unique()->numberBetween(1990, 2100),
+            'budget' => $this->faker->numberBetween(0, 100000),
+        ];
+    }
+}

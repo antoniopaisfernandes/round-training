@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Students;
 
-use App\Models\Company;
 use App\Http\Resources\StudentResource;
+use App\Models\Company;
 use App\Models\ProgramEdition;
 use App\Models\Student;
 use App\Models\User;
@@ -18,19 +18,19 @@ class ViewingStudentsTest extends TestCase
     /** @var User */
     protected $user;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->be(
-            $this->user = factory(User::class)->create()
+            $this->user = User::factory()->create()
         );
     }
 
     /** @test */
     public function it_can_view_a_student()
     {
-        $student = factory(Student::class)->create();
+        $student = Student::factory()->create();
 
         $response = $this->actingAs($this->createAdminUser())->get("/students/{$student->id}");
 
@@ -40,7 +40,7 @@ class ViewingStudentsTest extends TestCase
     /** @test */
     public function a_user_without_rgpd_cannot_see_some_data()
     {
-        $student = factory(Student::class)->create([
+        $student = Student::factory()->create([
             'citizen_id' => '123456789',
             'citizen_id_validity' => today()->addYear()->format('Y-m-d'),
         ]);
@@ -57,9 +57,9 @@ class ViewingStudentsTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_students()
     {
-        $students = factory(Student::class, 4)->create();
+        $students = Student::factory()->times(4)->create();
 
-        $response = $this->get("/students");
+        $response = $this->get('/students');
 
         $response->assertViewHas('students');
         $viewDataStudents = $response->viewData('students');
@@ -73,9 +73,9 @@ class ViewingStudentsTest extends TestCase
     /** @test */
     public function a_user_without_rgpd_cannot_see_some_data_in_students_list()
     {
-        $student = factory(Student::class)->create();
+        $student = Student::factory()->create();
 
-        $response = $this->get("/students");
+        $response = $this->get('/students');
 
         $viewDataStudents = $response->viewData('students');
 
@@ -90,9 +90,9 @@ class ViewingStudentsTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_10_paginated_students()
     {
-        factory(Student::class, 50)->create();
+        Student::factory()->times(50)->create();
 
-        $response = $this->get("/students");
+        $response = $this->get('/students');
 
         $response->assertViewHas('students');
         $this->assertCount(
@@ -106,14 +106,14 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $john = factory(Student::class)->create([
-            'name' => 'John Test'
+        $john = Student::factory()->create([
+            'name' => 'John Test',
         ]);
-        factory(Student::class)->create([
-            'name' => 'Jane Test'
+        Student::factory()->create([
+            'name' => 'Jane Test',
         ]);
 
-        $response = $this->get("/students?filter[name]=John");
+        $response = $this->get('/students?filter[name]=John');
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
@@ -125,18 +125,18 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $first = factory(Student::class)->create([
-            'current_company_id' => factory(Company::class)->create([
+        $first = Student::factory()->create([
+            'current_company_id' => Company::factory()->create([
                 'name' => 'ZCompany',
-            ])
+            ]),
         ]);
-        $second = factory(Student::class)->create([
-            'current_company_id' => factory(Company::class)->create([
+        $second = Student::factory()->create([
+            'current_company_id' => Company::factory()->create([
                 'name' => 'ACompany',
-            ])
+            ]),
         ]);
 
-        $response = $this->get("/students?sort=company.name");
+        $response = $this->get('/students?sort=company.name');
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
@@ -149,13 +149,13 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $blankProgramEdition = factory(ProgramEdition::class)->create();
-        $toEnrollProgramEdition = factory(ProgramEdition::class)->create();
-        $notEnrolledStudent = factory(Student::class)->create([
-            'name' => 'Jane Test'
+        $blankProgramEdition = ProgramEdition::factory()->create();
+        $toEnrollProgramEdition = ProgramEdition::factory()->create();
+        $notEnrolledStudent = Student::factory()->create([
+            'name' => 'Jane Test',
         ]);
-        $enrolledStudent = factory(Student::class)->create([
-            'name' => 'John Test'
+        $enrolledStudent = Student::factory()->create([
+            'name' => 'John Test',
         ]);
         $enrolledStudent->enroll($toEnrollProgramEdition);
 
@@ -175,13 +175,13 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $firstProgramEdition = factory(ProgramEdition::class)->create();
-        $secondProgramEdition = factory(ProgramEdition::class)->create();
-        $enrolledStudent = factory(Student::class)->create();
+        $firstProgramEdition = ProgramEdition::factory()->create();
+        $secondProgramEdition = ProgramEdition::factory()->create();
+        $enrolledStudent = Student::factory()->create();
         $enrolledStudent->enroll($firstProgramEdition);
         $enrolledStudent->enroll($secondProgramEdition);
 
-        $response = $this->getJson("/students?include=enrollments,enrolled_program_editions");
+        $response = $this->getJson('/students?include=enrollments,enrolledProgramEditions');
 
         $firstStudentData = $response->json()['data'][0];
         $this->assertEquals(
@@ -204,14 +204,14 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $john = factory(Student::class)->create([
-            'name' => 'John Test'
+        $john = Student::factory()->create([
+            'name' => 'John Test',
         ]);
-        $jane = factory(Student::class)->create([
-            'name' => 'Jane Test'
+        $jane = Student::factory()->create([
+            'name' => 'Jane Test',
         ]);
 
-        $response = $this->get("/students");
+        $response = $this->get('/students');
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();
@@ -225,10 +225,10 @@ class ViewingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $first = factory(Student::class)->create();
-        $second = factory(Student::class)->create();
+        $first = Student::factory()->create();
+        $second = Student::factory()->create();
 
-        $response = $this->get("/students?sort=id");
+        $response = $this->get('/students?sort=id');
 
         $response->assertViewHas('students');
         $data = $response->viewData('students')->items();

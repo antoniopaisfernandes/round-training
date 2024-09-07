@@ -23,7 +23,7 @@ class EditingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $student = factory(Student::class)->state('with-citizen-information')->create([
+        $student = Student::factory()->withCitizenInformation()->create([
             'name' => 'Old name',
         ]);
         $updatedStudent = with(
@@ -44,7 +44,7 @@ class EditingStudentsTest extends TestCase
     /** @test */
     public function a_guest_cannot_updating_a_student()
     {
-        $student = factory(Student::class)->create([
+        $student = Student::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -62,8 +62,8 @@ class EditingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $student = factory(Student::class)->create([
-            'leader_id' => factory(User::class)->create()->id,
+        $student = Student::factory()->create([
+            'leader_id' => User::factory()->create()->id,
         ]);
         $updatedStudent = with(
             $student->fresh()->toArray(),
@@ -85,7 +85,7 @@ class EditingStudentsTest extends TestCase
     /** @test */
     public function a_name_is_required_updating_a_student()
     {
-        $student = factory(Student::class)->create([
+        $student = Student::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -102,7 +102,7 @@ class EditingStudentsTest extends TestCase
     /** @test */
     public function an_email_is_required_updating_a_student()
     {
-        $student = factory(Student::class)->create([
+        $student = Student::factory()->create([
             'email' => 'old_email@example.com',
         ]);
 

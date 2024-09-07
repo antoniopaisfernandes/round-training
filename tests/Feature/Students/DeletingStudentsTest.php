@@ -14,7 +14,7 @@ class DeletingStudentsTest extends TestCase
     /** @test */
     public function it_can_delete_a_student()
     {
-        $student = factory(Student::class)->create();
+        $student = Student::factory()->create();
 
         $this->assertCount(1, Student::all());
 
@@ -26,8 +26,8 @@ class DeletingStudentsTest extends TestCase
     /** @test */
     public function it_requires_necessary_permissions_to_delete_a_student()
     {
-        $userWithoutPermission = factory(User::class)->create();
-        $student = factory(Student::class)->create();
+        $userWithoutPermission = User::factory()->create();
+        $student = Student::factory()->create();
 
         $this->assertCount(1, Student::all());
 

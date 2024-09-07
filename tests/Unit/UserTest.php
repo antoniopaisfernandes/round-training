@@ -21,7 +21,7 @@ class UserTest extends TestCase
     /** @test */
     public function the_user_factory_generates_known_plain_password()
     {
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
 
         $this->assertTrue(Hash::check('password', $user->password));
     }

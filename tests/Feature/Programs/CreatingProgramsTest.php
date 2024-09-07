@@ -3,12 +3,16 @@
 namespace Tests\Feature\Programs;
 
 use App\Models\Program;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CreatingProgramsTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @var User|Authenticatable */
+    private $user;
 
     public function setUp() : void
     {
@@ -22,7 +26,7 @@ class CreatingProgramsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $program = factory(Program::class)->make()->toArray();
+        $program = Program::factory()->make()->toArray();
 
         $response = $this->actingAs($this->user)->post('/programs', $program);
 
@@ -33,7 +37,7 @@ class CreatingProgramsTest extends TestCase
     /** @test */
     public function a_name_is_required_for_a_program()
     {
-        $program = factory(Program::class)->make([
+        $program = Program::factory()->make([
             'name' => null,
         ])->toArray();
 
@@ -45,7 +49,7 @@ class CreatingProgramsTest extends TestCase
     /** @test */
     public function a_guest_cannot_create_a_program()
     {
-        $program = factory(Program::class)->make()->toArray();
+        $program = Program::factory()->make()->toArray();
 
         $this->post('/programs', $program);
 

@@ -11,19 +11,20 @@ class ViewingCompaniesTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = factory(User::class)->create()
-        );
+        $this->be($this->user = User::factory()->create());
     }
 
     /** @test */
     public function it_can_view_a_company()
     {
-        $company = factory(Company::class)->create();
+        $company = Company::factory()->create();
 
         $response = $this->get("/companies/{$company->id}");
 
@@ -33,7 +34,7 @@ class ViewingCompaniesTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_companies()
     {
-        $companies = factory(Company::class, 4)->create();
+        $companies = Company::factory()->times(4)->create();
 
         $response = $this->get("/companies");
 
@@ -49,7 +50,7 @@ class ViewingCompaniesTest extends TestCase
     /** @test */
     public function the_companies_index_method_does_not_paginate()
     {
-        factory(Company::class, 51)->create();
+        Company::factory()->times(51)->create();
 
         $response = $this->get("/companies");
 

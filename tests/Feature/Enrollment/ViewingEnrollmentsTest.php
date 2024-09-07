@@ -21,13 +21,13 @@ class ViewingEnrollmentsTest extends TestCase
         $this->withoutExceptionHandling();
 
         // Arrange
-        $pastProgramEdition = factory(ProgramEdition::class)->state('with-1-students')->create([
+        $pastProgramEdition = ProgramEdition::factory()->withStudents(1)->create([
             'starts_at' => today()->subDays(2),
             'ends_at' => today()->subDays(1),
         ]);
         $studentEnrolledInPastProgramEdition = $pastProgramEdition->students->first();
 
-        $currentProgramEdition = factory(ProgramEdition::class)->state('with-1-students')->create([
+        $currentProgramEdition = ProgramEdition::factory()->withStudents(1)->create([
             'starts_at' => today(),
             'ends_at' => today()->addDays(1),
         ]);
@@ -54,11 +54,11 @@ class ViewingEnrollmentsTest extends TestCase
         $this->withoutExceptionHandling();
 
         // Arrange
-        factory(ProgramEdition::class)->create();
-        $leader = factory(User::class)->create();
+        ProgramEdition::factory()->create();
+        $leader = User::factory()->create();
 
-        $studentFromCompanyA = factory(Student::class)->create();
-        $studentFromCompanyB = factory(Student::class)->create([
+        $studentFromCompanyA = Student::factory()->create();
+        $studentFromCompanyB = Student::factory()->create([
             'leader_id' => $leader->id,
         ]);
 
@@ -79,12 +79,12 @@ class ViewingEnrollmentsTest extends TestCase
         $this->withoutExceptionHandling();
 
         // Arrange
-        factory(ProgramEdition::class)->create();
-        $coordinator = factory(User::class)->create();
+        ProgramEdition::factory()->create();
+        $coordinator = User::factory()->create();
 
-        $studentFromCompanyA = factory(Student::class)->create();
-        $studentFromCompanyB = factory(Student::class)->create([
-            'current_company_id' => factory(Company::class)->create([
+        $studentFromCompanyA = Student::factory()->create();
+        $studentFromCompanyB = Student::factory()->create([
+            'current_company_id' => Company::factory()->create([
                 'coordinator_id' => $coordinator->id,
             ])->id,
         ]);

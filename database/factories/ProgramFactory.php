@@ -1,65 +1,61 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Program;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$courseNames = [
-    'Anatomia Patológica',
-    'Anestesiologia',
-    'Angiologia e Cirurgia Vascular',
-    'Cardiologia',
-    'Cardiologia Pediátrica',
-    'Cirurgia Cardíaca',
-    'Cirurgia Cardiotorácica',
-    'Cirurgia Geral',
-    'Cirurgia Maxilofacial',
-    'Cirurgia Pediátrica',
-    'Cirurgia Plástica Reconstrutiva e Estética',
-    'Cirurgia Torácica',
-    'Dermatovenereologia',
-    'Doenças Infecciosas',
-    'Endocrinologia e Nutrição',
-    'Estomatologia',
-    'Gastrenterologia',
-    'Genética Médica',
-    'Ginecologia/Obstetrícia',
-    'Imunoalergologia',
-    'Imuno-hemoterapia',
-    'Farmacologia Clínica',
-    'Hematologia Clínica',
-    'Medicina Desportiva',
-    'Medicina do Trabalho',
-    'Medicina Física e Reabilitação',
-    'Medicina Geral e Familiar',
-    'Medicina Intensiva',
-    'Medicina Interna',
-    'Medicina Legal',
-    'Medicina Nuclear',
-    'Medicina Tropical',
-    'Nefrologia',
-    'Neurocirurgia',
-    'Neurologia',
-    'Neurorradiologia',
-    'Oftalmologia',
-    'Oncologia Médica',
-    'Ortopedia',
-    'Otorrinolaringologia',
-    'Patologia Clínica',
-    'Pediatria',
-    'Pneumologia',
-    'Psiquiatria',
-    'Psiquiatria da Infância e da Adolescência',
-    'Radiologia',
-    'Radioncologia',
-    'Reumatologia',
-    'Saúde Pública',
-    'Urologia',
-];
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Program>
+ */
+class ProgramFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $courseNames = [
+            'Anatomy',
+            'Anesthesiology',
+            'Behavioral Sciences',
+            'Biochemistry',
+            'Community Medicine/Public Health',
+            'Dermatology',
+            'Embryology',
+            'Emergency Medicine',
+            'Family Medicine',
+            'Forensic Medicine',
+            'Genetics',
+            'Geriatrics',
+            'Histology',
+            'Immunology',
+            'Infectious Diseases',
+            'Internal Medicine',
+            'Medical Ethics and Law',
+            'Medical Informatics',
+            'Medical Research and Evidence-Based Medicine',
+            'Microbiology',
+            'Neurology',
+            'Nutrition',
+            'Obstetrics and Gynecology',
+            'Oncology',
+            'Ophthalmology',
+            'Orthopedics',
+            'Otorhinolaryngology',
+            'Palliative Care',
+            'Pathology',
+            'Pediatrics',
+            'Pharmacology',
+            'Physiology',
+            'Psychiatry',
+            'Radiology',
+            'Surgery',
+        ];
 
-$factory->define(Program::class, function (Faker $faker) use ($courseNames) {
-    return [
-        'name' => $faker->randomElement($courseNames) . ' ' . mt_rand(1, 9999),
-    ];
-});
+        return [
+            'name' => $this->faker->randomElement($courseNames).' '.mt_rand(1, 9999),
+        ];
+    }
+}

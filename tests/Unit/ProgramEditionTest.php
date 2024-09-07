@@ -16,8 +16,8 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function it_has_a_full_name_with_program_name_and_edition_name()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
-            'program_id' => factory(Program::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
+            'program_id' => Program::factory()->create([
                 'name' => 'Course name',
             ]),
             'name' => 'Mar 2020',
@@ -32,7 +32,7 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function a_program_edition_without_students_gets_its_cost_in_the_assigned_company()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'cost' => 105.33,
         ]);
 
@@ -46,15 +46,15 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function a_program_edition_has_its_costs_weighted_by_the_number_of_students_of_each_company()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'cost' => 105.33,
         ]);
-        $company1 = factory(Company::class)->create();
-        $twoStudents = factory(Student::class, 2)->create([
+        $company1 = Company::factory()->create();
+        $twoStudents = Student::factory()->times(2)->create([
             'current_company_id' => $company1->id,
         ]);
-        $company2 = factory(Company::class)->create();
-        $threeStudents = factory(Student::class, 3)->create([
+        $company2 = Company::factory()->create();
+        $threeStudents = Student::factory()->times(3)->create([
             'current_company_id' => $company2->id,
         ]);
 
@@ -72,10 +72,10 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function it_can_fetch_editions_that_are_due_to_evaluate()
     {
-        factory(ProgramEdition::class)->state('with-2-students')->create([
+        ProgramEdition::factory()->withStudents(2)->create([
             'evaluation_notification_date' => today()->subDay(),
         ]);
-        factory(ProgramEdition::class)->create([
+        ProgramEdition::factory()->create([
             'evaluation_notification_date' => today()->addDay(),
         ]);
 
@@ -85,7 +85,7 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function when_no_students_are_enrolled_its_not_due()
     {
-        factory(ProgramEdition::class)->state('without-students')->create([
+        ProgramEdition::factory()->withoutStudents()->create([
             'evaluation_notification_date' => today()->subDay(),
         ]);
 
@@ -95,10 +95,10 @@ class ProgramEditionTest extends TestCase
     /** @test */
     public function when_the_evaluation_are_filled_they_are_not_due()
     {
-        $programEditionWithEvaluations = factory(ProgramEdition::class)->state('with-2-evaluations')->create([
+        $programEditionWithEvaluations = ProgramEdition::factory()->withEvaluations(2)->create([
             'evaluation_notification_date' => today()->subDay(),
         ]);
-        $programEditionWithoutEvaluations = factory(ProgramEdition::class)->state('with-3-students')->create([
+        $programEditionWithoutEvaluations = ProgramEdition::factory()->withStudents(3)->create([
             'evaluation_notification_date' => today()->subDay(),
         ]);
 

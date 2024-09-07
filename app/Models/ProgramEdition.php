@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -12,23 +13,28 @@ use InvalidArgumentException;
 
 class ProgramEdition extends Model
 {
-    use SoftDeletes;
+    use HasFactory,
+        SoftDeletes;
 
     protected $guarded = [];
+
     protected $with = [
         'program',
         'manager',
         'schedules',
     ];
+
     protected $casts = [
         'program_id' => 'int',
         'company_id' => 'int',
         'starts_at' => 'date:Y-m-d',
         'ends_at' => 'date:Y-m-d',
     ];
+
     protected $withCount = [
         'students',
     ];
+
     protected $appends = [
         'full_name',
     ];
@@ -46,7 +52,7 @@ class ProgramEdition extends Model
     public function schedules()
     {
         return $this->hasMany(ProgramEditionSchedule::class)
-                    ->orderBy('starts_at');
+            ->orderBy('starts_at');
     }
 
     public function manager()
@@ -62,22 +68,22 @@ class ProgramEdition extends Model
     public function students()
     {
         return $this->belongsToMany(Student::class, 'enrollments')
-                    ->withPivot([
-                        'id',
-                        'company_id',
-                        'minutes_attended',
-                        'hours_attended',
-                        'global_evaluation',
-                        'evaluation_comments',
-                        'program_should_be_repeated',
-                        'should_be_repeated_in_months',
-                    ])
-                    ->withTimestamps();
+            ->withPivot([
+                'id',
+                'company_id',
+                'minutes_attended',
+                'hours_attended',
+                'global_evaluation',
+                'evaluation_comments',
+                'program_should_be_repeated',
+                'should_be_repeated_in_months',
+            ])
+            ->withTimestamps();
     }
 
     public function getFullNameAttribute()
     {
-        return $this->program->name . ' - ' . $this->name;
+        return $this->program->name.' - '.$this->name;
     }
 
     /**
@@ -94,8 +100,8 @@ class ProgramEdition extends Model
         }
 
         return $this->students->groupBy(function ($student) {
-                return $student->pivot->company_id ?: $this->id;
-            })
+            return $student->pivot->company_id ?: $this->id;
+        })
             ->map(function ($companyStudents, $company_id) {
                 return Company::find($company_id)
                     ->setAttribute('cost', round($companyStudents->count() / $this->students->count() * $this->cost, 2));
@@ -128,13 +134,13 @@ class ProgramEdition extends Model
         }
     }
 
-    public function scopeDueToEvaluate(Builder $query, string $operator = '<', Carbon $date = null)
+    public function scopeDueToEvaluate(Builder $query, string $operator = '<', ?Carbon $date = null)
     {
         $query->where('evaluation_notification_date', $operator, $date ?: today())
-            ->whereHas('enrollments', fn($builder) => $builder->whereNull('global_evaluation'));
+            ->whereHas('enrollments', fn ($builder) => $builder->whereNull('global_evaluation'));
     }
 
-    public function emailsToNotify($scope = 'dueToEvaluate') : Collection
+    public function emailsToNotify($scope = 'dueToEvaluate'): Collection
     {
         return $this->enrollments
             ->filter
@@ -155,22 +161,19 @@ class ProgramEdition extends Model
     /**
      * Enroll students in current program edition
      *
-     * @param Collection|Student $students
+     * @param  Collection|Student  $students
      * @return $this
+     *
      * @throws \Exception
      */
     public function enroll($students)
     {
         if ($students instanceof Student) {
             $students->enroll($this);
-        }
-
-        elseif ($students instanceof Collection) {
+        } elseif ($students instanceof Collection) {
             DB::transaction(fn () => $students->each->enroll($this));
-        }
-
-        else {
-            throw new InvalidArgumentException("Parameter must be either a collection or a student");
+        } else {
+            throw new InvalidArgumentException('Parameter must be either a collection or a student');
         }
 
         return $this;

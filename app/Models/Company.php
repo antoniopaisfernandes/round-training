@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Student;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     public function programEditions()
@@ -32,15 +34,15 @@ class Company extends Model
     public function executedCostsInYear($year)
     {
         return $this->with([
-                'programEditions' => fn($query) => $query->whereYear('starts_at', $year)
-            ])
+            'programEditions' => fn ($query) => $query->whereYear('starts_at', $year),
+        ])
             ->get()
             ->pluck('programEditions')
             ->flatten()
             ->map
             ->splited_costs
             ->flatten()
-            ->filter(fn(self $company) => $company->id == $this->id)
+            ->filter(fn (self $company) => $company->id == $this->id)
             ->sum('cost');
     }
 }

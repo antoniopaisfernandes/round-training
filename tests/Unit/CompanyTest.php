@@ -15,7 +15,7 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_correctly_calculates_the_yearly_costs_of_the_programs()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'cost' => 105.33,
             'starts_at' => '2020-01-01',
         ]);
@@ -29,21 +29,21 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_correctly_calculates_the_yearly_costs_of_the_programs_with_multiple_editions()
     {
-        $company = factory(Company::class)->create();
-        factory(ProgramEdition::class)->create([
+        $company = Company::factory()->create();
+        ProgramEdition::factory()->create([
             'cost' => 105.33,
             'starts_at' => '2020-01-01',
             'company_id' => $company->id,
         ]);
-        factory(ProgramEdition::class)->create([
+        ProgramEdition::factory()->create([
             'cost' => 94.43,
             'starts_at' => '2020-12-01',
             'company_id' => $company->id,
         ]);
-        factory(ProgramEdition::class)->create([
+        ProgramEdition::factory()->create([
             'cost' => 105.33,
             'starts_at' => '2020-02-01',
-            'company_id' => factory(Company::class),
+            'company_id' => Company::factory(),
         ]);
 
         $this->assertEquals(
@@ -55,8 +55,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_a_coordinator()
     {
-        $company = factory(Company::class)->create([
-            'coordinator_id' => $user_id = factory(User::class)->create()->id,
+        $company = Company::factory()->create([
+            'coordinator_id' => $user_id = User::factory()->create()->id,
         ])->fresh();
 
         $this->assertTrue(User::find($user_id)->is($company->coordinator));

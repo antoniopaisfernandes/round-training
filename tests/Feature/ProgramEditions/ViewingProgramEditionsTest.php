@@ -25,7 +25,7 @@ class ViewingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $response = $this->get("/program-editions/{$programEdition->id}");
 
@@ -35,7 +35,7 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_programs()
     {
-        $programEditions = factory(ProgramEdition::class, 4)->create();
+        $programEditions = ProgramEdition::factory()->times(4)->create();
 
         $response = $this->get("/program-editions");
 
@@ -48,7 +48,7 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_10_paginated_programs()
     {
-        factory(ProgramEdition::class, 50)->create();
+        ProgramEdition::factory()->times(50)->create();
 
         $response = $this->get("/program-editions");
 
@@ -62,10 +62,10 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function the_list_is_ordered_using_start_date()
     {
-        $first = factory(ProgramEdition::class)->create([
+        $first = ProgramEdition::factory()->create([
             'starts_at' => today(),
         ]);
-        $second = factory(ProgramEdition::class)->create([
+        $second = ProgramEdition::factory()->create([
             'starts_at' => today()->addDay(),
         ]);
 
@@ -83,10 +83,10 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function it_can_show_students_enrolled_in_program()
     {
-        $programEditionEdition = factory(ProgramEdition::class)->create();
-        $students = factory(Student::class, 9)->create();
+        $programEditionEdition = ProgramEdition::factory()->create();
+        $students = Student::factory()->times(9)->create();
         $programEditionEdition->enroll($students);
-        $otherStudents = factory(Student::class, 11)->create();
+        $otherStudents = Student::factory()->times(11)->create();
 
         $response = $this->get("/program-editions/{$programEditionEdition->id}/students");
 
@@ -97,8 +97,8 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function an_instance_of_an_enrolled_student_is_an_enrollment()
     {
-        $programEdition = factory(ProgramEdition::class)->create();
-        $student = factory(Student::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
+        $student = Student::factory()->create();
         $programEdition->enroll($student);
 
         $response = $this->get("/program-editions/{$programEdition->id}/students/{$student->id}");
@@ -109,7 +109,7 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function a_program_edition_has_a_cost()
     {
-        factory(ProgramEdition::class)->create([
+        ProgramEdition::factory()->create([
             'cost' => 3000.04,
         ]);
 
@@ -119,14 +119,14 @@ class ViewingProgramEditionsTest extends TestCase
     /** @test */
     public function a_user_without_rgpd_cannot_see_some_data_in_students_list()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
         if (! $rgpdFields = auth()->user()->can('rgpd') ? [] : (new Student)->rgpdFields) {
             $this->markTestSkipped('There are no RGPD fields to filter');
         }
 
-        $student = factory(Student::class)->create();
-        $programEdition = factory(ProgramEdition::class)->create();
+        $student = Student::factory()->create();
+        $programEdition = ProgramEdition::factory()->create();
         $student->enroll($programEdition);
 
         $response = $this->get("/program-editions/{$programEdition->id}/students");

@@ -14,7 +14,7 @@ class DeletingCompaniesTest extends TestCase
     /** @test */
     public function it_can_delete_a_company()
     {
-        $company = factory(Company::class)->create();
+        $company = Company::factory()->create();
 
         $this->assertCount(1, Company::all());
 
@@ -26,8 +26,8 @@ class DeletingCompaniesTest extends TestCase
     /** @test */
     public function it_requires_necessary_permissions_to_delete_a_company()
     {
-        $userWithoutPermission = factory(User::class)->create();
-        $company = factory(Company::class)->create();
+        $userWithoutPermission = User::factory()->create();
+        $company = Company::factory()->create();
 
         $this->assertCount(1, Company::all());
 

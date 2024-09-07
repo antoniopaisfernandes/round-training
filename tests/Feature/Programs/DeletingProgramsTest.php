@@ -14,7 +14,7 @@ class DeletingProgramsTest extends TestCase
     /** @test */
     public function it_can_delete_a_program()
     {
-        $program = factory(Program::class)->create();
+        $program = Program::factory()->create();
 
         $this->assertCount(1, Program::all());
 
@@ -26,8 +26,8 @@ class DeletingProgramsTest extends TestCase
     /** @test */
     public function it_requires_necessary_permissions_to_delete_a_program()
     {
-        $userWithoutPermission = factory(User::class)->create();
-        $program = factory(Program::class)->create();
+        $userWithoutPermission = User::factory()->create();
+        $program = Program::factory()->create();
 
         $this->assertCount(1, Program::all());
 

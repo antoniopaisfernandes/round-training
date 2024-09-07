@@ -19,8 +19,8 @@ class DeletingEnrollmentTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $coordinator = factory(User::class)->create();
-        $enrollment = factory(Enrollment::class)->create();
+        $coordinator = User::factory()->create();
+        $enrollment = Enrollment::factory()->create();
         $enrollment->company->fill(['coordinator_id' => $coordinator->id])->save();
         $this->assertEquals(1, Enrollment::count());
 
@@ -34,12 +34,12 @@ class DeletingEnrollmentTest extends TestCase
     /** @test */
     public function only_admins_and_coordinators_can_unenroll_students()
     {
-        $coordinator = factory(User::class)->create();
-        $enrollment = factory(Enrollment::class)->create();
+        $coordinator = User::factory()->create();
+        $enrollment = Enrollment::factory()->create();
         $enrollment->company->fill(['coordinator_id' => $coordinator->id])->save();
         $this->assertEquals(1, Enrollment::count());
 
-        $this->actingAs(factory(User::class)->create())
+        $this->actingAs(User::factory()->create())
             ->delete("/enrollments/{$enrollment->id}")
             ->assertForbidden();
 
@@ -49,8 +49,8 @@ class DeletingEnrollmentTest extends TestCase
     /** @test */
     public function after_a_program_edition_starts_only_admins_can_unenroll_students()
     {
-        $coordinator = factory(User::class)->create();
-        $enrollment = factory(Enrollment::class)->create();
+        $coordinator = User::factory()->create();
+        $enrollment = Enrollment::factory()->create();
         $enrollment->company->fill(['coordinator_id' => $coordinator->id])->save();
         $enrollment->programEdition->fill([
             'starts_at' => today()->subDay(),

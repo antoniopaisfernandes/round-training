@@ -153,7 +153,7 @@ class ProgramEditionRequest extends FormRequest
      *
      * @return array
      */
-    public function validated()
+    public function validated($key = null, $default = null)
     {
         return Arr::except(
             array_merge(

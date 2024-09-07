@@ -17,6 +17,6 @@ abstract class TestCase extends BaseTestCase
         $permission = Permission::updateOrCreate(['name' => '*']);
         $role->givePermissionTo($permission);
 
-        return factory(User::class)->create($overrides)->assignRole($role);
+        return User::factory()->create($overrides)->assignRole($role);
     }
 }

@@ -14,7 +14,7 @@ class EditingProgramEditionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,7 +26,7 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'teacher_name' => 'Old teacher',
         ]);
 
@@ -46,7 +46,7 @@ class EditingProgramEditionsTest extends TestCase
     public function a_guest_cannot_updating_a_program()
     {
         auth()->logout();
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'teacher_name' => 'Old teacher_name',
         ]);
 
@@ -64,8 +64,8 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $owner = factory(User::class)->create();
-        $programEdition = factory(ProgramEdition::class)->create([
+        $owner = User::factory()->create();
+        $programEdition = ProgramEdition::factory()->create([
             'name' => 'original',
             'created_by' => $owner->id,
         ]);
@@ -84,8 +84,8 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function other_users_besides_admin_and_owner_cannot_edit_a_program_edition()
     {
-        $otherUser = factory(User::class)->create();
-        $programEdition = factory(ProgramEdition::class)->create([
+        $otherUser = User::factory()->create();
+        $programEdition = ProgramEdition::factory()->create([
             'name' => 'original',
         ]);
 
@@ -100,7 +100,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function a_supplier_is_required_for_a_program_edition()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'supplier' => 'Old supplier',
         ]);
 
@@ -120,7 +120,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function an_existing_company_is_required_for_a_program_edition()
     {
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $response = $this->patch("/program-editions/{$programEdition->id}", array_merge(
             $programEdition->toArray(),
@@ -138,7 +138,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function an_existing_program_is_required_for_a_program_edition()
     {
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $response = $this->patch("/program-editions/{$programEdition->id}", array_merge(
             $programEdition->toArray(),
@@ -156,7 +156,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function it_updates_the_cost_of_a_program_edition()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'cost' => 100,
         ]);
 
@@ -175,7 +175,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function it_updates_the_supplier_certifications()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'supplier_certifications' => 'OLD',
         ]);
 
@@ -194,7 +194,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function it_updates_the_evaluation_notification_date()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'evaluation_notification_date' => today()->addMonths(3),
         ]);
 
@@ -213,7 +213,7 @@ class EditingProgramEditionsTest extends TestCase
     /** @test */
     public function it_updates_the_goals()
     {
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'goals' => 'The students must be great!',
         ]);
 
@@ -234,13 +234,13 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('without-schedules')->create()->fresh();
+        $programEdition = ProgramEdition::factory()->withoutSchedules()->create()->fresh();
 
         $updatedProgramEdition = array_merge(
             $programEdition->toArray(),
             [
                 'schedules' => [
-                    []
+                    [],
                 ],
             ]
         );
@@ -250,6 +250,7 @@ class EditingProgramEditionsTest extends TestCase
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->assertArrayHasKey('schedules.0.starts_at', $e->errors());
             $this->assertNull(ProgramEditionSchedule::first());
+
             return;
         }
         $this->fail('A validation exception should be thrown but it was not');
@@ -260,7 +261,7 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('with-2-schedules')->create();
+        $programEdition = ProgramEdition::factory()->withSchedules(2)->create();
         $this->assertCount(2, ProgramEditionSchedule::all());
 
         $updatedProgramEdition = array_merge(
@@ -280,10 +281,10 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('with-2-schedules')->create()->fresh();
+        $programEdition = ProgramEdition::factory()->withSchedules(2)->create()->fresh();
         $this->assertCount(2, ProgramEditionSchedule::all());
         $updatedProgramEdition = $programEdition->toArray();
-        $updatedProgramEdition['schedules'][] = factory(ProgramEditionSchedule::class)->make([
+        $updatedProgramEdition['schedules'][] = ProgramEditionSchedule::factory()->make([
             'program_edition_id' => null,
             'starts_at' => $programEdition->starts_at,
             'ends_at' => $programEdition->ends_at,
@@ -299,10 +300,10 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('with-2-students')->create()->fresh();
+        $programEdition = ProgramEdition::factory()->withStudents(2)->create()->fresh();
         $this->assertCount(2, Enrollment::all());
         $updatedProgramEdition = $programEdition->with('students')->first()->toArray();
-        $updatedProgramEdition['students'][] = factory(Student::class)->create()->toArray();
+        $updatedProgramEdition['students'][] = Student::factory()->create()->toArray();
 
         $this->patch("/program-editions/{$programEdition->id}", $updatedProgramEdition);
 
@@ -314,11 +315,11 @@ class EditingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('with-2-students')->create()->fresh();
+        $programEdition = ProgramEdition::factory()->withStudents(2)->create()->fresh();
         $this->assertCount(2, Enrollment::all());
         $updatedProgramEdition = $programEdition->with('enrollments')->first()->toArray();
         unset($updatedProgramEdition['students']); // just to make sure
-        $updatedProgramEdition['enrollments'][] = factory(Enrollment::class)->create([
+        $updatedProgramEdition['enrollments'][] = Enrollment::factory()->create([
             'program_edition_id' => $programEdition->id,
         ])->toArray();
 
@@ -336,7 +337,7 @@ class EditingProgramEditionsTest extends TestCase
             'program_should_be_repeated' => true,
             'should_be_repeated_in_months' => 6,
         ];
-        $programEdition = factory(ProgramEdition::class)->states('with-1-students')->create();
+        $programEdition = ProgramEdition::factory()->withStudents(1)->create();
         Enrollment::first()->fill($enrollmentAttributes)->save();
         $this->assertDatabaseHas('enrollments', $enrollmentAttributes);
 

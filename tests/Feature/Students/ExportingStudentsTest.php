@@ -27,9 +27,9 @@ class ExportingStudentsTest extends TestCase
     public function it_exports_an_excel()
     {
         Excel::fake();
-        $student = factory(Student::class)
-                        ->state('with-citizen-information')
-                        ->state('with-3-program-editions')
+        $student = Student::factory()
+                        ->withCitizenInformation()
+                        ->withProgramEditions(3)
                         ->create();
 
         $this->get("/students/{$student->id}/export");
@@ -41,9 +41,9 @@ class ExportingStudentsTest extends TestCase
     public function the_student_export_has_a_cover_page_and_a_program_editions_list()
     {
         Excel::fake();
-        $student = factory(Student::class)
-                        ->state('with-citizen-information')
-                        ->state('with-3-program-editions')
+        $student = Student::factory()
+                        ->withCitizenInformation()
+                        ->withProgramEditions(3)
                         ->create();
 
         $this->get("/students/{$student->id}/export");
@@ -57,9 +57,9 @@ class ExportingStudentsTest extends TestCase
     /** @test */
     public function the_student_export_has_a_cover_page_and_a_program_edition_list_sheets_with_correct_names()
     {
-        $student = factory(Student::class)
-                        ->state('with-citizen-information')
-                        ->state('with-3-program-editions')
+        $student = Student::factory()
+                        ->withCitizenInformation()
+                        ->withProgramEditions(3)
                         ->create();
 
         $file = $this->get("/students/{$student->id}/export")
@@ -77,9 +77,9 @@ class ExportingStudentsTest extends TestCase
     /** @test */
     public function the_student_export_cover_page_has_all_the_needed_data()
     {
-        $student = factory(Student::class)
-                        ->state('with-citizen-information')
-                        ->state('with-3-program-editions')
+        $student = Student::factory()
+                        ->withCitizenInformation()
+                        ->withProgramEditions(3)
                         ->create();
 
         $file = $this->get("/students/{$student->id}/export")
@@ -112,8 +112,8 @@ class ExportingStudentsTest extends TestCase
     public function the_student_export_program_edition_page_has_all_the_courses()
     {
         Excel::fake();
-        $student = factory(Student::class)
-                        ->state('with-3-program-editions')
+        $student = Student::factory()
+                        ->withProgramEditions(3)
                         ->create();
 
         $this->get("/students/{$student->id}/export");
@@ -129,8 +129,8 @@ class ExportingStudentsTest extends TestCase
     public function it_can_export_only_the_students_sheet()
     {
         Excel::fake();
-        $student = factory(Student::class)
-                        ->state('with-3-program-editions')
+        $student = Student::factory()
+                        ->withProgramEditions(3)
                         ->create();
 
         $this->get("/students/{$student->id}/export?cover=false");
@@ -145,9 +145,7 @@ class ExportingStudentsTest extends TestCase
     /** @test */
     public function it_can_export_only_the_cover_page_sheet()
     {
-        $student = factory(Student::class)
-                        ->state('with-3-program-editions')
-                        ->create();
+        $student = Student::factory()->withProgramEditions(3)->create();
 
         $file = $this->get("/students/{$student->id}/export?program_editions=false")
                     ->baseResponse

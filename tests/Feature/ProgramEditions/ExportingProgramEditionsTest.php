@@ -14,7 +14,7 @@ class ExportingProgramEditionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,7 +26,7 @@ class ExportingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Excel::fake();
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $this->get("/program-editions/{$programEdition->id}/export");
 
@@ -38,7 +38,7 @@ class ExportingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Excel::fake();
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $this->get("/program-editions/{$programEdition->id}/export");
 
@@ -52,14 +52,14 @@ class ExportingProgramEditionsTest extends TestCase
     public function the_program_edition_export_has_a_cover_page_and_a_student_list_sheets_with_correct_names()
     {
         $this->withoutExceptionHandling();
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $file = $this->get("/program-editions/{$programEdition->id}/export")
             ->baseResponse
             ->getFile()
             ->getPathname();
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx;
         $spreadsheet = $reader->load($file);
 
         $this->assertTrue($spreadsheet->sheetNameExists('Program Edition'));
@@ -70,18 +70,18 @@ class ExportingProgramEditionsTest extends TestCase
     public function the_program_edition_export_cover_page_has_all_the_needed_data()
     {
         $this->withoutExceptionHandling();
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $file = $this->get("/program-editions/{$programEdition->id}/export")
-                    ->baseResponse
-                    ->getFile()
-                    ->getPathname();
+            ->baseResponse
+            ->getFile()
+            ->getPathname();
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx;
         $spreadsheet = $reader->load($file);
 
         $this->assertTrue($spreadsheet->sheetNameExists('Program Edition'));
-        $contents = $spreadsheet->getSheet(0)->rangeToArray("A1:C8");
+        $contents = $spreadsheet->getSheet(0)->rangeToArray('A1:C8');
 
         $this->assertEquals('Program Edition', $contents[0][0]);
         $this->assertEquals($programEdition->full_name, $contents[0][1]);
@@ -105,7 +105,7 @@ class ExportingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Excel::fake();
-        $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
+        $programEdition = ProgramEdition::factory()->withStudents(4)->create();
 
         $this->get("/program-editions/{$programEdition->id}/export");
 
@@ -121,7 +121,7 @@ class ExportingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Excel::fake();
-        $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
+        $programEdition = ProgramEdition::factory()->withStudents(4)->create();
 
         $this->get("/program-editions/{$programEdition->id}/export?cover=false");
 
@@ -136,14 +136,14 @@ class ExportingProgramEditionsTest extends TestCase
     public function it_can_export_only_the_cover_page_sheet()
     {
         $this->withoutExceptionHandling();
-        $programEdition = factory(ProgramEdition::class)->states('with-4-students')->create();
+        $programEdition = ProgramEdition::factory()->withStudents(4)->create();
 
         $file = $this->get("/program-editions/{$programEdition->id}/export?students=false")
-                    ->baseResponse
-                    ->getFile()
-                    ->getPathname();
+            ->baseResponse
+            ->getFile()
+            ->getPathname();
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx;
         $spreadsheet = $reader->load($file);
 
         $this->assertTrue($spreadsheet->sheetNameExists('Program Edition'));

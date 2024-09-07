@@ -31,14 +31,14 @@ class EvaluationNotificationTest extends TestCase
     {
         Mail::fake();
 
-        $programEdition = factory(ProgramEdition::class)->create([
+        $programEdition = ProgramEdition::factory()->create([
             'evaluation_notification_date' => today(),
         ]);
-        $student1 = factory(Student::class)->create([
+        $student1 = Student::factory()->create([
             'leader_id' => auth()->user()->id,
         ]);
-        $student2 = factory(Student::class)->create([
-            'leader_id' => factory(User::class)->create()->id,
+        $student2 = Student::factory()->create([
+            'leader_id' => User::factory()->create()->id,
         ]);
         $programEdition->enroll($student1);
         $programEdition->enroll($student2);
@@ -56,7 +56,7 @@ class EvaluationNotificationTest extends TestCase
     {
         Mail::fake();
 
-        factory(ProgramEdition::class)->state('with-1-students')->create([
+        ProgramEdition::factory()->withStudents(1)->create([
             'evaluation_notification_date' => today()->subDay(),
         ]);
 

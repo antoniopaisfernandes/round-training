@@ -13,7 +13,7 @@ class CreatingProgramEditionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +35,7 @@ class CreatingProgramEditionsTest extends TestCase
     public function a_guest_cannot_create_a_program_edition()
     {
         auth()->logout();
-        $programEdition = factory(ProgramEdition::class)->make()->setAppends([])->toArray();
+        $programEdition = ProgramEdition::factory()->make()->setAppends([])->toArray();
 
         $this->post('/program-editions', $programEdition);
 
@@ -134,7 +134,7 @@ class CreatingProgramEditionsTest extends TestCase
     /** @test */
     public function it_creates_program_edition_with_schedules()
     {
-        $programEdition = factory(ProgramEdition::class)->states('with-3-schedules')->make()->toArray();
+        $programEdition = ProgramEdition::factory()->withSchedules(3)->make()->toArray();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -148,9 +148,9 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->make([
+        $programEdition = ProgramEdition::factory()->make([
             'schedules' => [
-                factory(ProgramEditionSchedule::class)->make([
+                ProgramEditionSchedule::factory()->make([
                     'program_edition_id' => null,
                     'starts_at' => null,
                 ])->toArray(),
@@ -162,6 +162,7 @@ class CreatingProgramEditionsTest extends TestCase
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->assertArrayHasKey('schedules.0.starts_at', $e->errors());
             $this->assertNull(ProgramEdition::first());
+
             return;
         }
         $this->fail('A validation exception should be thrown but it was not');
@@ -172,7 +173,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('with-3-students')->make()->toArray();
+        $programEdition = ProgramEdition::factory()->withStudents(3)->make()->toArray();
 
         $response = $this->post('/program-editions', $programEdition);
 
@@ -186,7 +187,7 @@ class CreatingProgramEditionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->states('with-3-students')->make()->toArray();
+        $programEdition = ProgramEdition::factory()->withStudents(3)->make()->toArray();
         unset($programEdition['students']); // just to make sure
 
         $response = $this->post('/program-editions', $programEdition);
@@ -196,14 +197,14 @@ class CreatingProgramEditionsTest extends TestCase
         $this->assertCount(3, $created->enrollments);
     }
 
-    private function makeValidProgramEdition($attributes = [], $count = null)
+    private function makeValidProgramEdition($attributes = [])
     {
-        return factory(ProgramEdition::class, $count)->make(
+        return ProgramEdition::factory()->make(
             array_merge(
                 [
-                    'program_id' => factory(Program::class)->create()->id,
-                    'name' => 'Edition ' . mt_rand(1, 9999),
-                    'company_id' => factory(Company::class)->create()->id,
+                    'program_id' => Program::factory()->create()->id,
+                    'name' => 'Edition '.mt_rand(1, 9999),
+                    'company_id' => Company::factory()->create()->id,
                     'created_by' => auth()->user()->id,
                 ],
                 $attributes

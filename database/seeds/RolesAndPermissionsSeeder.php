@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -26,7 +28,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Role::create(['name' => 'RH'])->givePermissionTo($readAllButRGPD);
 
         /** @var User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@roundtraining.com',
             // 'password' is the password

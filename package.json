@@ -17,19 +17,19 @@
     "dependencies": {
         "@mdi/font": "^5.9.55",
         "axios": "^1.7",
-        "date-fns": "^2.17.0",
+        "date-fns": "^2.30.0",
         "file-saver": "^2.0.5",
         "js-file-download": "^0.4.12",
         "lodash-es": "^4.17.13",
         "tailwindcss": "^2.1.0",
-        "vue": "^2.6.12",
-        "vue-api-query": "^1.10.0",
+        "vue": "^2.7.16",
+        "vue-api-query": "^1.11.0",
         "vue-i18n": "^8.22.4",
-        "vuetify": "^2.6.10"
+        "vuetify": "^2.7.2"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.13",
-        "autoprefixer": "^10.2.4",
+        "autoprefixer": "^10.4.20",
         "browser-sync": "^3.0.2",
         "browser-sync-webpack-plugin": "^2.3.0",
         "concurrently": "^6.2.0",
@@ -39,10 +39,10 @@
         "laravel-mix-purgecss": "^6.0.0",
         "postcss": "^8.4.31",
         "resolve-url-loader": "^4.0.0",
-        "sass": "^1.35.1",
+        "sass": "^1.78.0",
         "sass-loader": "^12.1.0",
-        "vue-loader": "^17.0.1",
-        "vue-template-compiler": "^2.6.12",
+        "vue-loader": "^15.9.8",
+        "vue-template-compiler": "^2.7.16",
         "wait-on": "^8.0.0"
     }
 }

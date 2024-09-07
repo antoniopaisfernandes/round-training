@@ -51,4 +51,30 @@ class ProgramEditionResourceTest extends TestCase
         $this->assertEquals('11111111', $studentFromResource['citizen_id']);
         $this->assertEquals('2030-12-31', $studentFromResource['citizen_id_validity']);
     }
+
+    /** @test */
+    public function it_can_get_program_edition_without_starts_at()
+    {
+        $programEdition = ProgramEdition::factory()->create([
+            'starts_at' => null,
+        ]);
+
+        $resource = ProgramEditionResource::make($programEdition);
+        $programEditionFromResource = $resource->response()->getData(true);
+
+        $this->assertNull($programEditionFromResource['starts_at']);
+    }
+
+    /** @test */
+    public function it_can_get_program_edition_without_ends_at()
+    {
+        $programEdition = ProgramEdition::factory()->create([
+            'ends_at' => null,
+        ]);
+
+        $resource = ProgramEditionResource::make($programEdition);
+        $programEditionFromResource = $resource->response()->getData(true);
+
+        $this->assertNull($programEditionFromResource['ends_at']);
+    }
 }

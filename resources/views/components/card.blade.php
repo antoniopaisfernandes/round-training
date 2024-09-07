@@ -1,24 +1,22 @@
-<v-card
-    class="mx-auto"
-    max-width="400"
->
-    <v-img
-        class="white--text align-end"
-        height="200px"
+@props(['courses', 'image', 'link', 'titlePrefix' => null])
+
+<div class="tw-mx-auto tw-flex tw-flex-col tw-justify-between tw-gap-2 tw-bg-white tw-px-8 tw-py-4">
+    <img
+        class="tw-h-48 tw-w-48 tw-rounded-lg tw-object-cover"
         src="{{ $image }}"
-    >
+    ></img>
+
     @if ($titlePrefix)
         <v-card-title>{{ $titlePrefix }}: {{ $courses->count() }}</v-card-title>
     @endif
-    </v-img>
-
-    <v-card-text class="text--primary">
-        @foreach ($courses as $programEdition)
-            <div class="tw-text-left">{{ $programEdition->full_name }}</div>
-        @endforeach
-    </v-card-text>
 
     @if ($courses->count())
+        <v-card-text class="text--primary">
+            @foreach ($courses as $programEdition)
+                <div class="tw-text-left">{{ $programEdition->full_name }}</div>
+            @endforeach
+        </v-card-text>
+
         <v-card-actions>
             <v-btn
                 color="primary"
@@ -29,4 +27,4 @@
             </v-btn>
         </v-card-actions>
     @endif
-</v-card>
+</div>

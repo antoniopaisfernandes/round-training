@@ -1,8 +1,13 @@
 module.exports = {
   prefix: 'tw-',
-  purge: {
-    enabled: false,
-  },
+  content: [
+    './resources/**/*.html',
+    './resources/**/*.js',
+    './resources/**/*.php',
+    './resources/**/*.vue',
+    './node_modules/vuetify/**/*.vue',
+    './node_modules/vuetify/**/*.js',
+  ],
   theme: {
     extend: {
       width: {

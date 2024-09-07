@@ -59,7 +59,7 @@ export default {
 
   watch: {
     isActive: function (value) {
-      this.drawer = value;
+      this.drawer = value
     },
   },
 
@@ -93,9 +93,9 @@ export default {
 
     goto(url) {
       if (! url) {
-        return;
+        return
       }
-      document.location = url;
+      document.location = url
     },
 
   },

@@ -130,9 +130,9 @@ export default {
 
   computed: {
     years: function () {
-      const currentYear = new Date().getFullYear();
-      const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
-      return range(currentYear, currentYear - 20, -1);
+      const currentYear = new Date().getFullYear()
+      const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step))
+      return range(currentYear, currentYear - 20, -1)
     },
     form: function () {
       return {
@@ -143,22 +143,22 @@ export default {
       }
     },
     valid: function () {
-      return this.year || this.startsAt;
+      return this.year || this.startsAt
     },
   },
 
   methods: {
     async submit() {
       try {
-        this.loading = true;
+        this.loading = true
         let response = await axios.post(`/reports/${this.report}`, this.form, {
           responseType: 'arraybuffer'
-        });
-        jsFileDownload(response.data, `${this.report}.xlsx`);
+        })
+        jsFileDownload(response.data, `${this.report}.xlsx`)
       } catch (error) {
         alert.error(error)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     }
   },
@@ -167,6 +167,5 @@ export default {
     this.startsAt = this.beginDate
     this.endsAt = this.endDate
   }
-
 }
 </script>

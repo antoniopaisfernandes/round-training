@@ -58,7 +58,7 @@
                   x-small
                   color="error"
                   @click="deleteStudent(i)"
-                  class="tw-ml-2 tw--mt-2"
+                  class="tw--mt-2 tw-ml-2"
                 >
                   <v-icon dark>mdi-minus</v-icon>
                 </v-btn>

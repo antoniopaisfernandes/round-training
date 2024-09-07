@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors')
 
 export default {
   'primary': '#74cbc8',
-  'secondary': colors.black[800],
+  'secondary': colors.black,
   'accent': colors.gray[600],
   'error': colors.red[600],
   'info': colors.blue[600],

@@ -386,14 +386,14 @@ export default {
         this.dataProgramEdition.evaluation_notification_date = format(
           addMonths(parseISO(this.dataProgramEdition.ends_at), 6),
           'yyyy-LL-dd'
-        );
+        )
       }
     },
 
     async getStudents() {
       this.students = []
       if (! this.programEdition.id) {
-        return;
+        return
       }
 
       this.isSaving = true

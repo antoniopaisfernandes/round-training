@@ -103,7 +103,7 @@ export default {
 
   methods: {
     instance(attributes) {
-      return new ProgramEdition(attributes);
+      return new ProgramEdition(attributes)
     },
     newProgramEdition() {
       this.editedItem = this.defaultItem

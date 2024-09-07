@@ -97,7 +97,7 @@ export default {
       try {
         let response = await axios.post('/programs', {
           name: this.selectedProgram
-        });
+        })
 
         this.cancel()
         this.$emit('input', response.data)

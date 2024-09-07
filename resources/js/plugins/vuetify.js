@@ -11,7 +11,8 @@ const theme = {
   },
   themes: {
     light: {
-      ...colors,
+      dark: false,
+      colors,
     },
   },
 }

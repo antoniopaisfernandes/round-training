@@ -79,8 +79,8 @@ export default {
             program_edition_id: this.programEdition.id
           },
           { responseType: 'arraybuffer' }
-        );
-        jsFileDownload(response.data, `${name}.xlsx`);
+        )
+        jsFileDownload(response.data, `${name}.xlsx`)
       } catch (error) {
         alert.warning(error)
       } finally {

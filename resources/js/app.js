@@ -6,7 +6,7 @@ require('./plugins/event-bus')
 
 Model.$http = window.axios
 
-const app = createApp();
+const app = createApp()
 
 import EventBus from './plugins/event-bus'
 app.use(EventBus)

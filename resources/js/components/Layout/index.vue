@@ -1,5 +1,5 @@
 <template>
-  <v-app id="training">
+  <v-app>
     <navigation-drawer
       v-if="auth"
       :isActive="navigationDrawerIsActive"
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import NavigationDrawer from './navigation'
+  import NavigationDrawer from './navigation.vue'
 
   export default {
     components: { NavigationDrawer },

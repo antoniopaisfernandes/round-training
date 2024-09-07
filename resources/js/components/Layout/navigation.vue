@@ -9,36 +9,30 @@
       <div class="tw-mt-16"></div>
     </template>
 
+    <!-- MAIN OPTIONS -->
     <v-list dense>
       <div v-for="(menuOption, index) in mainRoutes" :key="index">
         <v-list-item
           link
           @click.stop="goto(menuOption.link)"
-        >
-          <v-list-item-action>
-            <v-icon>{{ menuOption.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          :prepend-icon="menuOption.icon"
+          :title="menuOption.text"
+          :value="menuOption.text"
+        ></v-list-item>
       </div>
     </v-list>
 
-    <template v-slot:append>
+    <!-- FOOTER OPTIONS -->
+    <template #append>
       <v-list dense>
         <div v-for="(menuOption, index) in footerRoutes" :key="index">
           <v-list-item
             link
             @click.stop="goto(menuOption.link)"
-          >
-            <v-list-item-action>
-              <v-icon>{{ menuOption.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+            :prepend-icon="menuOption.icon"
+            :title="menuOption.text"
+            :value="menuOption.text"
+          ></v-list-item>
         </div>
       </v-list>
     </template>
@@ -50,7 +44,6 @@ import mRoutes from '../../routes'
 import { footerRoutes as fRoutes } from '../../routes'
 
 export default {
-
   props: {
     isActive: {
       default: null
@@ -81,7 +74,7 @@ export default {
   computed: {
     auth: function() {
       // TODO: replace with store when store is implemented
-      return this.$root.$refs['eApp'].$options.propsData.auth
+      return this.$root.$refs['eApp'].auth
     },
 
     admin: function () {
@@ -90,15 +83,12 @@ export default {
   },
 
   methods: {
-
     goto(url) {
       if (! url) {
         return
       }
       document.location = url
     },
-
   },
-
 }
 </script>

@@ -8,12 +8,7 @@ use Illuminate\Support\Collection;
 
 class ProgramEditionExecution
 {
-    protected $filters;
-
-    public function __construct($filters)
-    {
-        $this->filters = $filters;
-    }
+    public function __construct(protected $filters) {}
 
     /**
      * @return Collection
@@ -21,8 +16,8 @@ class ProgramEditionExecution
     public function collection()
     {
         $programEditions = ProgramEdition::with('enrollments')
-            ->where('starts_at', '>=', $this->filters['year'] . '-01-01')
-            ->where('starts_at', '<=', $this->filters['year'] . '-12-31')
+            ->where('starts_at', '>=', $this->filters['year'].'-01-01')
+            ->where('starts_at', '<=', $this->filters['year'].'-12-31')
             ->get();
 
         $purchasingMatrix = $programEditions->map
@@ -31,7 +26,7 @@ class ProgramEditionExecution
             ->unique()
             ->values()
             ->flip()
-            ->map(fn() => 0)
+            ->map(fn () => 0)
             ->toArray();
 
         $headers = $this->headers(array_keys($purchasingMatrix));
@@ -58,7 +53,7 @@ class ProgramEditionExecution
     public function headers($companyIds)
     {
         $companies = Company::whereIn('id', $companyIds)->with([
-            'budgets' => fn($query) => $query->where('year', $this->filters['year'])
+            'budgets' => fn ($query) => $query->where('year', $this->filters['year']),
         ])->get();
 
         return collect([
@@ -91,7 +86,7 @@ class ProgramEditionExecution
                 __('app.end_date'),
                 __('app.location'),
                 // ...,
-            ]
+            ],
         ]);
     }
 }

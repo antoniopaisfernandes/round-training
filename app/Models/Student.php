@@ -6,6 +6,9 @@ use App\Exceptions\CannotEnrollStudentException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -32,12 +35,12 @@ class Student extends Model
         'company',
     ];
 
-    public function enrollments()
+    public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
     }
 
-    public function enrolledProgramEditions()
+    public function enrolledProgramEditions(): BelongsToMany
     {
         return $this->belongsToMany(ProgramEdition::class, 'enrollments')
             ->as('enrollments')
@@ -45,12 +48,12 @@ class Student extends Model
             ->withTimestamps();
     }
 
-    public function company()
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'current_company_id');
     }
 
-    public function leader()
+    public function leader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'leader_id');
     }

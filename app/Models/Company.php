@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
@@ -11,22 +13,22 @@ class Company extends Model
 
     protected $guarded = [];
 
-    public function programEditions()
+    public function programEditions(): HasMany
     {
         return $this->hasMany(ProgramEdition::class);
     }
 
-    public function students()
+    public function students(): HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    public function budgets()
+    public function budgets(): HasMany
     {
         return $this->hasMany(CompanyYearlyBudget::class);
     }
 
-    public function coordinator()
+    public function coordinator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'coordinator_id');
     }

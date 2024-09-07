@@ -22,7 +22,7 @@ return [
     'start_date' => 'Start date',
     'end_date' => 'End date',
     'location' => 'Location',
-    'reports' => 'Relatórios',
+    'reports' => 'Reports',
     'details' => 'Details',
 
 ];

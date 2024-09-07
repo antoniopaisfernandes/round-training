@@ -3,12 +3,16 @@
 namespace Tests\Feature\Programs;
 
 use App\Models\Program;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EditingProgramsTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @var User|Authenticatable */
+    private $user;
 
     public function setUp() : void
     {
@@ -22,7 +26,7 @@ class EditingProgramsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $program = factory(Program::class)->create([
+        $program = Program::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -38,7 +42,7 @@ class EditingProgramsTest extends TestCase
     /** @test */
     public function a_name_is_required_updating_a_program()
     {
-        $program = factory(Program::class)->create([
+        $program = Program::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -55,7 +59,7 @@ class EditingProgramsTest extends TestCase
     /** @test */
     public function a_guest_cannot_updating_a_program()
     {
-        $program = factory(Program::class)->create([
+        $program = Program::factory()->create([
             'name' => 'Old name',
         ]);
 

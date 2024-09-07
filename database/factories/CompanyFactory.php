@@ -1,30 +1,40 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\CompanyYearlyBudget;
-use Faker\Generator as Faker;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Company::class, function (Faker $faker) {
-    return [
-        'name' => $faker->company . $faker->randomNumber(2),
-        'vat_number' => $faker->randomNumber(9, true),
-    ];
-});
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
+ */
+class CompanyFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->company.$this->faker->randomNumber(2),
+            'vat_number' => $this->faker->randomNumber(9, true),
+        ];
+    }
 
-Collection::times(5)->each(function ($num) use ($factory) {
-    $factory->state(Company::class, "with-{$num}-yearly-budgets", [])
-        ->afterCreatingState(Company::class, "with-{$num}-yearly-budgets", function (Company $company) use ($num) {
-            factory(CompanyYearlyBudget::class, $num)->create([
-                'company_id' => $company->id,
-            ]);
-        })
-        ->afterMakingState(Company::class, "with-{$num}-yearly-budgets", function (Company $company) use ($num) {
-            $company->setRelation('budgets', factory(CompanyYearlyBudget::class, $num)->make([
-                'company_id' => $company->id,
-            ]));
+    public function withYearlyBudgets(int $count)
+    {
+        return $this->afterCreating(function (Company $company) use ($count) {
+            CompanyYearlyBudget::factory($count)->create(['company_id' => $company->id]);
+        })->afterMaking(function (Company $company) use ($count) {
+            $company->setRelation('budgets', CompanyYearlyBudget::factory($count)->make(['company_id' => $company->id]));
         });
-});
-$factory->state(Company::class, 'without-yearly-budgets', []);
+    }
+
+    public function withoutYearlyBudgets()
+    {
+        return $this->state(fn (array $attributes) => []);
+    }
+}

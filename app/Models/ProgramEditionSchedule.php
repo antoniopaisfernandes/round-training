@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProgramEditionSchedule extends Model
 {
+    use HasFactory;
+
     protected $casts = [
         'starts_at' => 'datetime:Y-m-d H:i',
         'ends_at' => 'datetime:Y-m-d H:i',

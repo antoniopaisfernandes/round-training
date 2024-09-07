@@ -24,7 +24,7 @@ class CreatingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->make()->toArray();
+        $company = Company::factory()->make()->toArray();
 
         $response = $this->post('/companies', $company);
 
@@ -35,7 +35,7 @@ class CreatingCompaniesTest extends TestCase
     /** @test */
     public function a_guest_cannot_create_a_company()
     {
-        $company = factory(Company::class)->make()->toArray();
+        $company = Company::factory()->make()->toArray();
 
         $this->be(new User())->post('/companies', $company);
 
@@ -46,7 +46,7 @@ class CreatingCompaniesTest extends TestCase
     /** @test */
     public function a_name_is_required_for_a_company()
     {
-        $company = factory(Company::class)->make([
+        $company = Company::factory()->make([
             'name' => null,
         ])->toArray();
 
@@ -58,7 +58,7 @@ class CreatingCompaniesTest extends TestCase
     /** @test */
     public function a_vat_number_is_required_for_a_company()
     {
-        $company = factory(Company::class)->make([
+        $company = Company::factory()->make([
             'vat_number' => null,
         ])->toArray();
 
@@ -70,7 +70,7 @@ class CreatingCompaniesTest extends TestCase
     /** @test */
     public function a_company_can_have_a_short_name()
     {
-        $company = factory(Company::class)->make([
+        $company = Company::factory()->make([
             'short_name' => 'SHORT',
         ])->toArray();
 
@@ -84,8 +84,8 @@ class CreatingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->make([
-            'coordinator_id' => factory(User::class),
+        $company = Company::factory()->make([
+            'coordinator_id' => User::factory(),
         ])->toArray();
 
         $this->post('/companies', $company)->assertOk();
@@ -98,7 +98,7 @@ class CreatingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->state('with-2-yearly-budgets')->make()->toArray();
+        $company = Company::factory()->withYearlyBudgets(2)->make()->toArray();
 
         $response = $this->post('/companies', $company);
 
@@ -109,7 +109,7 @@ class CreatingCompaniesTest extends TestCase
     /** @test */
     public function the_yearly_budgets_cannot_refer_to_the_same_year()
     {
-        $company = factory(Company::class)->state('with-2-yearly-budgets')->make()->toArray();
+        $company = Company::factory()->withYearlyBudgets(2)->make()->toArray();
         $company['budgets'][0]['year'] = 2020;
         $company['budgets'][1]['year'] = 2020;
 

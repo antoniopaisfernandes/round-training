@@ -55,8 +55,8 @@ class CreateEnrollmentTest extends TestCase
     {
         $attributes = [
             'student_id' => 999,
-            'program_edition_id' => factory(ProgramEdition::class)->create()->id,
-            'company_id' => factory(Company::class)->create()->id,
+            'program_edition_id' => ProgramEdition::factory()->create()->id,
+            'company_id' => Company::factory()->create()->id,
         ];
         $this->assertEquals(0, Enrollment::count());
 
@@ -76,7 +76,7 @@ class CreateEnrollmentTest extends TestCase
             'program_edition_id' => $programEdition->id,
             'company_id' => $student->current_company_id,
         ];
-        $response = $this->actingAs(factory(User::class)->create())->post('/enrollments', $attributes);
+        $response = $this->actingAs(User::factory()->create())->post('/enrollments', $attributes);
 
         $response->assertForbidden();
         $this->assertEquals(0, Enrollment::count());
@@ -107,12 +107,12 @@ class CreateEnrollmentTest extends TestCase
 
     private function createStudentAndProgramEdition() : array
     {
-        $student = factory(Student::class)->create([
-            'current_company_id' => factory(Company::class)->create([
-                'coordinator_id' => $coordinator_id = factory(User::class)->create()->id,
+        $student = Student::factory()->create([
+            'current_company_id' => Company::factory()->create([
+                'coordinator_id' => $coordinator_id = User::factory()->create()->id,
             ])->id,
         ]);
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         return [
             $student,

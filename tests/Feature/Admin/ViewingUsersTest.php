@@ -10,6 +10,9 @@ class ViewingUsersTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
@@ -22,7 +25,7 @@ class ViewingUsersTest extends TestCase
     /** @test */
     public function it_can_view_a_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->get("/admin/users/{$user->id}");
 
@@ -32,7 +35,7 @@ class ViewingUsersTest extends TestCase
     /** @test */
     public function it_can_show_a_list_of_users()
     {
-        $users = factory(User::class, 4)->create();
+        $users = User::factory()->times(4)->create();
 
         $response = $this->getJson("/admin/users");
 
@@ -47,7 +50,7 @@ class ViewingUsersTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $newUser = factory(User::class)->create();
+        $newUser = User::factory()->create();
 
         $response = $this->actingAs($newUser)->get("/admin/users");
 

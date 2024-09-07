@@ -12,6 +12,9 @@ class CreatingUsersTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
@@ -121,7 +124,7 @@ class CreatingUsersTest extends TestCase
     private function validUser($attributes = []) : array
     {
         return array_merge(
-            factory(User::class)->make($attributes)->toArray(),
+            User::factory()->make($attributes)->toArray(),
             [
                 'password' => 'new_password_to_add',
                 'password_confirmation' => 'new_password_to_add',

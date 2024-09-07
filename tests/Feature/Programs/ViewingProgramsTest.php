@@ -4,6 +4,7 @@ namespace Tests\Feature\Programs;
 
 use App\Models\Program;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,18 +12,19 @@ class ViewingProgramsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User|Authenticatable */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = factory(User::class)->create()
-        );
+        $this->be($this->user = User::factory()->create());
     }
 
     public function it_can_view_a_program()
     {
-        $program = factory(Program::class)->create();
+        $program = Program::factory()->create();
 
         $response = $this->get("/programs/{$program->id}");
 
@@ -32,7 +34,7 @@ class ViewingProgramsTest extends TestCase
     /** @test */
     public function it_shows_a_list_of_programs()
     {
-        $programs = factory(Program::class, 4)->create();
+        $programs = Program::factory()->times(4)->create();
 
         $response = $this->get("/programs");
 
@@ -45,7 +47,7 @@ class ViewingProgramsTest extends TestCase
     /** @test */
     public function the_programs_index_method_does_not_paginate()
     {
-        factory(Program::class, 51)->create();
+        Program::factory()->times(51)->create();
 
         $response = $this->get("/programs");
 

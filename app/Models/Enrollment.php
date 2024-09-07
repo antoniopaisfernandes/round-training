@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Enrollment extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
+
     protected $casts = [
         'program_edition_id' => 'int',
         'student_id' => 'int',
@@ -44,8 +48,8 @@ class Enrollment extends Model
     public function getHoursAttendedAttribute()
     {
         return ($this->attributes['hours_attended'] ?? null) !== null
-            ?  $this->attributes['hours_attended']
-            :  round($this->getMinutesAttendedAttribute() / 60, 2);
+            ? $this->attributes['hours_attended']
+            : round($this->getMinutesAttendedAttribute() / 60, 2);
     }
 
     public function setHoursAttendedAttribute($hours)

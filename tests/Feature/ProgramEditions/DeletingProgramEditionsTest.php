@@ -15,7 +15,7 @@ class DeletingProgramEditionsTest extends TestCase
     /** @test */
     public function it_can_delete_a_program_edition()
     {
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $this->assertCount(1, ProgramEdition::all());
 
@@ -27,8 +27,8 @@ class DeletingProgramEditionsTest extends TestCase
     /** @test */
     public function it_requires_necessary_permissions_to_delete_a_program()
     {
-        $userWithoutPermission = factory(User::class)->create();
-        $programEdition = factory(ProgramEdition::class)->create();
+        $userWithoutPermission = User::factory()->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $this->assertCount(1, Program::all());
 

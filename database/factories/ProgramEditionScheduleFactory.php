@@ -1,15 +1,26 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\ProgramEdition;
-use App\Models\ProgramEditionSchedule;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(ProgramEditionSchedule::class, function (Faker $faker) {
-    return [
-        'program_edition_id' => factory(ProgramEdition::class),
-        'starts_at' => today()->hour(9)->minute(0)->second(0),
-        'ends_at' => today()->addDay()->hour(18)->minute(30)->second(0),
-    ];
-});
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProgramEditionSchedule>
+ */
+class ProgramEditionScheduleFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'program_edition_id' => ProgramEdition::factory(),
+            'starts_at' => today()->hour(9)->minute(0)->second(0),
+            'ends_at' => today()->addDay()->hour(18)->minute(30)->second(0),
+        ];
+    }
+}

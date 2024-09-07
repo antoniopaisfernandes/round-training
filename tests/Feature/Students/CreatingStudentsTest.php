@@ -23,7 +23,7 @@ class CreatingStudentsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $student = factory(Student::class)->make()->toArray();
+        $student = Student::factory()->make()->toArray();
 
         $response = $this->post('/students', $student);
 
@@ -34,7 +34,7 @@ class CreatingStudentsTest extends TestCase
     /** @test */
     public function a_guest_cannot_create_a_student()
     {
-        $student = factory(Student::class)->make()->toArray();
+        $student = Student::factory()->make()->toArray();
 
         $this->be(new User())->post('/students', $student);
 
@@ -45,7 +45,7 @@ class CreatingStudentsTest extends TestCase
     /** @test */
     public function it_creates_students_with_user_leader()
     {
-        $student = factory(Student::class)->make([
+        $student = Student::factory()->make([
             'leader_id' => auth()->user()->id,
         ])->toArray();
 
@@ -57,7 +57,7 @@ class CreatingStudentsTest extends TestCase
     /** @test */
     public function a_name_is_required_for_a_student()
     {
-        $student = factory(Student::class)->make([
+        $student = Student::factory()->make([
             'name' => null,
         ])->toArray();
 
@@ -69,7 +69,7 @@ class CreatingStudentsTest extends TestCase
     /** @test */
     public function an_email_is_required_for_a_student()
     {
-        $student = factory(Student::class)->make([
+        $student = Student::factory()->make([
             'email' => null,
         ])->toArray();
 
@@ -81,19 +81,19 @@ class CreatingStudentsTest extends TestCase
     /** @test */
     public function when_storing_a_student_if_the_citizen_info_is_present_require_it()
     {
-        $student = factory(Student::class)->state('with-citizen-information')->make([
+        $student = Student::factory()->withCitizenInformation()->make([
             'citizen_id' => null,
         ])->toArray();
         $response = $this->post('/students', $student);
         $response->assertSessionHasErrors(['citizen_id']);
 
-        $student = factory(Student::class)->state('with-citizen-information')->make([
+        $student = Student::factory()->withCitizenInformation()->make([
             'citizen_id_validity' => null,
         ])->toArray();
         $response = $this->post('/students', $student);
         $response->assertSessionHasErrors(['citizen_id_validity']);
 
-        $student = factory(Student::class)->state('without-citizen-information')->make()->toArray();
+        $student = Student::factory()->withoutCitizenInformation()->make()->toArray();
         $response = $this->post('/students', $student);
         $response->assertCreated();
         $response->assertSessionHasNoErrors();

@@ -12,13 +12,14 @@ class EditingCompaniesTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
 
-        $this->be(
-            $this->user = $this->createAdminUser()
-        );
+        $this->be($this->user = $this->createAdminUser());
     }
 
     /** @test */
@@ -26,7 +27,7 @@ class EditingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'name' => 'Old name',
             'vat_number' => '123456789',
         ]);
@@ -45,7 +46,7 @@ class EditingCompaniesTest extends TestCase
     /** @test */
     public function a_guest_cannot_updating_a_company()
     {
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -61,7 +62,7 @@ class EditingCompaniesTest extends TestCase
     /** @test */
     public function a_name_is_required_updating_a_company()
     {
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -78,7 +79,7 @@ class EditingCompaniesTest extends TestCase
     /** @test */
     public function a_vat_number_is_required_updating_a_company()
     {
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'vat_number' => 'Old',
         ]);
 
@@ -97,7 +98,7 @@ class EditingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'short_name' => 'OLD',
         ]);
 
@@ -118,14 +119,14 @@ class EditingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->create([
-            'coordinator_id' => factory(User::class),
+        $company = Company::factory()->create([
+            'coordinator_id' => User::factory(),
         ]);
 
         $this->patch("/companies/{$company->id}", array_merge(
             $company->toArray(),
             [
-                'coordinator_id' => $user_id = factory(User::class)->create()->id,
+                'coordinator_id' => $user_id = User::factory()->create()->id,
             ]
         ));
 
@@ -139,12 +140,12 @@ class EditingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->create();
+        $company = Company::factory()->create();
 
         $response = $this->patch("/companies/{$company->id}", array_merge(
             $company->toArray(),
             [
-                'budgets' => factory(CompanyYearlyBudget::class, 2)->make()->toArray(),
+                'budgets' => CompanyYearlyBudget::factory()->times(2)->make()->toArray(),
             ]
         ));
 
@@ -157,12 +158,12 @@ class EditingCompaniesTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $company = factory(Company::class)->state('with-2-yearly-budgets')->create();
+        $company = Company::factory()->withYearlyBudgets(2)->create();
 
         $response = $this->patch("/companies/{$company->id}", array_merge(
             $company->toArray(),
             [
-                'budgets' => factory(CompanyYearlyBudget::class, 4)->make()->toArray(),
+                'budgets' => CompanyYearlyBudget::factory()->times(4)->make()->toArray(),
             ]
         ));
 

@@ -18,8 +18,8 @@ class ProgramEditionResourceTest extends TestCase
     /** @test */
     public function when_getting_a_program_edition_resource_with_students_hide_rgpd_data()
     {
-        $programEditionId = factory(ProgramEdition::class)->create()->enroll(
-            factory(Student::class)->create([
+        $programEditionId = ProgramEdition::factory()->create()->enroll(
+            Student::factory()->create([
                 'citizen_id' => '11111111',
                 'citizen_id_validity' => '2030-12-31',
             ])
@@ -37,8 +37,8 @@ class ProgramEditionResourceTest extends TestCase
     /** @test */
     public function when_getting_a_program_edition_resource_with_students_show_rgpd_data()
     {
-        $programEditionId = factory(ProgramEdition::class)->create()->enroll(
-            factory(Student::class)->create([
+        $programEditionId = ProgramEdition::factory()->create()->enroll(
+            Student::factory()->create([
                 'citizen_id' => '11111111',
                 'citizen_id_validity' => '2030-12-31',
             ])

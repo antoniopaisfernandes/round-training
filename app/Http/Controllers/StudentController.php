@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StudentResource;
-use App\Queries\Sorts\CompanyNameSort;
 use App\Models\Student;
+use App\Queries\Sorts\CompanyNameSort;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -37,7 +37,7 @@ class StudentController extends Controller
                 ->allowedIncludes([
                     'company',
                     'enrollments',
-                    'enrolled_program_editions',
+                    'enrolledProgramEditions',
                 ])
                 ->defaultSort('name')
                 ->allowedSorts([
@@ -59,8 +59,8 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
      * @return JsonResponse
+     *
      * @throws \Exception
      */
     public function store(Request $request)
@@ -91,7 +91,6 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Student  $student
      * @return JsonResponse|JsonResource
      */
     public function show(Student $student)
@@ -102,9 +101,8 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  \App\Models\Student  $student
      * @return JsonResponse
+     *
      * @throws \Exception
      */
     public function update(Request $request, Student $student)
@@ -137,8 +135,8 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Student  $student
      * @return JsonResponse
+     *
      * @throws \Exception
      */
     public function destroy(Student $student)

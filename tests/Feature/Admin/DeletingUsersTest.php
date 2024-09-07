@@ -11,6 +11,9 @@ class DeletingUsersTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
@@ -23,7 +26,7 @@ class DeletingUsersTest extends TestCase
     /** @test */
     public function it_can_delete_a_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->assertCount(2, User::all());
 

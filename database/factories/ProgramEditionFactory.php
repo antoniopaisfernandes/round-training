@@ -1,6 +1,6 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Enrollment;
@@ -9,56 +9,70 @@ use App\Models\ProgramEdition;
 use App\Models\ProgramEditionSchedule;
 use App\Models\Student;
 use App\Models\User;
-use Faker\Generator as Faker;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(ProgramEdition::class, function (Faker $faker) {
-    return [
-        'program_id' => factory(Program::class),
-        'name' => 'Edition ' . mt_rand(1, 9999),
-        'company_id' => factory(Company::class),
-        'cost' => mt_rand(1, 9999),
-        'supplier' => $faker->company,
-        'teacher_name' => $faker->name,
-        'starts_at' => today(),
-        'ends_at' => today()->addDay(),
-        'created_by' => function () {
-            return optional(auth()->user())->id ?: factory(User::class)->create()->id;
-        },
-    ];
-});
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProgramEdition>
+ */
+class ProgramEditionFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'program_id' => Program::factory(),
+            'name' => 'Edition '.mt_rand(1, 9999),
+            'company_id' => Company::factory(),
+            'cost' => mt_rand(1, 9999),
+            'supplier' => $this->faker->company,
+            'teacher_name' => $this->faker->name,
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
+            'created_by' => fn () => auth()->id() ?: User::factory()->create()->id,
+        ];
+    }
 
-// Make 5 different states for schedules
-Collection::times(5)->each(function ($num) use ($factory) {
-    $factory->state(ProgramEdition::class, "with-{$num}-schedules", [])
-            ->afterCreatingState(ProgramEdition::class, "with-{$num}-schedules", function (ProgramEdition $programEdition) use ($num) {
-                factory(ProgramEditionSchedule::class, $num)->create([
-                    'program_edition_id' => $programEdition->id,
-                ]);
-            })
-            ->afterMakingState(ProgramEdition::class, "with-{$num}-schedules", function (ProgramEdition $programEdition) use ($num) {
-                $programEdition->setRelation('schedules', factory(ProgramEditionSchedule::class, $num)->make([
-                    'program_edition_id' => $programEdition->id,
-                ]));
+    public function withSchedules(int $count)
+    {
+        return $this->afterCreating(function (ProgramEdition $programEdition) use ($count) {
+            ProgramEditionSchedule::factory($count)->create([
+                'program_edition_id' => $programEdition->id,
+            ]);
+        })->afterMaking(function (ProgramEdition $programEdition) use ($count) {
+            $programEdition->setRelation('schedules', ProgramEditionSchedule::factory($count)->make([
+                'program_edition_id' => $programEdition->id,
+            ]));
+        });
+    }
+
+    public function withoutSchedules()
+    {
+        return $this->state(fn (array $attributes) => []);
+    }
+
+    public function withStudents(int $count)
+    {
+        return $this->afterCreating(function (ProgramEdition $programEdition) {
+            $programEdition->students->each(function (Student $student) use ($programEdition) {
+                $student->fresh()->enroll($programEdition);
             });
-});
-$factory->state(ProgramEdition::class, 'without-schedules', []);
 
-// Make 5 different states for student enrollments
-Collection::times(5)->each(function ($num) use ($factory) {
-    $factory->state(ProgramEdition::class, "with-{$num}-students", [])
-        ->afterCreatingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
-            $programEdition->students
-                ->each(fn ($student) => $student->forceFill(['current_company_id' => $programEdition->company_id])->save())
-                ->each
-                ->fresh()
-                ->each
-                ->enroll($programEdition);
-        })
-        ->afterMakingState(ProgramEdition::class, "with-{$num}-students", function (ProgramEdition $programEdition) use ($num) {
-            $programEdition->setRelation('students', $students = factory(Student::class, $num)->create([
+            $programEdition->setRelation('enrollments', $programEdition->students->map(function (Student $student) {
+                return new Enrollment([
+                    'student_id' => $student->id,
+                    'company_id' => $student->current_company_id,
+                ]);
+            }));
+        })->afterMaking(function (ProgramEdition $programEdition) use ($count) {
+            $students = Student::factory($count)->create([
                 'current_company_id' => $programEdition->company_id,
-            ]));
+            ]);
+
+            $programEdition->setRelation('students', $students);
             $programEdition->setRelation('enrollments', $students->map(function (Student $student) {
                 return new Enrollment([
                     'student_id' => $student->id,
@@ -66,26 +80,41 @@ Collection::times(5)->each(function ($num) use ($factory) {
                 ]);
             }));
         });
-});
-$factory->state(ProgramEdition::class, 'without-students', []);
+    }
 
-// Make 5 different states for student evaluations
-Collection::times(5)->each(function ($num) use ($factory) {
-    $factory->state(ProgramEdition::class, "with-{$num}-evaluations", [])
-        ->afterCreatingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {
-            $programEdition->students
-                ->each(fn ($student) => $student->forceFill(['current_company_id' => $programEdition->company_id])->save())
-                ->each
-                ->fresh()
-                ->each
-                ->enroll($programEdition, [
+    public function withoutStudents()
+    {
+        return $this->state(fn (array $attributes) => []);
+    }
+
+    public function withEvaluations(int $count)
+    {
+        return $this->afterCreating(function (ProgramEdition $programEdition) use ($count) {
+            $students = Student::factory($count)->create([
+                'current_company_id' => $programEdition->company_id,
+            ]);
+
+            $students->each(function (Student $student) use ($programEdition) {
+                $student->forceFill(['current_company_id' => $programEdition->company_id])->save();
+                $student->fresh()->enroll($programEdition, [
                     'global_evaluation' => 'Eficaz',
                 ]);
-        })
-        ->afterMakingState(ProgramEdition::class, "with-{$num}-evaluations", function (ProgramEdition $programEdition) use ($num) {
-            $programEdition->setRelation('students', $students = factory(Student::class, $num)->create([
+            });
+
+            $programEdition->setRelation('students', $students);
+            $programEdition->setRelation('enrollments', $students->map(function (Student $student) {
+                return new Enrollment([
+                    'student_id' => $student->id,
+                    'company_id' => $student->current_company_id,
+                    'global_evaluation' => 'Eficaz',
+                ]);
+            }));
+        })->afterMaking(function (ProgramEdition $programEdition) use ($count) {
+            $students = Student::factory($count)->make([
                 'current_company_id' => $programEdition->company_id,
-            ]));
+            ]);
+
+            $programEdition->setRelation('students', $students);
             $programEdition->setRelation('enrollments', $students->map(function (Student $student) {
                 return new Enrollment([
                     'student_id' => $student->id,
@@ -94,5 +123,10 @@ Collection::times(5)->each(function ($num) use ($factory) {
                 ]);
             }));
         });
-});
-$factory->state(ProgramEdition::class, 'without-evaluations', []);
+    }
+
+    public function withoutEvaluations()
+    {
+        return $this->state(fn (array $attributes) => []);
+    }
+}

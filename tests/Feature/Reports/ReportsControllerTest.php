@@ -43,7 +43,7 @@ class ReportsControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $programEdition = factory(ProgramEdition::class)->create();
+        $programEdition = ProgramEdition::factory()->create();
 
         $this->actingAs($this->createAdminUser())
             ->post(

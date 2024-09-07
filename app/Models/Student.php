@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Exceptions\CannotEnrollStudentException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -11,18 +12,22 @@ use Illuminate\Support\Facades\DB;
 
 class Student extends Model
 {
-    use SoftDeletes;
+    use HasFactory,
+        SoftDeletes;
 
     protected $guarded = [];
+
     protected $casts = [
         'phone' => 'string',
         'current_company_id' => 'int',
         'leader_id' => 'int',
     ];
+
     public $rgpdFields = [
         'citizen_id',
         'citizen_id_validity',
     ];
+
     protected $with = [
         'company',
     ];
@@ -54,7 +59,7 @@ class Student extends Model
     {
         throw_if(
             ($attributes['minutes_attended'] ?? 0) > $programEdition->schedules->sum('working_minutes'),
-            new CannotEnrollStudentException("You are trying to enroll for more minutes than the scheduled lectures")
+            new CannotEnrollStudentException('You are trying to enroll for more minutes than the scheduled lectures')
         );
 
         return $this->enrollments()->firstOrCreate(array_merge(
@@ -78,11 +83,11 @@ class Student extends Model
     public function scopeCanBeEnrolled(Builder $query)
     {
         $enrollableProgramEditionsIds = ProgramEdition::setEagerLoads([])
-                                                ->status('enrollable')
-                                                ->select('id')
-                                                ->get()
-                                                ->pluck('id')
-                                                ->toArray();
+            ->status('enrollable')
+            ->select('id')
+            ->get()
+            ->pluck('id')
+            ->toArray();
 
         $query->notEnrolled(...$enrollableProgramEditionsIds);
     }

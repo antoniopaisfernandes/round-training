@@ -11,6 +11,9 @@ class EditingUsersTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var User */
+    private $user;
+
     public function setUp() : void
     {
         parent::setUp();
@@ -23,7 +26,7 @@ class EditingUsersTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -40,7 +43,7 @@ class EditingUsersTest extends TestCase
     /** @test */
     public function a_name_is_required_updating_a_user()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'Old name',
         ]);
 
@@ -58,7 +61,7 @@ class EditingUsersTest extends TestCase
     /** @test */
     public function an_email_is_required_updating_a_user()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'email' => 'old@example.com',
         ]);
 
@@ -78,7 +81,7 @@ class EditingUsersTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->assertCount(0, $user->roles);
 
         $this->patch("/admin/users/{$user->id}", array_merge(
@@ -97,7 +100,7 @@ class EditingUsersTest extends TestCase
     public function it_can_assign_permission_to_a_user()
     {
         Permission::create(['name' => 'rgpd']);
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->assertCount(0, $user->permissions);
 
         $this->patch("/admin/users/{$user->id}", array_merge(

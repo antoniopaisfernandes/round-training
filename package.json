@@ -22,10 +22,10 @@
         "js-file-download": "^0.4.12",
         "lodash-es": "^4.17.13",
         "tailwindcss": "^3.4.10",
-        "vue": "^2.7.16",
+        "vue": "^3.5.12",
         "vue-api-query": "^1.11.0",
         "vue-i18n": "^8.22.4",
-        "vuetify": "^2.7.2"
+        "vuetify": "^3.7.3"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.13",

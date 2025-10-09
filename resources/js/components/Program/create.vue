@@ -33,10 +33,6 @@ import alert from '../../plugins/toast'
 export default {
   name: 'add-program-dialog',
 
-  model: {
-    prop: 'selectedProgram',
-    event: 'input'
-  },
 
   props: {
     visible: {
@@ -69,25 +65,25 @@ export default {
       }
     },
     isSaveDisabled() {
-      return this.selectedProgram === null || this.selectedProgram == ''
+      return this.modelValue === null || this.modelValue == ''
     },
     commitButton() {
-      return isObject(this.selectedProgram) ? 'Ok' : 'Save'
+      return isObject(this.modelValue) ? 'Ok' : 'Save'
     }
   },
 
   methods: {
     async save() {
-      if (! this.selectedProgram) {
+      if (! this.modelValue) {
         this.cancel()
         return
       }
 
-      if (isObject(this.selectedProgram)) {
+      if (isObject(this.modelValue)) {
         this.close()
-        this.$emit('input', {
-          id: this.selectedProgram.value,
-          name: this.selectedProgram.text,
+        this.$emit('update:modelValue', {
+          id: this.modelValue.value,
+          name: this.modelValue.text,
         })
         return
       }
@@ -96,11 +92,11 @@ export default {
 
       try {
         let response = await axios.post('/programs', {
-          name: this.selectedProgram
+          name: this.modelValue
         });
 
         this.cancel()
-        this.$emit('input', response.data)
+        this.$emit('update:modelValue', response.data)
       } catch (error) {
           this.isSaving = false
           console.warn(error?.response?.data?.errors) // TODO
@@ -110,7 +106,7 @@ export default {
 
     cancel() {
       this.close()
-      this.selectedProgram = null
+      this.modelValue = null
     },
 
     close() {

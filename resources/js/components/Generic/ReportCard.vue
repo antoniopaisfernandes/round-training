@@ -30,7 +30,7 @@
             </template>
             <v-date-picker
               v-model="startsAt"
-              @input="startsAtActive = false"
+              @update:model-value="startsAtActive = false"
             ></v-date-picker>
           </v-menu>
           <v-menu
@@ -52,7 +52,7 @@
             </template>
             <v-date-picker
               v-model="endsAt"
-              @input="endsAtActive = false"
+              @update:model-value="endsAtActive = false"
             ></v-date-picker>
           </v-menu>
         </div>

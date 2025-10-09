@@ -34,7 +34,6 @@
             v-model="dataCompany.coordinator_id"
             label="Local coordinator"
             required
-            @input="dataCompany.coordinator_id = $event"
           ></v-select>
         </div>
         <div class="mt-2">
@@ -92,13 +91,9 @@ import map from 'lodash-es/map'
 export default {
   name: 'company-create',
 
-  model: {
-    prop: 'company',
-    event: 'input'
-  },
 
   props: {
-    company: {
+    modelValue: {
       type: Model,
       default: function() {
         return new Company()
@@ -163,7 +158,7 @@ export default {
         let company = await this.dataCompany.save()
         this.isSaving = false
         this.close()
-        this.$emit('input', company)
+        this.$emit('update:modelValue', company)
         this.$emit('saved', company)
       } catch (error) {
         this.isSaving = false
@@ -188,7 +183,7 @@ export default {
   },
 
   watch: {
-    company: function(value) {
+    modelValue: function(value) {
       this.dataCompany = new Company({
         budgets: [],
         ...value,

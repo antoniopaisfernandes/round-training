@@ -7,7 +7,7 @@
             v-model="student"
             :items="studentsFromQuery"
             :loading="isLoading"
-            :search-input.sync="search"
+            v-model:search-input="search"
             hide-no-data
             hide-selected
             item-title="name"

@@ -85,13 +85,9 @@ import map from 'lodash-es/map'
 export default {
   name: 'user-create',
 
-  model: {
-    prop: 'user',
-    event: 'input'
-  },
 
   props: {
-    user: {
+    modelValue: {
       type: Model,
       default: function() {
         return new User()
@@ -153,7 +149,7 @@ export default {
         let user = await this.dataUser.save()
         this.isSaving = false
         this.close()
-        this.$emit('input', user)
+        this.$emit('update:modelValue', user)
         this.$emit('saved', user)
       } catch (error) {
         this.isSaving = false
@@ -163,7 +159,7 @@ export default {
   },
 
   watch: {
-    user: function(value) {
+    modelValue: function(value) {
       this.dataUser = new User({
         roles: [],
         ...value,

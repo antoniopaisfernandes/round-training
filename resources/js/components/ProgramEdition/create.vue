@@ -22,7 +22,6 @@
                     label="Program name"
                     required
                     :rules="rules.program_id"
-                    @input="dataProgramEdition.program_id = $event"
                     class="tw-w-8/12"
                   ></v-select>
                   <v-btn
@@ -39,7 +38,7 @@
                     :existing-programs="programs"
                     :visible="addProgramDialogVisible"
                     @close="addProgramDialogVisible = false"
-                    @input="selectProgramId($event)"
+                    @update:model-value="selectProgramId($event)"
                   ></add-program-dialog>
                 </div>
                 <v-text-field
@@ -70,7 +69,7 @@
                   </template>
                   <v-date-picker
                     v-model="dataProgramEdition.starts_at"
-                    @input="startsAtActive = false"
+                    @update:model-value="startsAtActive = false"
                   ></v-date-picker>
                 </v-menu>
                 <v-menu
@@ -93,7 +92,7 @@
                   </template>
                   <v-date-picker
                     v-model="dataProgramEdition.ends_at"
-                    @input="endsAtActive = false"
+                    @update:model-value="endsAtActive = false"
                     v-on:input="updateEvaluationNotificationDate($event)"
                   ></v-date-picker>
                 </v-menu>
@@ -103,7 +102,6 @@
                   label="Company"
                   required
                   :rules="rules.company_id"
-                  @input="dataProgramEdition.company_id = $event"
                   class="tw-ml-2 tw-w-6/12"
                 ></v-select>
                 <v-text-field
@@ -158,7 +156,7 @@
                   </template>
                   <v-date-picker
                     v-model="dataProgramEdition.evaluation_notification_date"
-                    @input="evaluationNotificationDateActive = false"
+                    @update:model-value="evaluationNotificationDateActive = false"
                   ></v-date-picker>
                 </v-menu>
                 <v-text-field
@@ -265,13 +263,9 @@ export default {
     ExportTab,
   },
 
-  model: {
-    prop: 'programEdition',
-    event: 'input'
-  },
 
   props: {
-    programEdition: {
+    modelValue: {
       type: Model,
       default: function() {
         return new ProgramEdition()
@@ -350,7 +344,7 @@ export default {
         this.dataProgramEdition = new ProgramEdition()
         this.isSaving = false
         this.close()
-        this.$emit('input', programEdition)
+        this.$emit('update:modelValue', programEdition)
         this.$emit('saved', programEdition)
       } catch (error) {
         this.isSaving = false
@@ -392,13 +386,13 @@ export default {
 
     async getStudents() {
       this.students = []
-      if (! this.programEdition.id) {
+      if (! this.modelValue.id) {
         return;
       }
 
       this.isSaving = true
       try {
-        let data = await this.programEdition.students().get()
+        let data = await this.modelValue.students().get()
         this.students = data || []
       } catch (error) {
         alert.error(error)
@@ -440,7 +434,7 @@ export default {
   },
 
   watch: {
-    programEdition: function(value) {
+    modelValue: function(value) {
       this.dataProgramEdition = value
       this.getStudents()
     },

@@ -54,16 +54,15 @@
                   v-model="startsAtActive"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  offset-y
                   min-width="290px"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataProgramEdition.starts_at"
                       label="Starts at"
                       prepend-inner-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       :rules="rules.starts_at"
                     ></v-text-field>
                   </template>
@@ -76,16 +75,15 @@
                   v-model="endsAtActive"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  offset-y
                   min-width="290px"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataProgramEdition.ends_at"
                       label="Ends at"
                       prepend-inner-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       class="tw-ml-2"
                       :rules="rules.ends_at"
                     ></v-text-field>
@@ -141,16 +139,15 @@
                   v-model="evaluationNotificationDateActive"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  offset-y
                   min-width="290px"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataProgramEdition.evaluation_notification_date"
                       label="Notify accessment to"
                       prepend-inner-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       :rules="rules.evaluation_notification_date"
                     ></v-text-field>
                   </template>

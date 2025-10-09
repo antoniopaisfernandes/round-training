@@ -61,16 +61,15 @@
                   :close-on-content-click="false"
                   :nudge-right="40"
                   transition="scale-transition"
-                  offset-y
                   min-width="290px"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataStudent.citizen_id_validity"
                       label="Validity"
                       prepend-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       class="tw-w-1/4 tw-ml-2"
                       :rules="rules.citizen_id_validity"
                     ></v-text-field>

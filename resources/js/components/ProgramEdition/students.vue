@@ -10,7 +10,7 @@
             :search-input.sync="search"
             hide-no-data
             hide-selected
-            item-text="name"
+            item-title="name"
             item-value="id"
             label="Students"
             placeholder="Student name"
@@ -22,7 +22,7 @@
           :disabled="!student"
           fab
           dark
-          x-small
+          size="x-small"
           color="primary"
           @click="addStudent()"
           class="tw-ml-2"
@@ -55,7 +55,7 @@
                 <v-btn
                   fab
                   dark
-                  x-small
+                  size="x-small"
                   color="error"
                   @click="deleteStudent(i)"
                   class="tw-ml-2 tw--mt-2"

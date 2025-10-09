@@ -18,8 +18,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="cancel">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">{{ commitButton }}</v-btn>
+        <v-btn color="blue -darken-1" variant="text" @click="cancel">Cancel</v-btn>
+        <v-btn color="blue -darken-1" variant="text" :disabled="isSaveDisabled" @click="save">{{ commitButton }}</v-btn>
       </v-card-actions>
 
     </v-card>

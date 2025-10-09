@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    fixed
     app
     color="primary"
   >
@@ -9,37 +8,33 @@
       <div class="tw-mt-16"></div>
     </template>
 
-    <v-list dense>
-      <div v-for="(menuOption, index) in mainRoutes" :key="index">
-        <v-list-item
-          link
-          @click.stop="goto(menuOption.link)"
-        >
-          <v-list-item-action>
-            <v-icon>{{ menuOption.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </div>
+    <v-list density="compact">
+      <v-list-item
+        v-for="(menuOption, index) in mainRoutes"
+        :key="index"
+        link
+        @click.stop="goto(menuOption.link)"
+      >
+        <template v-slot:prepend>
+          <v-icon>{{ menuOption.icon }}</v-icon>
+        </template>
+        <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
+      </v-list-item>
     </v-list>
 
     <template v-slot:append>
-      <v-list dense>
-        <div v-for="(menuOption, index) in footerRoutes" :key="index">
-          <v-list-item
-            link
-            @click.stop="goto(menuOption.link)"
-          >
-            <v-list-item-action>
-              <v-icon>{{ menuOption.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </div>
+      <v-list density="compact">
+        <v-list-item
+          v-for="(menuOption, index) in footerRoutes"
+          :key="index"
+          link
+          @click.stop="goto(menuOption.link)"
+        >
+          <template v-slot:prepend>
+            <v-icon>{{ menuOption.icon }}</v-icon>
+          </template>
+          <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
+        </v-list-item>
       </v-list>
     </template>
   </v-navigation-drawer>

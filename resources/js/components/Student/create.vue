@@ -5,13 +5,13 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="student">Student</v-tab>
-        <!-- <v-tab key="programEditions">Program editions</v-tab> -->
+        <v-tab :value="0" key="student">Student</v-tab>
+        <!-- <v-tab :value="1" key="programEditions">Program editions</v-tab> -->
         <v-tab key="export" v-if="student.id">Export</v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="student">
+      <v-window v-model="tab">
+        <v-window-item :value="0" key="student">
           <v-card>
             <v-card-text class="mt-5">
               <v-text-field
@@ -128,18 +128,18 @@
               ></v-text-field>
             </v-card-text>
           </v-card>
-        </v-tab-item>
-        <v-tab-item key="export">
+        </v-window-item>
+        <v-window-item :value="1" key="export">
           <export-tab
             :student="dataStudent"
           ></export-tab>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-window-item>
+      </v-window>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn color="blue -darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn color="blue -darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -42,7 +42,7 @@
           <v-btn
             fab
             dark
-            x-small
+            size="x-small"
             color="primary"
             @click="addBudget"
             class="tw-ml-2 tw--mt-2"
@@ -61,7 +61,7 @@
             <v-btn
               fab
               dark
-              x-small
+              size="x-small"
               color="error"
               @click="deleteBudget(i)"
               class="tw-ml-2 tw--mt-2"
@@ -74,8 +74,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn color="blue -darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn color="blue -darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

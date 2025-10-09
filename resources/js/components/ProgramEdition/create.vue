@@ -5,13 +5,13 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="programEdition">Program edition</v-tab>
-        <v-tab key="students">Students</v-tab>
+        <v-tab :value="0" key="programEdition">Program edition</v-tab>
+        <v-tab :value="1" key="students">Students</v-tab>
         <v-tab key="export" v-if="dataProgramEdition.id">Export</v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="programEdition">
+      <v-window v-model="tab">
+        <v-window-item :value="0" key="programEdition">
           <v-card>
             <v-card-text>
               <div class="tw-flex">
@@ -28,7 +28,7 @@
                   <v-btn
                     fab
                     dark
-                    x-small
+                    size="x-small"
                     color="primary"
                     @click="addProgramDialogVisible = true"
                     class="tw--mt-2"
@@ -175,7 +175,7 @@
                 <v-btn
                   fab
                   dark
-                  x-small
+                  size="x-small"
                   color="primary"
                   @click="addSchedule"
                   class="tw-ml-2 tw--mt-2"
@@ -201,7 +201,7 @@
                   <v-btn
                     fab
                     dark
-                    x-small
+                    size="x-small"
                     color="error"
                     @click="deleteSchedule(i)"
                     class="tw-ml-2 tw--mt-2"
@@ -212,21 +212,21 @@
               </div>
             </v-card-text>
           </v-card>
-        </v-tab-item>
-        <v-tab-item key="students">
+        </v-window-item>
+        <v-window-item :value="1" key="students">
           <students-tab
             :students="students"
             :program-edition="dataProgramEdition"
             @add="students.push($event)"
             @delete="students.splice($event, 1)"
           ></students-tab>
-        </v-tab-item>
-        <v-tab-item key="export" v-if="dataProgramEdition.id">
+        </v-window-item>
+        <v-window-item key="export" v-if="dataProgramEdition.id">
           <export-tab
             :program-edition="dataProgramEdition"
           ></export-tab>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-window-item>
+      </v-window>
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -235,8 +235,8 @@
           label="Created by"
           :disabled="true"
         ></v-text-field>
-        <v-btn class="ml-2" color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn class="ml-2" color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn class="ml-2" color="blue -darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn class="ml-2" color="blue -darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

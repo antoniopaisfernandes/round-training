@@ -1,16 +1,18 @@
-import Vue from 'vue'
+import mitt from 'mitt'
+
+const emitter = mitt()
 
 window.Event = new class {
   constructor() {
-    this.vue = new Vue();
+    this.emitter = emitter
   }
 
   fire(event, ...args) {
-    this.vue.$emit(event, ...args)
+    this.emitter.emit(event, ...args)
   }
 
   listen(event, callback) {
-    this.vue.$on(event, callback)
+    this.emitter.on(event, callback)
   }
 }
 

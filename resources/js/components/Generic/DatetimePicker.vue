@@ -1,13 +1,12 @@
 <template>
   <v-dialog v-model="display" :width="dialogWidth">
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <v-text-field
-        v-bind="textFieldProps"
+        v-bind="{ ...textFieldProps, ...props }"
         :disabled="disabled"
         :loading="loading"
         :label="label"
-        :value="formattedDatetime"
-        v-on="on"
+        :model-value="formattedDatetime"
         readonly
       >
         <template v-slot:progress>
@@ -20,40 +19,42 @@
 
     <v-card>
       <v-card-text class="px-0 py-0">
-        <v-tabs fixed-tabs v-model="activeTab">
-          <v-tab key="calendar">
+        <v-tabs v-model="activeTab" fixed-tabs>
+          <v-tab key="calendar" :value="0">
             <slot name="dateIcon">
               <v-icon>mdi-calendar</v-icon>
             </slot>
           </v-tab>
-          <v-tab key="timer" :disabled="dateSelected">
+          <v-tab key="timer" :value="1" :disabled="dateSelected">
             <slot name="timeIcon">
               <v-icon>mdi-clock-outline</v-icon>
             </slot>
           </v-tab>
-          <v-tab-item key="calendar">
+        </v-tabs>
+        <v-window v-model="activeTab">
+          <v-window-item :value="0">
             <v-date-picker
               v-model="date"
               v-bind="datePickerProps"
-              @input="showTimePicker"
-              full-width
+              @update:model-value="showTimePicker"
+              hide-header
             ></v-date-picker>
-          </v-tab-item>
-          <v-tab-item key="timer">
+          </v-window-item>
+          <v-window-item :value="1">
             <v-time-picker
               ref="timer"
               v-model="time"
               v-bind="timePickerProps"
-              full-width
+              format="24hr"
             ></v-time-picker>
-          </v-tab-item>
-        </v-tabs>
+          </v-window-item>
+        </v-window>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <slot name="actions" :parent="this">
-          <v-btn color="grey lighten-1" text @click.native="clearHandler">{{ clearText }}</v-btn>
-          <v-btn color="green darken-1" text @click="okHandler">{{ okText }}</v-btn>
+          <v-btn color="grey-lighten-1" variant="text" @click="clearHandler">{{ clearText }}</v-btn>
+          <v-btn color="green-darken-1" variant="text" @click="okHandler">{{ okText }}</v-btn>
         </slot>
       </v-card-actions>
     </v-card>
@@ -63,7 +64,7 @@
 <script>
 import { format, parse } from 'date-fns'
 
-const DEFAULT_DATE = ''
+const DEFAULT_DATE = null
 const DEFAULT_TIME = '00:00:00'
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
 const DEFAULT_TIME_FORMAT = 'HH:mm:ss'
@@ -73,12 +74,8 @@ const DEFAULT_OK_TEXT = 'OK'
 
 export default {
   name: 'v-datetime-picker',
-  model: {
-    prop: 'datetime',
-    event: 'input'
-  },
   props: {
-    datetime: {
+    modelValue: {
       type: [Date, String],
       default: null
     },
@@ -122,7 +119,6 @@ export default {
       type: Object,
       default: function() {
         return {
-          format: '24hr',
           scrollable: true
         }
       }
@@ -166,16 +162,16 @@ export default {
   },
   methods: {
     init() {
-      if (!this.datetime) {
+      if (!this.modelValue) {
         return
       }
 
       let initDateTime
-      if (this.datetime instanceof Date) {
-        initDateTime = this.datetime
-      } else if (typeof this.datetime === 'string' || this.datetime instanceof String) {
+      if (this.modelValue instanceof Date) {
+        initDateTime = this.modelValue
+      } else if (typeof this.modelValue === 'string' || this.modelValue instanceof String) {
         // see https://stackoverflow.com/a/9436948
-        initDateTime = parse(this.datetime, this.dateTimeFormat, new Date())
+        initDateTime = parse(this.modelValue, this.dateTimeFormat, new Date())
       }
 
       this.date = format(initDateTime, DEFAULT_DATE_FORMAT)
@@ -183,13 +179,13 @@ export default {
     },
     okHandler() {
       this.resetPicker()
-      this.$emit('input', this.selectedDatetime)
+      this.$emit('update:modelValue', this.selectedDatetime)
     },
     clearHandler() {
       this.resetPicker()
       this.date = DEFAULT_DATE
       this.time = DEFAULT_TIME
-      this.$emit('input', null)
+      this.$emit('update:modelValue', null)
     },
     resetPicker() {
       this.display = false
@@ -203,7 +199,7 @@ export default {
     }
   },
   watch: {
-    datetime: function() {
+    modelValue: function() {
       this.init()
     }
   }

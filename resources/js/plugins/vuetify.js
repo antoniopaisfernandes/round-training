@@ -1,42 +1,34 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
+import { createVuetify } from 'vuetify'
 import colors from '../colors'
 import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/dist/vuetify.min.css'
-import DatetimePicker from './datetime-picker'
+import 'vuetify/styles'
+import { pt, en } from 'vuetify/locale'
 
-Vue.use(Vuetify)
-Vue.use(DatetimePicker)
-
-const theme = {
-  icons: {
-    iconfont: 'mdi'
+const vuetify = createVuetify({
+  display: {
+    mobileBreakpoint: 'sm',
+    thresholds: {
+      xs: 0,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
   },
-  themes: {
-    light: {
-      ...colors
+  theme: {
+    defaultTheme: 'light',
+    themes: {
+      light: {
+        colors: {
+          ...colors
+        }
+      }
     }
-  }
-}
-
-const breakpoint = {
-  thresholds: {
-    xs: 640,
-    sm: 768,
-    md: 1024,
-    lg: 1280
   },
-  scrollBarWidth: 0.1
-}
-
-import pt from 'vuetify/src/locale/pt.ts'
-import en from 'vuetify/src/locale/en.ts'
-
-export default new Vuetify({
-  breakpoint,
-  theme,
-  lang: {
-    locales: { pt, en },
-    current: 'pt'
+  locale: {
+    locale: 'pt',
+    messages: { pt, en }
   }
 })
+
+export default vuetify

@@ -5,13 +5,13 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="student">Student</v-tab>
-        <!-- <v-tab key="programEditions">Program editions</v-tab> -->
+        <v-tab :value="0" key="student">Student</v-tab>
+        <!-- <v-tab :value="1" key="programEditions">Program editions</v-tab> -->
         <v-tab key="export" v-if="student.id">Export</v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="student">
+      <v-window v-model="tab">
+        <v-window-item :value="0" key="student">
           <v-card>
             <v-card-text class="mt-5">
               <v-text-field
@@ -61,23 +61,22 @@
                   :close-on-content-click="false"
                   :nudge-right="40"
                   transition="scale-transition"
-                  offset-y
                   min-width="290px"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataStudent.citizen_id_validity"
                       label="Validity"
                       prepend-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       class="tw-w-1/4 tw-ml-2"
                       :rules="rules.citizen_id_validity"
                     ></v-text-field>
                   </template>
                   <v-date-picker
                     v-model="dataStudent.citizen_id_validity"
-                    @input="citizenIdValidityDatePickerActive = false"
+                    @update:model-value="citizenIdValidityDatePickerActive = false"
                   ></v-date-picker>
                 </v-menu>
               </div>
@@ -117,7 +116,6 @@
                 prepend-icon="mdi-factory"
                 required
                 :rules="rules.company"
-                @input="dataStudent.current_company_id = $event"
               ></v-select>
               <v-text-field
                 v-model="dataStudent.current_job_title"
@@ -128,18 +126,18 @@
               ></v-text-field>
             </v-card-text>
           </v-card>
-        </v-tab-item>
-        <v-tab-item key="export">
+        </v-window-item>
+        <v-window-item :value="1" key="export">
           <export-tab
             :student="dataStudent"
           ></export-tab>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-window-item>
+      </v-window>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn color="blue -darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn color="blue -darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -160,13 +158,9 @@ export default {
     ExportTab,
   },
 
-  model: {
-    prop: 'student',
-    event: 'input'
-  },
 
   props: {
-    student: {
+    modelValue: {
       type: Model,
       default: function() {
         return new Student()
@@ -213,8 +207,8 @@ export default {
       }
     },
     rgpd() {
-      return this.student.hasOwnProperty('citizen_id')
-        && this.student.hasOwnProperty('citizen_id_validity')
+      return this.modelValue.hasOwnProperty('citizen_id')
+        && this.modelValue.hasOwnProperty('citizen_id_validity')
     },
   },
 
@@ -229,7 +223,7 @@ export default {
         let student = await this.dataStudent.save()
         this.isSaving = false
         this.close()
-        this.$emit('input', student)
+        this.$emit('update:modelValue', student)
         this.$emit('saved', student)
       } catch (error) {
         this.isSaving = false
@@ -239,7 +233,7 @@ export default {
   },
 
   watch: {
-    student: function(value) {
+    modelValue: function(value) {
       this.dataStudent = value
     },
     visible: function(value) {

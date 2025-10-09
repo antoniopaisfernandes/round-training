@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Add student</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" class="mb-10 tw-self-end" @click.stop="newItem">Add student</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -14,8 +14,8 @@
       :headers="headers"
       :fixed-header="true"
       :items="list"
-      :options.sync="options"
-      :server-items-length="totalItems"
+      v-model:options="options"
+      :items-length="totalItems"
       :loading="isLoading"
       sort-by="name"
       class="elevation-1"
@@ -39,7 +39,7 @@
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">No students yet.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Add student</v-btn>
+      <v-btn color="primary" class="mt-10 tw-block" @click="createVisible=true">Add student</v-btn>
     </div>
 
   </c-data-table>

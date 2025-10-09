@@ -5,13 +5,13 @@
         fixed-tabs
         v-model="tab"
       >
-        <v-tab key="user">User</v-tab>
+        <v-tab :value="0" key="user">User</v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="user">
+      <v-window v-model="tab">
+        <v-window-item :value="0" key="user">
           <v-card>
-            <v-card-text dense>
+            <v-card-text>
               <v-text-field
                 autofocus
                 v-model="dataUser.name"
@@ -51,11 +51,11 @@
               <v-select
                 v-model="dataUser.roles"
                 :items="roles"
-                item-text="name"
+                item-title="name"
                 item-value="id"
                 attach
                 chips
-                :deletable-chips="true"
+                :closable-chips="true"
                 label="Roles"
                 id="roles"
                 multiple
@@ -63,13 +63,13 @@
               ></v-select>
             </v-card-text>
           </v-card>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-window-item>
+      </v-window>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn color="blue-darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -85,13 +85,9 @@ import map from 'lodash-es/map'
 export default {
   name: 'user-create',
 
-  model: {
-    prop: 'user',
-    event: 'input'
-  },
 
   props: {
-    user: {
+    modelValue: {
       type: Model,
       default: function() {
         return new User()
@@ -153,7 +149,7 @@ export default {
         let user = await this.dataUser.save()
         this.isSaving = false
         this.close()
-        this.$emit('input', user)
+        this.$emit('update:modelValue', user)
         this.$emit('saved', user)
       } catch (error) {
         this.isSaving = false
@@ -163,7 +159,7 @@ export default {
   },
 
   watch: {
-    user: function(value) {
+    modelValue: function(value) {
       this.dataUser = new User({
         roles: [],
         ...value,

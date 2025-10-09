@@ -15,22 +15,20 @@
             :close-on-content-click="false"
             transition="scale-transition"
             min-width="none"
-            offset-y
           >
-            <template v-slot:activator="{ on }">
+            <template v-slot:activator="{ props }">
               <v-text-field
                 v-model="startsAt"
                 label="From"
                 prepend-inner-icon="mdi-calendar"
                 readonly
-                v-on="on"
-                :dense="true"
+                v-bind="props"
                 class="mt-4"
               ></v-text-field>
             </template>
             <v-date-picker
               v-model="startsAt"
-              @input="startsAtActive = false"
+              @update:model-value="startsAtActive = false"
             ></v-date-picker>
           </v-menu>
           <v-menu
@@ -38,21 +36,19 @@
             :close-on-content-click="false"
             transition="scale-transition"
             min-width="none"
-            offset-y
           >
-            <template v-slot:activator="{ on }">
+            <template v-slot:activator="{ props }">
               <v-text-field
                 v-model="endsAt"
                 label="To"
                 prepend-inner-icon="mdi-calendar"
                 readonly
-                v-on="on"
-                :dense="true"
+                v-bind="props"
               ></v-text-field>
             </template>
             <v-date-picker
               v-model="endsAt"
-              @input="endsAtActive = false"
+              @update:model-value="endsAtActive = false"
             ></v-date-picker>
           </v-menu>
         </div>
@@ -71,13 +67,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          icon
+          icon="mdi-microsoft-excel"
           class="primary"
           :loading="loading"
           :disabled="loading || ! valid"
           @click="submit"
         >
-          <v-icon>mdi-microsoft-excel</v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>

@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">New Company</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" class="mb-10 tw-self-end" @click.stop="newItem">New Company</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -36,7 +36,7 @@
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">No companies yet.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">New Company</v-btn>
+      <v-btn color="primary" class="mt-10 tw-block" @click="createVisible=true">New Company</v-btn>
     </div>
 
   </c-data-table>

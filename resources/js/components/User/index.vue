@@ -1,6 +1,6 @@
 <template>
   <c-data-table>
-    <v-btn v-show="list.length > 0" color="primary" dark class="mb-10 tw-self-end" @click.stop="newItem">Add user</v-btn>
+    <v-btn v-show="list.length > 0" color="primary" class="mb-10 tw-self-end" @click.stop="newItem">Add user</v-btn>
 
     <create-dialog
       v-model="editedItem"
@@ -14,22 +14,22 @@
       :headers="headers"
       :fixed-header="true"
       :items="list"
-      :options.sync="options"
-      :server-items-length="totalItems"
+      v-model:options="options"
+      :items-length="totalItems"
       :loading="isLoading"
       sort-by="name"
       class="elevation-1"
     >
       <template v-slot:item.actions="{ item }">
         <v-icon
-          small
+          size="small"
           class="mr-2"
           @click="editItem(item)"
         >
           mdi-pencil
         </v-icon>
         <v-icon
-          small
+          size="small"
           @click="deleteItem(item)"
         >
           mdi-delete
@@ -39,7 +39,7 @@
 
     <div v-else class="tw-flex tw-flex-col tw-content-center tw-items-center mt-50">
       <h1 class="tw-font-bold tw-text-lg">Ainda não existem alunos.</h1>
-      <v-btn color="primary" dark class="mt-10 tw-block" @click="createVisible=true">Add user</v-btn>
+      <v-btn color="primary" class="mt-10 tw-block" @click="createVisible=true">Add user</v-btn>
     </div>
 
   </c-data-table>

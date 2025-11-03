@@ -47,10 +47,10 @@
 
 <script>
 import DefaultListMixin from '../DefaultListMixin'
-import cDataTable from '../Generic/Table'
-import createDialog from './create'
+import cDataTable from '../Generic/Table.vue'
+import createDialog from './create.vue'
 import Student from '../../models/Student'
-import alert from '../../plugins/toast'
+import alert from '../../plugins/toast.js'
 
 export default {
   mixins: [DefaultListMixin],

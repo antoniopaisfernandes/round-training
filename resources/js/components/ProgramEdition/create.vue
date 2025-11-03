@@ -243,9 +243,9 @@
 </template>
 
 <script>
-import AddProgramDialog from '../Program/create'
-import StudentsTab from './students'
-import ExportTab from './export'
+import AddProgramDialog from '../Program/create.vue'
+import StudentsTab from './students.vue'
+import ExportTab from './export.vue'
 import Program from '../../models/Program'
 import Enrollment from '../../models/Enrollment'
 import Company from '../../models/Company'

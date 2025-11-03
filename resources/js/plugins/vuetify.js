@@ -29,8 +29,8 @@ const breakpoint = {
   scrollBarWidth: 0.1
 }
 
-import pt from 'vuetify/src/locale/pt.ts'
-import en from 'vuetify/src/locale/en.ts'
+import pt from 'vuetify/lib/locale/pt'
+import en from 'vuetify/lib/locale/en'
 
 export default new Vuetify({
   breakpoint,

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import { Model } from 'vue-api-query'
 
-require('./bootstrap')
-require('./plugins/event-bus')
-require('./components/')
+import './bootstrap'
+import './plugins/event-bus'
+import './components/'
 
 import vuetify from './plugins/vuetify'
 

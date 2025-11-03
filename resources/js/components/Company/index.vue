@@ -44,8 +44,8 @@
 
 <script>
 import DefaultListMixin from '../DefaultListMixin'
-import cDataTable from '../Generic/Table'
-import createDialog from './create'
+import cDataTable from '../Generic/Table.vue'
+import createDialog from './create.vue'
 import Company from '../../models/Company'
 
 export default {
@@ -90,3 +90,4 @@ export default {
   },
 }
 </script>
+

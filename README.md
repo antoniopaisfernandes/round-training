@@ -21,5 +21,5 @@ Goto the project folder:
 * edit your `.env` file with correct database settings
 * run `php artisan migrate --seed` (default credentials are u: `admin@roundtraining.com` p: `password`)
 * run `npm install`
-* run `npm run prod` to build the frontend assets
+* run `npm run build` to build the frontend assets
 * bootstrap server with `php artisan serve`

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import NavigationDrawer from './navigation'
+  import NavigationDrawer from './navigation.vue'
 
   export default {
     components: { NavigationDrawer },

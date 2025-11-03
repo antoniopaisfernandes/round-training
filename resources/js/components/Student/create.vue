@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import ExportTab from './export'
+import ExportTab from './export.vue'
 import Student from '../../models/Student'
 import Company from '../../models/Company'
 import Model from '../../models/Model'

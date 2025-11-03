@@ -10,9 +10,7 @@
     <title>RoundTraining</title>
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
@@ -24,6 +22,5 @@
             @yield('content')
         </app-layout>
     </div>
-    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

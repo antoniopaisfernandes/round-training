@@ -24,7 +24,7 @@
         "vue": "^2.7.16",
         "vue-api-query": "^1.11.0",
         "vue-i18n": "^8.22.4",
-        "vuetify": "^2.7.2"
+        "vuetify": "^3.0.0"
     },
     "devDependencies": {
         "@vitejs/plugin-vue2": "^2.3.4",

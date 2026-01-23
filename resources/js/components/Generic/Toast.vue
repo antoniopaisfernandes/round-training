@@ -2,16 +2,17 @@
   <v-snackbar
     v-model="visible"
     :timeout="timeout"
-    :top="top"
-    :right="right"
+    location="top right"
     :color="color"
   >
     {{ text }}
-    <v-btn
-      color="blue"
-      text
-      @click="snackbar = false"
-    >Fechar</v-btn>
+    <template v-slot:actions>
+      <v-btn
+        color="blue"
+        variant="text"
+        @click="visible = false"
+      >Fechar</v-btn>
+    </template>
   </v-snackbar>
 </template>
 
@@ -24,8 +25,6 @@
       text: '',
       timeout: 4000,
       type: 'info',
-      top: true,
-      right: true
     }),
     mounted() {
       Event.listen('toast', ({

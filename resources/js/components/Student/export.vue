@@ -1,17 +1,17 @@
 <template>
   <div>
     <h2
-      class="mt-10 warning tw-text-center tw-text-white tw-font-mono tw-rounded"
+      class="mt-10 bg-warning tw-text-center tw-text-white tw-font-mono tw-rounded"
     >The export is based on the server data. You need to save before exporting.</h2>
 
     <div class="mt-10 container tw-flex tw-justify-between tw-items-end">
       <div>
-        <v-switch v-model="cover" label="Global data"></v-switch>
-        <v-switch v-model="programEditions" label="Program edition informations"></v-switch>
+        <v-switch v-model="cover" label="Global data" color="primary"></v-switch>
+        <v-switch v-model="programEditions" label="Program edition informations" color="primary"></v-switch>
       </div>
       <div>
         <v-btn
-          color="primary darken-1"
+          color="primary-darken-1"
           :loading="isExporting"
           :disabled="!cover && !programEditions"
           @click="exportExcel"
@@ -29,7 +29,7 @@ export default {
 
   props: {
     student: {
-      type: Model,
+      type: Object,
       required: true,
     },
   },

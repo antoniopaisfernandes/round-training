@@ -6,7 +6,7 @@
       max-width="250"
       class="mx-auto"
     >
-      <div class="px-2 tw-text-xl tw-text-center primary tw-text-white" v-text="title"></div>
+      <div class="px-2 tw-text-xl tw-text-center bg-primary tw-text-white" v-text="title"></div>
       <div class="container py-0">
 
         <div v-if="dateFormat == 'date-range'">
@@ -14,45 +14,43 @@
             v-model="startsAtActive"
             :close-on-content-click="false"
             transition="scale-transition"
-            min-width="none"
-            offset-y
+            min-width="auto"
           >
-            <template v-slot:activator="{ on }">
+            <template v-slot:activator="{ props }">
               <v-text-field
                 v-model="startsAt"
                 label="From"
                 prepend-inner-icon="mdi-calendar"
                 readonly
-                v-on="on"
-                :dense="true"
+                v-bind="props"
+                density="compact"
                 class="mt-4"
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="startsAt"
-              @input="startsAtActive = false"
+              v-model="startsAtDate"
+              @update:model-value="onStartsAtSelected"
             ></v-date-picker>
           </v-menu>
           <v-menu
             v-model="endsAtActive"
             :close-on-content-click="false"
             transition="scale-transition"
-            min-width="none"
-            offset-y
+            min-width="auto"
           >
-            <template v-slot:activator="{ on }">
+            <template v-slot:activator="{ props }">
               <v-text-field
                 v-model="endsAt"
                 label="To"
                 prepend-inner-icon="mdi-calendar"
                 readonly
-                v-on="on"
-                :dense="true"
+                v-bind="props"
+                density="compact"
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="endsAt"
-              @input="endsAtActive = false"
+              v-model="endsAtDate"
+              @update:model-value="onEndsAtSelected"
             ></v-date-picker>
           </v-menu>
         </div>
@@ -72,7 +70,7 @@
         <v-spacer></v-spacer>
         <v-btn
           icon
-          class="primary"
+          class="bg-primary"
           :loading="loading"
           :disabled="loading || ! valid"
           @click="submit"
@@ -87,6 +85,7 @@
 <script>
 import jsFileDownload from 'js-file-download'
 import alert from '../../plugins/toast'
+import { format } from 'date-fns'
 
 export default {
 
@@ -108,11 +107,11 @@ export default {
       default: 'date-range'
     },
     beginDate: {
-      type: [Date, null],
+      type: [Date, String, null],
       default: null
     },
     endDate: {
-      type: [Date, null],
+      type: [Date, String, null],
       default: null
     }
   },
@@ -123,8 +122,10 @@ export default {
       year: null,
       startsAtActive: false,
       startsAt: null,
+      startsAtDate: null,
       endsAtActive: false,
       endsAt: null,
+      endsAtDate: null,
     }
   },
 
@@ -148,6 +149,14 @@ export default {
   },
 
   methods: {
+    onStartsAtSelected(date) {
+      this.startsAt = date ? format(new Date(date), 'yyyy-MM-dd') : null
+      this.startsAtActive = false
+    },
+    onEndsAtSelected(date) {
+      this.endsAt = date ? format(new Date(date), 'yyyy-MM-dd') : null
+      this.endsAtActive = false
+    },
     async submit() {
       try {
         this.loading = true;

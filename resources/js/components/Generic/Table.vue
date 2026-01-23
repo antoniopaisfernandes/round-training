@@ -5,7 +5,9 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'c-data-table'
+}
 </script>
 
 <style lang="scss">

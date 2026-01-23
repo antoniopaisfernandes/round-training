@@ -1,8 +1,9 @@
 <template>
-  <v-dialog v-model="dataVisible" @keydown.esc="dataVisible = false" max-width="500px">
-    <v-card :loading="isSaving" class="px-5 py-5" height="90vh">
+  <v-dialog v-model="dataVisible" max-width="500px">
+    <v-card class="px-5 py-5" height="90vh">
+      <v-progress-linear v-if="isSaving" indeterminate color="primary"></v-progress-linear>
       <v-card-title>
-        <span class="headline">Company</span>
+        <span class="text-h5">Company</span>
       </v-card-title>
       <v-card-text class="mt-5">
         <v-text-field
@@ -34,20 +35,21 @@
             v-model="dataCompany.coordinator_id"
             label="Local coordinator"
             required
-            @input="dataCompany.coordinator_id = $event"
+            @update:model-value="dataCompany.coordinator_id = $event"
+            item-title="text"
+            item-value="value"
           ></v-select>
         </div>
         <div class="mt-2">
-          <span class="subtitle-1">Budgets</span>
+          <span class="text-subtitle-1">Budgets</span>
           <v-btn
-            fab
-            dark
-            x-small
+            icon
+            size="small"
             color="primary"
             @click="addBudget"
             class="tw-ml-2 tw--mt-2"
           >
-            <v-icon dark>mdi-plus</v-icon>
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
         <div v-bind:key="i" v-for="(yearBudget, i) in dataCompany.budgets" class="tw-flex">
@@ -55,18 +57,17 @@
             <v-text-field label="Year" v-model="yearBudget.year"></v-text-field>
           </div>
           <div class="tw-ml-2">
-            <v-text-field label="Budget" v-model="yearBudget.budget" prefix="€" class="money"></v-text-field>
+            <v-text-field label="Budget" v-model="yearBudget.budget" prefix="$" class="money"></v-text-field>
           </div>
           <div class="tw-w-5/100 tw-ml-2 tw-flex tw-items-center">
             <v-btn
-              fab
-              dark
-              x-small
+              icon
+              size="small"
               color="error"
               @click="deleteBudget(i)"
               class="tw-ml-2 tw--mt-2"
             >
-              <v-icon dark>mdi-minus</v-icon>
+              <v-icon>mdi-minus</v-icon>
             </v-btn>
           </div>
         </div>
@@ -74,8 +75,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn color="blue-darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -92,14 +93,11 @@ import map from 'lodash-es/map'
 export default {
   name: 'company-create',
 
-  model: {
-    prop: 'company',
-    event: 'input'
-  },
+  emits: ['update:modelValue', 'close', 'saved'],
 
   props: {
-    company: {
-      type: Model,
+    modelValue: {
+      type: Object,
       default: function() {
         return new Company()
       }
@@ -147,6 +145,9 @@ export default {
   methods: {
     // Budgets
     addBudget() {
+      if (!this.dataCompany.budgets) {
+        this.dataCompany.budgets = []
+      }
       this.dataCompany.budgets.push(new CompanyYearlyBudget)
     },
     deleteBudget(index) {
@@ -163,7 +164,7 @@ export default {
         let company = await this.dataCompany.save()
         this.isSaving = false
         this.close()
-        this.$emit('input', company)
+        this.$emit('update:modelValue', company)
         this.$emit('saved', company)
       } catch (error) {
         this.isSaving = false
@@ -173,7 +174,7 @@ export default {
 
     async getUsers() {
       try {
-        let data = await User.limit(999).$get()
+        let data = await User.limit(999).get()
 
         this.users = map(data, (v) => {
           return {
@@ -188,7 +189,7 @@ export default {
   },
 
   watch: {
-    company: function(value) {
+    modelValue: function(value) {
       this.dataCompany = new Company({
         budgets: [],
         ...value,

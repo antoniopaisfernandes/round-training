@@ -3,7 +3,8 @@
     v-model="show"
     max-width="500px"
   >
-    <v-card :loading="isSaving">
+    <v-card>
+      <v-progress-linear v-if="isSaving" indeterminate color="primary"></v-progress-linear>
 
       <v-card-title>
         Add program name
@@ -13,13 +14,15 @@
         <v-combobox
           v-model="selectedProgram"
           :items="existingPrograms"
+          item-title="text"
+          item-value="value"
         ></v-combobox>
       </v-card-text>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="cancel">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">{{ commitButton }}</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="cancel">Cancel</v-btn>
+        <v-btn color="blue-darken-1" variant="text" :disabled="isSaveDisabled" @click="save">{{ commitButton }}</v-btn>
       </v-card-actions>
 
     </v-card>
@@ -33,10 +36,7 @@ import alert from '../../plugins/toast'
 export default {
   name: 'add-program-dialog',
 
-  model: {
-    prop: 'selectedProgram',
-    event: 'input'
-  },
+  emits: ['update:modelValue', 'close'],
 
   props: {
     visible: {
@@ -85,7 +85,7 @@ export default {
 
       if (isObject(this.selectedProgram)) {
         this.close()
-        this.$emit('input', {
+        this.$emit('update:modelValue', {
           id: this.selectedProgram.value,
           name: this.selectedProgram.text,
         })
@@ -100,7 +100,7 @@ export default {
         });
 
         this.cancel()
-        this.$emit('input', response.data)
+        this.$emit('update:modelValue', response.data)
       } catch (error) {
           this.isSaving = false
           console.warn(error?.response?.data?.errors) // TODO

@@ -1,18 +1,16 @@
 <template>
-  <v-dialog scrollable v-model="dataVisible" @keydown.esc="dataVisible = false" max-width="48rem">
-    <v-card :loading="isSaving" class="px-5 py-5 vert-card" height="90vh">
-      <v-tabs
-        fixed-tabs
-        v-model="tab"
-      >
-        <v-tab key="student">Student</v-tab>
-        <!-- <v-tab key="programEditions">Program editions</v-tab> -->
-        <v-tab key="export" v-if="student.id">Export</v-tab>
+  <v-dialog scrollable v-model="dataVisible" max-width="48rem">
+    <v-card class="px-5 py-5 vert-card" height="90vh">
+      <v-progress-linear v-if="isSaving" indeterminate color="primary"></v-progress-linear>
+      <v-tabs v-model="tab">
+        <v-tab value="student">Student</v-tab>
+        <!-- <v-tab value="programEditions">Program editions</v-tab> -->
+        <v-tab value="export" v-if="modelValue.id">Export</v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="student">
-          <v-card>
+      <v-tabs-window v-model="tab">
+        <v-tabs-window-item value="student">
+          <v-card variant="flat">
             <v-card-text class="mt-5">
               <v-text-field
                 autofocus
@@ -59,25 +57,23 @@
                 <v-menu
                   v-model="citizenIdValidityDatePickerActive"
                   :close-on-content-click="false"
-                  :nudge-right="40"
                   transition="scale-transition"
-                  offset-y
-                  min-width="290px"
+                  min-width="auto"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataStudent.citizen_id_validity"
                       label="Validity"
                       prepend-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       class="tw-w-1/4 tw-ml-2"
                       :rules="rules.citizen_id_validity"
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="dataStudent.citizen_id_validity"
-                    @input="citizenIdValidityDatePickerActive = false"
+                    v-model="citizenIdValidityDate"
+                    @update:model-value="onCitizenIdValiditySelected"
                   ></v-date-picker>
                 </v-menu>
               </div>
@@ -107,7 +103,6 @@
                 ></v-text-field>
               </div>
               <v-divider
-                dark
                 class="tw-my-4"
               />
               <v-select
@@ -117,7 +112,9 @@
                 prepend-icon="mdi-factory"
                 required
                 :rules="rules.company"
-                @input="dataStudent.current_company_id = $event"
+                @update:model-value="dataStudent.current_company_id = $event"
+                item-title="text"
+                item-value="value"
               ></v-select>
               <v-text-field
                 v-model="dataStudent.current_job_title"
@@ -128,18 +125,18 @@
               ></v-text-field>
             </v-card-text>
           </v-card>
-        </v-tab-item>
-        <v-tab-item key="export">
+        </v-tabs-window-item>
+        <v-tabs-window-item value="export">
           <export-tab
             :student="dataStudent"
           ></export-tab>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-tabs-window-item>
+      </v-tabs-window>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn color="blue-darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -152,6 +149,7 @@ import Company from '../../models/Company'
 import Model from '../../models/Model'
 import alert from '../../plugins/toast'
 import map from 'lodash-es/map'
+import { format } from 'date-fns'
 
 export default {
   name: 'student-create',
@@ -160,14 +158,11 @@ export default {
     ExportTab,
   },
 
-  model: {
-    prop: 'student',
-    event: 'input'
-  },
+  emits: ['update:modelValue', 'close', 'saved'],
 
   props: {
-    student: {
-      type: Model,
+    modelValue: {
+      type: Object,
       default: function() {
         return new Student()
       }
@@ -181,6 +176,7 @@ export default {
     dataStudent: new Student(),
     isSaving: false,
     citizenIdValidityDatePickerActive: false,
+    citizenIdValidityDate: null,
     companies: [],
     tab: null,
   }),
@@ -213,12 +209,16 @@ export default {
       }
     },
     rgpd() {
-      return this.student.hasOwnProperty('citizen_id')
-        && this.student.hasOwnProperty('citizen_id_validity')
+      return Object.prototype.hasOwnProperty.call(this.modelValue, 'citizen_id')
+        && Object.prototype.hasOwnProperty.call(this.modelValue, 'citizen_id_validity')
     },
   },
 
   methods: {
+    onCitizenIdValiditySelected(date) {
+      this.dataStudent.citizen_id_validity = date ? format(new Date(date), 'yyyy-MM-dd') : null
+      this.citizenIdValidityDatePickerActive = false
+    },
     close() {
       this.dataVisible = false
     },
@@ -229,7 +229,7 @@ export default {
         let student = await this.dataStudent.save()
         this.isSaving = false
         this.close()
-        this.$emit('input', student)
+        this.$emit('update:modelValue', student)
         this.$emit('saved', student)
       } catch (error) {
         this.isSaving = false
@@ -239,7 +239,7 @@ export default {
   },
 
   watch: {
-    student: function(value) {
+    modelValue: function(value) {
       this.dataStudent = value
     },
     visible: function(value) {

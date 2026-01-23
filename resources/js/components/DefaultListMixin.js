@@ -64,6 +64,10 @@ export default {
     close() {
       //
     },
+
+    onOptionsUpdate(options) {
+      this.options = options
+    },
   },
 
   watch: {

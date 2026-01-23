@@ -1,20 +1,33 @@
-import Vue from 'vue'
-import { Model } from 'vue-api-query'
+import { createApp } from 'vue'
+import axios from 'axios'
 
 import './bootstrap'
-import './plugins/event-bus'
-import './components/'
+import Event from './plugins/event-bus'
+import { registerComponents } from './components/'
 
 import vuetify from './plugins/vuetify'
+import { Model } from './models/Model'
 
-Model.$http = window.axios
+// Set up axios for Model
+Model.$http = axios
 
-const app = new Vue({
-    vuetify,
-    el: '#app',
+// Create Vue app
+const app = createApp({
     data() {
         return {
             token: document.head.querySelector('meta[name="csrf-token"]')?.content
         }
     }
 })
+
+// Use Vuetify
+app.use(vuetify)
+
+// Register global components
+registerComponents(app)
+
+// Provide Event bus globally
+app.provide('eventBus', Event)
+
+// Mount the app
+app.mount('#app')

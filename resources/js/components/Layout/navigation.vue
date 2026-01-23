@@ -1,45 +1,31 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    fixed
-    app
     color="primary"
   >
     <template v-slot:prepend>
       <div class="tw-mt-16"></div>
     </template>
 
-    <v-list dense>
-      <div v-for="(menuOption, index) in mainRoutes" :key="index">
-        <v-list-item
-          link
-          @click.stop="goto(menuOption.link)"
-        >
-          <v-list-item-action>
-            <v-icon>{{ menuOption.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </div>
+    <v-list density="compact" nav>
+      <v-list-item
+        v-for="(menuOption, index) in mainRoutes"
+        :key="index"
+        :prepend-icon="menuOption.icon"
+        :title="menuOption.text"
+        @click.stop="goto(menuOption.link)"
+      ></v-list-item>
     </v-list>
 
     <template v-slot:append>
-      <v-list dense>
-        <div v-for="(menuOption, index) in footerRoutes" :key="index">
-          <v-list-item
-            link
-            @click.stop="goto(menuOption.link)"
-          >
-            <v-list-item-action>
-              <v-icon>{{ menuOption.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ menuOption.text }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </div>
+      <v-list density="compact" nav>
+        <v-list-item
+          v-for="(menuOption, index) in footerRoutes"
+          :key="index"
+          :prepend-icon="menuOption.icon"
+          :title="menuOption.text"
+          @click.stop="goto(menuOption.link)"
+        ></v-list-item>
       </v-list>
     </template>
   </v-navigation-drawer>
@@ -54,6 +40,10 @@ export default {
   props: {
     isActive: {
       default: null
+    },
+    auth: {
+      type: Object,
+      default: () => ({})
     }
   },
 
@@ -79,11 +69,6 @@ export default {
   },
 
   computed: {
-    auth: function() {
-      // TODO: replace with store when store is implemented
-      return this.$root.$refs['eApp'].$options.propsData.auth
-    },
-
     admin: function () {
       return this.auth?.roles?.filter((role) => role.name == 'admin').length > 0
     },

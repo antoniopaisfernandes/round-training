@@ -1,19 +1,19 @@
 <template>
   <div>
     <h2
-      class="mt-10 warning tw-text-center tw-text-white tw-font-mono tw-rounded"
+      class="mt-10 bg-warning tw-text-center tw-text-white tw-font-mono tw-rounded"
     >The export is based on the server data. You need to save before exporting.</h2>
 
     <div class="mt-10 container tw-flex tw-justify-between tw-items-end">
       <div>
-        <v-switch v-model="cover" label="Global data"></v-switch>
-        <v-switch v-model="students" label="Students information"></v-switch>
+        <v-switch v-model="cover" label="Global data" color="primary"></v-switch>
+        <v-switch v-model="studentsData" label="Students information" color="primary"></v-switch>
       </div>
       <div>
         <v-btn
-          color="primary darken-1"
+          color="primary-darken-1"
           :loading="isExporting"
-          :disabled="!cover && !students"
+          :disabled="!cover && !studentsData"
           @click="exportExcel"
         >Export</v-btn>
       </div>
@@ -26,7 +26,7 @@
     <div class="tw-mt-8 tw-flex">
       <v-btn
         class="tw-mx-auto"
-        color="primary darken-1"
+        color="primary-darken-1"
         :loading="isExporting"
         @click="reports('evaluation')"
       >Training assessment report</v-btn>
@@ -43,7 +43,7 @@ export default {
 
   props: {
     programEdition: {
-      type: Model,
+      type: Object,
       required: true,
     },
   },
@@ -51,7 +51,7 @@ export default {
   data: () => ({
     isExporting: false,
     cover: true,
-    students: true,
+    studentsData: true,
   }),
 
   methods: {
@@ -60,7 +60,7 @@ export default {
       try {
         this.programEdition.export({
           cover: this.cover,
-          students: this.students,
+          students: this.studentsData,
         })
       } catch (error) {
         alert.warning(error)

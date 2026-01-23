@@ -3,11 +3,11 @@
     <navigation-drawer
       v-if="auth"
       :isActive="navigationDrawerIsActive"
+      :auth="auth"
       ref="navigationDrawer"
     ></navigation-drawer>
 
     <v-app-bar
-      app
       flat
       height="78"
       color="white"
@@ -21,7 +21,7 @@
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-main class="grey lighten-5">
+    <v-main class="bg-grey-lighten-5">
       <slot></slot>
     </v-main>
   </v-app>
@@ -38,7 +38,7 @@
     props: {
       auth: {
         type: Object,
-        default: {}
+        default: () => ({})
       }
     },
     methods: {

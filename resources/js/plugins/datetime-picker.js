@@ -25,8 +25,10 @@
 
 import DatetimePicker from '../components/Generic/DatetimePicker.vue'
 
-const install = Vue => {
-  Vue.component('v-datetime-picker', DatetimePicker)
+export default {
+  install(app) {
+    app.component('v-datetime-picker', DatetimePicker)
+  }
 }
 
-export default install
+export { DatetimePicker }

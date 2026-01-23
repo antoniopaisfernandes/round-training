@@ -1,53 +1,54 @@
 {
-  "_vendor-Bv02AhI6.css": {
-    "file": "assets/vendor-Bv02AhI6.css",
-    "src": "_vendor-Bv02AhI6.css"
-  },
-  "_vendor-CZnh5ci3.js": {
-    "file": "assets/vendor-CZnh5ci3.js",
+  "_vendor-CL89TORh.js": {
+    "file": "assets/vendor-CL89TORh.js",
     "name": "vendor",
     "css": [
-      "assets/vendor-Bv02AhI6.css"
+      "assets/vendor-d_uRjksV.css"
     ],
     "assets": [
-      "assets/materialdesignicons-webfont-TEmAk13K.eot",
-      "assets/materialdesignicons-webfont-B6OSyW2I.woff2",
-      "assets/materialdesignicons-webfont-Bvl3VxMs.woff",
-      "assets/materialdesignicons-webfont-BpRar1d5.ttf"
+      "assets/materialdesignicons-webfont-CSr8KVlo.eot",
+      "assets/materialdesignicons-webfont-Dp5v-WZN.woff2",
+      "assets/materialdesignicons-webfont-PXm3-2wK.woff",
+      "assets/materialdesignicons-webfont-B7mPwVP_.ttf"
     ]
   },
+  "_vendor-d_uRjksV.css": {
+    "file": "assets/vendor-d_uRjksV.css",
+    "src": "_vendor-d_uRjksV.css"
+  },
   "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot": {
-    "file": "assets/materialdesignicons-webfont-TEmAk13K.eot",
+    "file": "assets/materialdesignicons-webfont-CSr8KVlo.eot",
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot"
   },
   "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf": {
-    "file": "assets/materialdesignicons-webfont-BpRar1d5.ttf",
+    "file": "assets/materialdesignicons-webfont-B7mPwVP_.ttf",
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf"
   },
   "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff": {
-    "file": "assets/materialdesignicons-webfont-Bvl3VxMs.woff",
+    "file": "assets/materialdesignicons-webfont-PXm3-2wK.woff",
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff"
   },
   "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2": {
-    "file": "assets/materialdesignicons-webfont-B6OSyW2I.woff2",
+    "file": "assets/materialdesignicons-webfont-Dp5v-WZN.woff2",
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-DwgNByOq.js",
+    "file": "assets/app-DkiRKpuE.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_vendor-CZnh5ci3.js"
+      "_vendor-CL89TORh.js"
     ],
     "css": [
-      "assets/app-nKdRMgIb.css"
+      "assets/app-CikXAuu0.css"
     ]
   },
   "resources/sass/app.scss": {
     "file": "assets/app-DKXFdm1W.css",
     "src": "resources/sass/app.scss",
     "isEntry": true,
+    "name": "app",
     "names": [
       "app.css"
     ]

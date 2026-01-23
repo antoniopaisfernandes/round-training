@@ -1,18 +1,16 @@
 <template>
-  <v-dialog persistent v-model="dataVisible" @keydown.esc="dataVisible = false" max-width="48rem">
-    <v-card :loading="isSaving" class="px-5 py-5 vert-card" height="90vh">
-      <v-tabs
-        fixed-tabs
-        v-model="tab"
-      >
-        <v-tab key="programEdition">Program edition</v-tab>
-        <v-tab key="students">Students</v-tab>
-        <v-tab key="export" v-if="dataProgramEdition.id">Export</v-tab>
+  <v-dialog persistent v-model="dataVisible" max-width="48rem">
+    <v-card class="px-5 py-5 vert-card" height="90vh">
+      <v-progress-linear v-if="isSaving" indeterminate color="primary"></v-progress-linear>
+      <v-tabs v-model="tab">
+        <v-tab value="programEdition">Program edition</v-tab>
+        <v-tab value="students">Students</v-tab>
+        <v-tab value="export" v-if="dataProgramEdition.id">Export</v-tab>
       </v-tabs>
 
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="programEdition">
-          <v-card>
+      <v-tabs-window v-model="tab">
+        <v-tabs-window-item value="programEdition">
+          <v-card variant="flat">
             <v-card-text>
               <div class="tw-flex">
                 <div class="tw-flex tw-flex-row tw-justify-center tw-items-center tw-w-2/3">
@@ -22,24 +20,25 @@
                     label="Program name"
                     required
                     :rules="rules.program_id"
-                    @input="dataProgramEdition.program_id = $event"
+                    @update:model-value="dataProgramEdition.program_id = $event"
                     class="tw-w-8/12"
+                    item-title="text"
+                    item-value="value"
                   ></v-select>
                   <v-btn
-                    fab
-                    dark
-                    x-small
+                    icon
+                    size="small"
                     color="primary"
                     @click="addProgramDialogVisible = true"
                     class="tw--mt-2"
                   >
-                    <v-icon dark>mdi-plus</v-icon>
+                    <v-icon>mdi-plus</v-icon>
                   </v-btn>
                   <add-program-dialog
                     :existing-programs="programs"
                     :visible="addProgramDialogVisible"
                     @close="addProgramDialogVisible = false"
-                    @input="selectProgramId($event)"
+                    @update:model-value="selectProgramId($event)"
                   ></add-program-dialog>
                 </div>
                 <v-text-field
@@ -55,46 +54,43 @@
                   v-model="startsAtActive"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  offset-y
-                  min-width="290px"
+                  min-width="auto"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataProgramEdition.starts_at"
                       label="Starts at"
                       prepend-inner-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       :rules="rules.starts_at"
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="dataProgramEdition.starts_at"
-                    @input="startsAtActive = false"
+                    v-model="startsAtDate"
+                    @update:model-value="onStartsAtSelected"
                   ></v-date-picker>
                 </v-menu>
                 <v-menu
                   v-model="endsAtActive"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  offset-y
-                  min-width="290px"
+                  min-width="auto"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataProgramEdition.ends_at"
                       label="Ends at"
                       prepend-inner-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       class="tw-ml-2"
                       :rules="rules.ends_at"
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="dataProgramEdition.ends_at"
-                    @input="endsAtActive = false"
-                    v-on:input="updateEvaluationNotificationDate($event)"
+                    v-model="endsAtDate"
+                    @update:model-value="onEndsAtSelected"
                   ></v-date-picker>
                 </v-menu>
                 <v-select
@@ -103,8 +99,10 @@
                   label="Company"
                   required
                   :rules="rules.company_id"
-                  @input="dataProgramEdition.company_id = $event"
+                  @update:model-value="dataProgramEdition.company_id = $event"
                   class="tw-ml-2 tw-w-6/12"
+                  item-title="text"
+                  item-value="value"
                 ></v-select>
                 <v-text-field
                   v-model="dataProgramEdition.cost"
@@ -112,7 +110,7 @@
                   required
                   :rules="rules.cost"
                   class="tw-ml-2 tw-w-1/6 money"
-                  prefix="€"
+                  prefix="$"
                 ></v-text-field>
               </div>
               <div class="tw-flex tw-flex-row tw-justify-center tw-items-center">
@@ -143,22 +141,21 @@
                   v-model="evaluationNotificationDateActive"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  offset-y
-                  min-width="290px"
+                  min-width="auto"
                 >
-                  <template v-slot:activator="{ on }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       v-model="dataProgramEdition.evaluation_notification_date"
                       label="Notify accessment to"
                       prepend-inner-icon="mdi-calendar"
                       readonly
-                      v-on="on"
+                      v-bind="props"
                       :rules="rules.evaluation_notification_date"
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="dataProgramEdition.evaluation_notification_date"
-                    @input="evaluationNotificationDateActive = false"
+                    v-model="evaluationNotificationDate"
+                    @update:model-value="onEvaluationDateSelected"
                   ></v-date-picker>
                 </v-menu>
                 <v-text-field
@@ -171,16 +168,15 @@
               </div>
 
               <div class="tw-mt-2">
-                <span class="subtitle-1">Schedules</span>
+                <span class="text-subtitle-1">Schedules</span>
                 <v-btn
-                  fab
-                  dark
-                  x-small
+                  icon
+                  size="small"
                   color="primary"
                   @click="addSchedule"
                   class="tw-ml-2 tw--mt-2"
                 >
-                  <v-icon dark>mdi-plus</v-icon>
+                  <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </div>
 
@@ -199,34 +195,33 @@
                 </div>
                 <div class="tw-w-5/100 tw-ml-2 tw-flex tw-items-center">
                   <v-btn
-                    fab
-                    dark
-                    x-small
+                    icon
+                    size="small"
                     color="error"
                     @click="deleteSchedule(i)"
                     class="tw-ml-2 tw--mt-2"
                   >
-                    <v-icon dark>mdi-minus</v-icon>
+                    <v-icon>mdi-minus</v-icon>
                   </v-btn>
                 </div>
               </div>
             </v-card-text>
           </v-card>
-        </v-tab-item>
-        <v-tab-item key="students">
+        </v-tabs-window-item>
+        <v-tabs-window-item value="students">
           <students-tab
             :students="students"
             :program-edition="dataProgramEdition"
             @add="students.push($event)"
             @delete="students.splice($event, 1)"
           ></students-tab>
-        </v-tab-item>
-        <v-tab-item key="export" v-if="dataProgramEdition.id">
+        </v-tabs-window-item>
+        <v-tabs-window-item value="export" v-if="dataProgramEdition.id">
           <export-tab
             :program-edition="dataProgramEdition"
           ></export-tab>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-tabs-window-item>
+      </v-tabs-window>
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -235,8 +230,8 @@
           label="Created by"
           :disabled="true"
         ></v-text-field>
-        <v-btn class="ml-2" color="blue darken-1" text @click="close">Cancel</v-btn>
-        <v-btn class="ml-2" color="blue darken-1" text :disabled="isSaveDisabled" @click="save">Save</v-btn>
+        <v-btn class="ml-2" color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
+        <v-btn class="ml-2" color="blue-darken-1" variant="text" :disabled="isSaveDisabled" @click="save">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -265,14 +260,11 @@ export default {
     ExportTab,
   },
 
-  model: {
-    prop: 'programEdition',
-    event: 'input'
-  },
+  emits: ['update:modelValue', 'close', 'saved'],
 
   props: {
-    programEdition: {
-      type: Model,
+    modelValue: {
+      type: Object,
       default: function() {
         return new ProgramEdition()
       }
@@ -290,9 +282,12 @@ export default {
     programs: [],
     students: [],
     startsAtActive: false,
+    startsAtDate: null,
     endsAtActive: false,
+    endsAtDate: null,
     addProgramDialogVisible: false,
     evaluationNotificationDateActive: false,
+    evaluationNotificationDate: null,
 
     tab: null,
   }),
@@ -330,6 +325,19 @@ export default {
   },
 
   methods: {
+    onStartsAtSelected(date) {
+      this.dataProgramEdition.starts_at = date ? format(new Date(date), 'yyyy-MM-dd') : null
+      this.startsAtActive = false
+    },
+    onEndsAtSelected(date) {
+      this.dataProgramEdition.ends_at = date ? format(new Date(date), 'yyyy-MM-dd') : null
+      this.endsAtActive = false
+      this.updateEvaluationNotificationDate()
+    },
+    onEvaluationDateSelected(date) {
+      this.dataProgramEdition.evaluation_notification_date = date ? format(new Date(date), 'yyyy-MM-dd') : null
+      this.evaluationNotificationDateActive = false
+    },
     close() {
       this.dataVisible = false
     },
@@ -350,7 +358,7 @@ export default {
         this.dataProgramEdition = new ProgramEdition()
         this.isSaving = false
         this.close()
-        this.$emit('input', programEdition)
+        this.$emit('update:modelValue', programEdition)
         this.$emit('saved', programEdition)
       } catch (error) {
         this.isSaving = false
@@ -379,26 +387,28 @@ export default {
       this.dataProgramEdition.schedules.splice(index, 1)
     },
 
-    updateEvaluationNotificationDate(event) {
+    updateEvaluationNotificationDate() {
       if (! this.dataProgramEdition.evaluation_notification_date
         || ! this.dataProgramEdition.id
       ) {
-        this.dataProgramEdition.evaluation_notification_date = format(
-          addMonths(parseISO(this.dataProgramEdition.ends_at), 6),
-          'yyyy-LL-dd'
-        );
+        if (this.dataProgramEdition.ends_at) {
+          this.dataProgramEdition.evaluation_notification_date = format(
+            addMonths(parseISO(this.dataProgramEdition.ends_at), 6),
+            'yyyy-LL-dd'
+          );
+        }
       }
     },
 
     async getStudents() {
       this.students = []
-      if (! this.programEdition.id) {
+      if (! this.modelValue.id) {
         return;
       }
 
       this.isSaving = true
       try {
-        let data = await this.programEdition.students().get()
+        let data = await this.modelValue.students().get()
         this.students = data || []
       } catch (error) {
         alert.error(error)
@@ -440,7 +450,7 @@ export default {
   },
 
   watch: {
-    programEdition: function(value) {
+    modelValue: function(value) {
       this.dataProgramEdition = value
       this.getStudents()
     },
@@ -474,7 +484,7 @@ export default {
     flex: none !important;
   }
 
-  .v-tabs-items {
+  .v-tabs-window {
     flex: 1;
     position: relative;
     overflow-y: auto;
